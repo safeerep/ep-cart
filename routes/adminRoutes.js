@@ -11,6 +11,7 @@ const orderController = require('../controllers/orderController')
 const productController = require('../controllers/productController')
 const reviewController = require("../controllers/reviewController");
 
+
 // signin
 router.get("/signin", auth.adminExist, adminController.signin);
 router.post("/signin", auth.adminExist, adminController.home);
@@ -176,7 +177,8 @@ router.get('/disable-refferal-offer/:id', auth.adminTokenAuth, offerController.d
 router.get('/edit-refferal-offer/:id', auth.adminTokenAuth, offerController.editRefferalOfferPage)
 router.post('/edit-refferal-offer/:id', auth.adminTokenAuth, offerController.editRefferalOffer)
 
-
+router.get('/download/sales-report', auth.adminTokenAuth, adminController.generateSalesReport)
+router.get('/download-sales-report/:filename',auth.adminTokenAuth, adminController.downloadSalesReport)
 
 
 module.exports = router;

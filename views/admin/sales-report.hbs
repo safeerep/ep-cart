@@ -1,0 +1,31 @@
+<table>
+  <thead>
+    
+    <tr>
+      <th>User Id</th>
+      <th>Order ID</th>
+      <th>Date</th>
+      <th>Total Amount</th>
+      <th>Payment Method</th>
+    </tr>
+    
+  </thead>
+  <tbody>
+    {{#each orders}}
+    <tr>
+      <td>{{this.UserId}}</td>
+      <td>{{this._id}}</td>
+      <td>{{this.Date}}</td>
+      <td>{{this.PayableAmount}}</td>
+      <td>{{order.PaymentMethod}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td style="font-weight: 600;">Total Sales : </td>
+    <td>₹ {{totalSales}}</td>
+  </tr>
+</table>

@@ -431,7 +431,6 @@ module.exports = {
         .lean();
 
       const filepath = await helper.createPdf(orderDetails);
-
       res.json({ response: true, filepath });
     } catch (error) {
       console.log("an error happened", error);

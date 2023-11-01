@@ -18,6 +18,11 @@
           <h4>{{numberOfUsers}}</h4>
         </div>
       </div>
+      <div class="d-flex justify-content-start">
+        {{!-- <form id="sales-report-" action="" method="get"> --}}
+          <button type="button" class="btn m-2 btn-white border" id="download-sales-report" >Download last month report</button>
+        {{!-- </form> --}}
+      </div>
       <div class="d-flex justify-content-center my-5">
         <div class="col-md-3 d-flex justify-content-around border rounded">
           <a id="filtervalue" class="btn btn-white border-radius filter-option" data-filter="day">By Day</a>
@@ -66,3 +71,16 @@
     </div>
   </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+  $('#download-sales-report').on('click', function (e) {
+    e.preventDefault()
+    $.ajax({
+      url: '/admin/download/sales-report',
+      method: 'get',
+      success: response => {
+        console.log(response)
+      }
+    })
+  })
+</script>

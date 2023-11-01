@@ -1,6 +1,8 @@
 const Admin = require("../models/adminSchema");
 const User = require("../models/userSchema");
 const Order = require("../models/orderSchema");
+const adminHelper = require("../helpers/adminHelper");
+const path = require('path')
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
@@ -9,7 +11,7 @@ const nodeMailer = require("../services/nodeMailer");
 
 module.exports = {
   dashboard: async (req, res) => {
-    try {    
+    try {
       const topTenProducts = await Order.aggregate([
         {
           $unwind: "$Products",
@@ -42,14 +44,14 @@ module.exports = {
           $unwind: "$productDetails",
         },
       ]);
-  
+
       const totalNumberOfSales = topTenProducts.reduce(
         (accumulator, product) => accumulator + product.totalCount,
         0
       );
       const numberOfOrders = await Order.countDocuments();
       const numberOfUsers = await User.countDocuments({ Status: "Active" });
-  
+
       res.render("admin/dashboard", {
         Name: req.session.Name,
         verifiedAdmin: true,
@@ -59,7 +61,7 @@ module.exports = {
         numberOfUsers,
       });
     } catch (error) {
-      console.log(error, 'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -67,6 +69,7 @@ module.exports = {
     try {
       const filter = req.body.filter;
       if (filter === "day") {
+        console.log("filter is day");
         const currentDate = new Date();
         const today = moment(currentDate).format("MMM D, YYYY h:mm A");
         const startDate = moment(currentDate).subtract(6, "days");
@@ -106,6 +109,7 @@ module.exports = {
             },
           },
         ]);
+        console.log(orders);
         res.json({ orders });
       } else if (filter === "month") {
         console.log("filter is month");
@@ -167,20 +171,20 @@ module.exports = {
           },
         ]);
         res.json({ orders });
-      }    
+      }
     } catch (error) {
-      console.log(error, 'error happened');
+      console.log(error, "error happened");
     }
   },
 
   addAdmin: (req, res) => {
-    try {      
+    try {
       res.render("admin/add-admin", {
         verifiedAdmin: true,
         error: req.session.error,
       });
     } catch (error) {
-      console.log(error, 'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -204,9 +208,9 @@ module.exports = {
       res.render("admin/login", {
         personNotVerified: true,
         message: req.flash(),
-      });    
+      });
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -250,9 +254,9 @@ module.exports = {
         personNotVerified: true,
         message: req.flash(),
         Email: req.session.adminEmail,
-      });    
+      });
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -288,9 +292,9 @@ module.exports = {
       } else {
         req.flash("error", "OTP is not matching");
         res.redirect("/admin/forgot-password");
-      }     
+      }
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -299,9 +303,9 @@ module.exports = {
       res.render("admin/password-change", {
         personNotVerified: true,
         message: req.flash(),
-      });    
+      });
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -323,11 +327,11 @@ module.exports = {
   },
 
   logout: (req, res) => {
-    try {     
+    try {
       res.clearCookie("adminJwt");
       res.redirect("/admin/signin");
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -351,7 +355,7 @@ module.exports = {
       if (currentPage > 1) {
         hasPreviousPage = true;
       }
-  
+
       const users = await User.find({
         Email: {
           $regex: Email,
@@ -361,7 +365,7 @@ module.exports = {
         .skip(skip)
         .limit(perPage)
         .lean();
-  
+
       res.render("admin/customers", {
         verifiedAdmin: true,
         users,
@@ -373,9 +377,9 @@ module.exports = {
         previousPage,
         hasNextPage,
         nextPage,
-      });      
+      });
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -406,9 +410,9 @@ module.exports = {
       } else if (req.url === "/blocked-customers") {
         const users = await User.find({ Status: "Blocked" }).lean();
         res.render("admin/customers", { verifiedAdmin: true, users: users });
-      }    
+      }
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -438,7 +442,7 @@ module.exports = {
         .skip(skip)
         .limit(perPage)
         .lean();
-  
+
       res.render("admin/sub-admins", {
         verifiedAdmin: true,
         admins,
@@ -450,9 +454,9 @@ module.exports = {
         previousPage,
         hasNextPage,
         nextPage,
-      });     
+      });
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -461,9 +465,9 @@ module.exports = {
       res.render("admin/add-admin", {
         verifiedAdmin: true,
         message: req.flash(),
-      });     
+      });
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -508,6 +512,53 @@ module.exports = {
       res.redirect("/admin/sub-admins");
     } catch (error) {
       console.log(error);
+    }
+  },
+
+  generateSalesReport: async (req, res) => {
+    try {
+      const lastMonthFirstDate = moment().subtract(1, 'month').startOf('month');
+      const lastMonthLastDate = moment().subtract(1, 'month').endOf('month');
+
+      const startDate = lastMonthFirstDate.format('MMM D, YYYY h:mm A');
+      const endDate = lastMonthLastDate.format('MMM D, YYYY h:mm A');
+
+      const orders = await Order.find({
+        Date: {
+          $gte: startDate,
+          $lte: endDate,
+        },
+      }).lean();
+
+      const totalSales = 1000;
+      adminHelper.generateSalesReportPdf(orders, startDate, endDate, totalSales)
+      .then((generatedPdfFilename) => {
+        console.log('its that',generatedPdfFilename);
+        res.redirect(`/admin/download-sales-report/${generatedPdfFilename}`);
+      }).catch(() => {
+        console.log('happened an error in generating pdf');
+      })
+      
+    } catch (error) {
+      console.error(`An error happened: ${error}`);
+      res.status(500).send('Error generating sales report');
+    }
+  },
+
+
+  downloadSalesReport: async (req, res) => {
+    try {
+      const filename = req.params.filename;
+      console.log("it's filename",filename);
+      res.download(filename, 'sales-report.pdf', (err) => {
+        if (err) {
+          console.error('File not found');
+          res.status(404).send('File not found');
+        }
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error downloading sales report');
     }
   },
 };
