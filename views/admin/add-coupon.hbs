@@ -1,0 +1,85 @@
+<body class="mt-5">
+  <div class="row">
+    <main class="px-md-4">
+      <div class="row d-flex justify-content-between">
+        <div class="col-md-7">
+          <form id="addCouponForm" action="/admin/add-coupon" method="post">
+          <div class="d-flex justify-content-between pt-5">
+            <div>
+              <h2>Add Coupon</h2>
+            </div>
+            <div class="text-danger mt-5 fw-bold">
+              {{#if message}}
+              {{message.error}}
+              {{/if}}</div>
+            <div>
+              <button class="btn btn-success mt-5" type="submit">Add coupon</button>
+            </div>
+          </div>
+          <br />
+            <div class="form-group">
+              <label for="CouponName">Coupon Name:</label>
+              <input
+                type="text"
+                name="CouponName"
+                class="form-control bg-light"
+                placeholder="Enter coupon name"
+                required
+              />
+            </div><br />
+            <div class="form-group">
+              <label for="CouponCode">Coupon Code:</label>
+              <input
+                type="text"
+                name="CouponCode"
+                class="form-control bg-light"
+                placeholder="Enter coupon code"
+                required
+              />
+            </div><br />
+            <div class="form-group">
+              <label for="ExpireDate">Expire Date:</label>
+              <input
+                type="date"
+                id="dateField"
+                name="ExpireDate"
+                class="form-control bg-light"
+                placeholder="Enter Expire date"
+                required
+              />
+              <span id="dateError" style="color: red;"></span>
+            </div><br />
+            <div class="form-group">
+              <label for="Discount">Discount:</label>
+              <input
+                type="number"
+                name="Discount"
+                class="form-control bg-light"
+                placeholder="Enter discout amount"
+                required
+              />
+            </div><br />
+            <div class="form-group">
+              <label for="MinOrderAmount">Min Order Amount:</label>
+              <input
+                type="number"
+                name="MinOrderAmount"
+                class="form-control bg-light"
+                placeholder="Enter minimum order amount to get this coupon"
+                required
+              />
+            </div><br />
+            <div class="form-group">
+              <label for="UsageLimit">Usage Limit:</label>
+              <select name="Limit" class="form-control bg-light" required>
+                <option value="single">Single</option>
+                <option value="multi">Multi</option>
+              </select>
+            </div><br />
+
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>

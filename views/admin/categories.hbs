@@ -1,0 +1,82 @@
+<body class="mt-5" >
+  <div style="width: 100%;">
+    <div class="row">
+      <main class="col-md-12  col-lg-12 px-md-4 bg-light">
+                <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+                    <h1>Product Categories</h1>
+                    <div class="d-flex flex-column align-items-end">
+                        <a href="/admin/add-category" class="btn btn-success mb-2">+ Add Category</a>
+                        <form action="/admin/product-categories" method="get">
+                        <div class="input-group ">
+                            <input type="text" name="Category" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-icon">
+                        </div>
+                        </form>
+                    </div>
+                </div>
+          <div class="table-responsive p-3">
+          <table class="table table-borderless table-shopping-cart">
+            <thead>
+              <tr >
+                <th class="border h5 text-center-in-table">CATEGORY ICON IMAGE</th>
+                <th class="border h5 text-center-in-table">CATEGORY NAME</th>
+                <th class="border h5 text-center-in-table">CATEGORY ID</th>
+                <th class="border h5 text-center-in-table">EDIT</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each categories}}
+                <tr>
+                  <td class="border text-center-in-table">
+                    <figure class="itemside d-flex align-items-center">
+                      <div class="aside border"><img                     
+                          src="/uploads/{{this.Image}}"
+                          class="img-sm"
+                        /></div>
+                    </figure>
+                  </td>
+                  <td class="border fw-bold text-center-in-table">{{this.CategoryName}}</td>
+                  <td class="border fw-bold text-center-in-table">{{this._id}}</td>
+                  <td class="border fw-bold text-center-in-table">
+                    <a href="/admin/edit-category/{{this._id}}" style="text-decoration: none;" >Edit Now</a>
+                  </td>
+
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+          {{#if categories.length}}
+          <div class="d-flex justify-content-between align-items-center mt-3 me-2">
+            <p>
+              Showing {{startIndex}}-{{endIndex}} results from {{totalCount}}
+            </p>
+            <ul class="pagination">
+              {{#if hasPreviousPage}}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{previousPage}}">Prev</a>
+                </li>
+              {{/if}}
+      
+              {{#if currentPage}}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{currentPage}}">{{currentPage}}</a>
+                </li>
+              {{/if}}
+      
+              {{#if hasNextPage}}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{nextPage}}">Next</a>
+                </li>
+              {{/if}}
+            </ul>
+          </div>
+          {{else}}
+            <p>No results found.</p>
+          {{/if}}
+        </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+
+

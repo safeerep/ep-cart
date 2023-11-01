@@ -1,0 +1,70 @@
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top shadow">
+  <div class="container-fluid">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarTogglerDemo03"
+      aria-controls="navbarTogglerDemo03"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="/"><img
+        src="/images/logo-no-background 1.png"
+        alt="Icon"
+      /></a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <div class="navbar-nav me-auto mb-2 mb-lg-0"></div>
+      <br />
+      <form action="/shop" class="d-flex" role="search" method="get">
+        <input
+          class="form-control ms-5"
+          type="search"
+          name="Search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button
+          class="btn btn-outline-success"
+          type="submit"
+          hidden
+        >Search</button>
+      </form>
+
+        <div class="d-flex align-items-center">
+          <a class="nav-link mx-5" href="/shop">SHOP</a>
+          <a class="nav-link mx-5" href="/wishlist">
+            <i class="fa-regular fa-heart fa-lg"></i>
+          </a>
+          <a class="nav-link mx-5" href="/cart">
+            <i class="fa-solid fa-cart-shopping fa-lg">
+              {{!-- <span class="bg-danger badge badge-light">4</span> --}}
+            </i>
+          </a>
+
+          <div class="dropdown mx-5">
+            <button
+              class="btn bg-light dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fa-regular fa-circle-user fa-lg"></i>
+            </button>
+            <ul class="dropdown-menu">
+              {{#if notVerifiedUser}}
+                <li><a href="/login" class="dropdown-item">login</a></li>
+              {{/if}}
+              {{#if user}}
+                <li><a href="/profile" class="dropdown-item">my profile</a></li>
+                <li><a href="/orders" class="dropdown-item">my orders</a></li>
+                <li><a href="/logout" class="dropdown-item">logout</a></li>
+              {{/if}}
+            </ul>
+          </div>
+        </div>
+    </div>
+</nav>

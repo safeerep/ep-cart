@@ -1,0 +1,116 @@
+
+  <div class="row m-4 pt-5 justify-content-center" style="min-height: 100vh;">
+    <aside class="col-lg-6">
+      <form id="checkout-form">
+      <div class="card border-0">
+        <h5 >Select Delivery Address</h5>
+
+        {{#if message.error}}
+        <script>
+          var errorMessage = "{{message.error}}";
+          alert("Hey user," + errorMessage);
+        </script>
+        {{/if}}
+
+        {{#if userData.Address}}
+        {{#each userData.Address}}
+        <div class="card shadow border-0 p-3 m-2 ">
+          <label>
+          <input type="radio" value="{{this._id}}" checked name="deliveryAddress">
+          <dt class="ms-4 inline">{{../userData.Name}}</dt>
+          <span class="ms-4">{{this.HouseName}}, {{this.District}},</span><br>
+          <span class="ms-4">{{this.Pincode}}, {{this.State}}</span><br>
+          <span class="ms-4">{{../userData.Email}}</span><br>
+          </label>
+        </div>
+        {{/each}}
+        {{/if}}
+        <div class="card border-0 m-3 shadow p-3">
+          <a href="/add-address/for-shop" class="text-success">+ Add a new address</a>
+        </div>
+      </div>
+    </aside>
+    <aside class="col-lg-3 mt-5">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-center">
+            <h4>Choose Payment Method</h4>
+          </div>
+          <br />
+          <hr />
+          <dt class="text-center">
+            <label>
+              <input type="radio" 
+              checked
+              name="paymentMethod" 
+              value="Online" />
+              ONLINE PAYMENT
+              <i class="fas fa-credit-card fa-xl ms-3"></i>
+            </label>
+          </dt>
+          <dt class="text-danger text-center" 
+            id="alertforOnline" 
+            style="display: none;">
+              Please try again
+          </dt>
+          <br />
+          <dt class="d-flex justify-content-center">OR</dt>
+          <br />
+          <dt class="text-center">
+            <label>
+              <input type="radio" 
+                name="paymentMethod" 
+                value="Wallet" />
+              USE WALLET BALANCE
+              <img
+              class="ms-3"
+              src="/images/wallet.png"
+              alt=""
+              style="height: 30px; width:30px;"
+              />
+            </label>
+          </dt>
+            {{!-- {{#if hasWallet}} --}}
+          <dt class="text-success mt-2 text-end" 
+            id="walletBalance" >
+              Your wallet balance : {{userData.WalletAmount}}
+          </dt>
+            {{!-- {{/if}} --}}
+          <dt class="text-danger text-center" 
+            id="alertforWallet" 
+            style="display: none;">
+            Your wallet balance is not enough to make this order
+          </dt>
+          <br />
+          <dt class="d-flex justify-content-center">OR</dt>
+          <br />
+          <dt class="text-center">
+            <label>
+              <input type="radio" 
+              name="paymentMethod" 
+              value="COD" />
+              CASH ON DELIVERY
+              <img
+              class="ms-3"
+              src="/images/cash-on-delivery.png"
+              alt=""
+              style="height: 40px; width:40px;"
+              />
+            </label>
+          </dt>
+          <hr />
+          <div class="d-flex justify-content-between mb-3">
+            <dt>Total:</dt>
+            <dt>&#x20B9; {{payable}}</dt>
+          </div>
+            <button id="rzp-button" class="btn btn-out btn-success btn-square btn-main">PLACE ORDER</button>
+        </div>
+      </div>
+      </form>
+    </aside>
+  </div>
+;
+
+<script>
+  
+</script>

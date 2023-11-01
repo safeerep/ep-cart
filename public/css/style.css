@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@300;400;500&family=Poppins:wght@400;500;600&family=Titillium+Web&display=swap");
+
+* {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  color: #352F44;
+}
+
+
+.img-sm {
+  width: 80px;
+  height: 80px;
+}
+
+.btn-main {
+  width: 100%;
+}
+
+.text-stroke{
+    text-decoration: line-through;
+}
+
+#adminSidebar { 
+  float: left; 
+}
+
+.admin-side:hover{
+  background-color: #2196F3;
+  color: white;
+}
+
+.admin-side:focus{
+  background-color: #2196F3;
+  color: white;
+}
+
+.admin-side.active{
+  background-color: #2196F3;
+  color: white;
+}
+
+/* size selection buttons */
+
+.containerforsize input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.sizeselected {
+  background-color: #eee;
+}
+
+.containerforsize input:checked ~ .sizeselected {
+  background-color: #2196F3;
+}
+
+.text-center-in-table {
+  text-align: center; 
+  vertical-align: middle;
+}

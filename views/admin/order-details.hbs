@@ -1,0 +1,119 @@
+<div class="container-fluid p-5 ms-5">
+
+<div class="container">
+  <!-- Title -->
+  <div class="d-flex justify-content-between align-items-center p-5">
+    <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> Order #{{orderDetails._id}}</h2>
+  </div>
+
+  <!-- Main content -->
+  <div class="row">
+    <div class="col-lg-8">
+      <!-- Details -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="mb-3 d-flex justify-content-between">
+            <div>
+              <span class="me-3">{{orderDetails.Date}}</span>
+              <span class="me-3">{{orderDetails._id}}</span>
+              <span class="me-3">{{orderDetails.PaymentMethod}}</span>
+              <span class="badge rounded-pill bg-info">{{orderDetails.Status}}</span>
+            </div>
+            <div class="d-flex">
+              <button class="btn btn-link p-0 me-3 d-none d-lg-block btn-icon-text"><i class="bi bi-download"></i> <span class="text">Invoice</span></button>
+              <div class="dropdown">
+                <button class="btn btn-link p-0 text-muted" type="button" data-bs-toggle="dropdown">
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="#"><i class="bi bi-pencil"></i> Edit</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="bi bi-printer"></i> Print</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <table class="table table-borderless">
+            <tbody>
+                {{#each products}}
+                  <tr>
+                    <td>
+                      <div class="d-flex mb-2">
+                        <div class="flex-shrink-0">
+                          <img
+                            src="/uploads/{{ProductId.images.[2]}}"
+                            alt=""
+                            width="35"
+                            class="img-fluid"
+                          />
+                        </div>
+                        <div class="flex-lg-grow-1 ms-3">
+                          <h6 class="mb-0"><a
+                              href="#"
+                              class="text-reset text-decoration-none"
+                            >{{ProductId.ProductName}}</a></h6>
+                          <span >Size: {{ProductId.Size}}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-end"><b>Qty:{{Quantity}}</b></td>
+                    <td class="text-end"><b>Rs.{{ProductId.SellingPrice}}</b></td>
+                  </tr>
+                {{/each}}
+            <tfoot>
+              <tr>
+                <td colspan="2"><b>Subtotal</b></td>
+                <td class="text-end"><b>{{orderDetails.TotalPrice}}</b></td>
+              </tr>
+              <tr>
+                <td colspan="2"><b>Discount Allowed</b></td>
+                <td class="text-danger text-end">-{{orderDetails.Discount}}</td>
+              </tr>
+              <tr class="fw-bold">
+                <td colspan="2"><b>TOTAL</b></td>
+                <td class="text-end">{{orderDetails.PayableAmount}}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-6">
+              <h3 class="h6">Payment Method</h3>
+              <p><b>{{orderDetails.PaymentMethod}}</b><br>
+              <b>Total: {{orderDetails.PayableAmount}} </b>
+              <span class="badge bg-success rounded-pill">{{orderDetails.PaymentStatus}}</span>
+              </p>
+            </div>
+            <div class="col-lg-6">
+              <h3 class="h6">Billing address</h3>
+              <address>
+                <strong>{{userDetails.Name}}</strong><br>
+                {{orderDetails.ShippingAddress.HouseName}},{{orderDetails.ShippingAddress.District}}<br>
+                {{orderDetails.ShippingAddress.Pincode}}, {{orderDetails.ShippingAddress.State}}<br>
+                <dt title="Phone">Contact:</dt> {{userDetails.Email}}
+              </address>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="h6">Shipping Information</h3>
+          <hr>
+          <h3 class="h6">Customer Address</h3>
+          <address>
+            <strong>{{userDetails.Name}}</strong><br>
+            {{orderDetails.ShippingAddress.HouseName}},{{orderDetails.ShippingAddress.District}}<br>
+            {{orderDetails.ShippingAddress.Pincode}}, {{orderDetails.ShippingAddress.State}}<br>
+            <dt title="Phone">Contact:</dt> {{userDetails.Email}}
+          </address>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

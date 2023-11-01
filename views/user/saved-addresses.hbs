@@ -1,0 +1,21 @@
+<div class="row m-5 p-5 justify-content-center" style="min-height: 100vh;">
+    <div class="col-12 col-md-7">
+{{#if userData}}
+  {{#each userData.Address}}
+  <div class="card shadow border-0 p-3 m-2 ">
+    <dt class="ms-4 inline">{{../userData.Name}}</dt>
+    <span class="ms-4">{{HouseName}}, {{District}},</span>
+    <span class="ms-4">{{Pincode}}, {{State}}</span>
+    <span class="ms-4">{{../userData.Email}}</span>
+    <div class="d-flex justify-content-end gap-1">
+        <a href="/edit-address/{{_id}}" class="btn btn-secondary border-dark">Edit</a>
+        <a href="/remove-address/{{_id}}" onclick="return confirm('Are you sure to delete this address?')" class="btn btn-danger border-dark">Remove</a>
+    </div>
+  </div>
+  {{/each}}
+  {{/if}}
+    <div class="card border-0 m-3 shadow p-3">
+      <a href="/add-address" class="text-success">+ Add a new address</a>
+    </div>
+  </div>
+  </div>

@@ -1,0 +1,154 @@
+<div class="container-fluid">
+  <div class="row mt-5">
+    <main class="col-md-12 ms-sm-auto col-lg-12 px-md-4 bg-light">
+      <div class="d-flex justify-content-between m-3">
+        <h2>Refferal Offer</h2>
+        {{#unless refferalOffer}}
+          <a href="/admin/add-refferal-offer" class="btn btn-success">+ Add
+            refferal offer</a>
+        {{/unless}}
+      </div>
+      <div class="table-responsive" style="min-height: 100vh;">
+        {{! starting }}
+        {{#if refferalOffer}}
+          <table id="table" class="table overflow-scroll">
+            <thead>
+              <tr class="h5">
+                <th class="border border-bottom-0 text-center-in-table">Referral
+                  Offer</th>
+                <th class="border text-center-in-table">Offer for Referrer</th>
+                <th class="border text-center-in-table">Offer for Referred</th>
+                <th class="border text-center-in-table">EDIT</th>
+                <th class="border text-center-in-table">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border-start text-center-in-table"></td>
+
+                <td class="border text-center-in-table">₹
+                  {{refferalOffer.OfferforReferrer}}</td>
+                <td class="border text-center-in-table">₹
+                  {{refferalOffer.OfferforReferred}}</td>
+                <td class="border text-center-in-table">
+                  <a href="/admin/edit-refferal-offer/{{refferalOffer._id}}">
+                    <i class="fas fa-pencil d-flex justify-content-center"></i>
+                  </a>
+                </td>
+                {{#if refferalOffer.Active}}
+                  <td class="border text-center-in-table">
+                    <a
+                      href="/admin/disable-refferal-offer/{{refferalOffer._id}}"
+                      onclick="return confirm('Are you sure to disable this offer?')"
+                    >
+                      <i
+                        class="fas fa-unlock d-flex justify-content-center"
+                      ></i>
+                    </a>
+                  </td>
+                {{else}}
+                  <td class="border text-center-in-table">
+                    <a
+                      href="/admin/enable-refferal-offer/{{refferalOffer._id}}"
+                      onclick="return confirm('Are you sure to enable this offer?')"
+                    >
+                      <i class="fas fa-lock d-flex justify-content-center"></i>
+                    </a>
+                  </td>
+                {{/if}}
+              </tr>
+            </tbody>
+          </table>
+        {{/if}}
+        {{! ending }}
+        <div class="d-flex justify-content-between m-3">
+          <h2>Category offers</h2>
+          <a href="/admin/add-offer" class="btn btn-success">+ Add category
+            offer</a>
+        </div>
+        <table id="table" class="table overflow-scroll">
+          <thead>
+            <tr class="h5">
+              <th class="border text-center-in-table">Category Name</th>
+              <th class="border text-center-in-table">Expiry date</th>
+              <th class="border text-center-in-table">Discount Amount</th>
+              <th class="border text-center-in-table">EDIT</th>
+              <th class="border text-center-in-table">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each offers}}
+              <tr>
+                <td class="border text-center-in-table">{{CategoryName}}</td>
+                <td class="border text-center-in-table">{{ExpireDate}}</td>
+                <td class="border text-center-in-table">₹ {{Discount}}</td>
+                <td class="border text-center-in-table">
+                  <a href="/admin/edit-offer/{{this._id}}">
+                    <i class="fas fa-pencil d-flex justify-content-center"></i>
+                  </a>
+                </td>
+                {{#if Active}}
+                  <td class="border text-center-in-table">
+                    <a
+                      href="/admin/disable-offer/{{this._id}}"
+                      onclick="return confirm('Are you sure to disable this offer?')"
+                    >
+                      <i
+                        class="fas fa-unlock d-flex justify-content-center"
+                      ></i>
+                    </a>
+                  </td>
+                {{else}}
+                  <td class="border text-center-in-table">
+                    <a
+                      href="/admin/enable-offer/{{this._id}}"
+                      onclick="return confirm('Are you sure to enable this offer?')"
+                    >
+                      <i class="fas fa-lock d-flex justify-content-center"></i>
+                    </a>
+                  </td>
+                {{/if}}
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        {{#if offers.length}}
+          <div
+            class="d-flex justify-content-between align-items-center mt-3 me-2"
+          >
+            <p>
+              Showing
+              {{startIndex}}-{{endIndex}}
+              results from
+              {{totalCount}}
+            </p>
+            <ul class="pagination">
+              {{#if hasPreviousPage}}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{previousPage}}">Prev</a>
+                </li>
+              {{/if}}
+
+              {{#if currentPage}}
+                <li class="page-item">
+                  <a
+                    class="page-link"
+                    href="?page={{currentPage}}"
+                  >{{currentPage}}</a>
+                </li>
+              {{/if}}
+
+              {{#if hasNextPage}}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{nextPage}}">Next</a>
+                </li>
+              {{/if}}
+            </ul>
+          </div>
+        {{else}}
+          <p>No results found.</p>
+        {{/if}}
+      </div>
+    </main>
+  </div>
+</div>

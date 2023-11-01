@@ -1,0 +1,49 @@
+<div class="container mt-5 mb-5 p-5">
+  <div class="row m-3" style="min-height: 100vh;">
+    <div class="card col-md-3 border-0">
+      <div class="d-flex justify-content-center m-2">
+        <img
+          src="/images/epcartprofile.jpg"
+          class="card-img-top rounded-circle"
+          alt="Profile Picture"
+          style="width: 150px; height: 150px;"
+        />
+      </div>
+      <div class="card-body text-center">
+        {{#if userData}}
+          <h5 class="card-title">{{userData.Name}}</h5>
+        {{else}}
+          <h5 class="card-title">User</h5>
+        {{/if}}
+        {{#if userData}}
+          <p class="card-text">{{userData.Email}}</p>
+        {{/if}}
+        <hr />
+      </div>
+    </div>
+
+    <main class="col-md-8 border-start">
+      <hr /><br />
+
+      {{#each offers}}
+        <div class="card border-0 shadow m-3">
+          <div class="card-body d-flex">
+            <div
+              class="border-end col-md-2 text-success fw-bold text-center p-3"
+            >
+              Rs.{{this.Discount}}
+              <br />
+              OFF
+            </div>
+            <div class="p-3">
+              On minimum purchase of Rs.{{this.MinOrderAmount}} <br>
+              Code: {{this.CouponCode}}   
+            </div>
+          </div>
+          <div class="card-footer bg-white">ExpireDate: {{this.ExpireDate}}</div>
+        </div>
+      {{/each}}
+
+    </main>
+  </div>
+</div>

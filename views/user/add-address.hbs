@@ -1,0 +1,98 @@
+<div class="container mt-5 mb-5 p-5">
+  <div class="row m-3" style="min-height: 100vh;">
+    <div class="card col-md-3 border-0">
+      <div class="d-flex justify-content-center m-2">
+        <img
+          src="/images/epcartprofile.jpg"
+          class="card-img-top rounded-circle"
+          alt="Profile Picture"
+          style="width: 150px; height: 150px;"
+        />
+      </div>
+      <div class="card-body text-center">
+        {{#if userData}}
+          <h5 class="card-title">{{userData.Name}}</h5>
+        {{else}}
+          <h5 class="card-title">User</h5>
+        {{/if}}
+        {{#if userData}}
+          <p class="card-text">{{userData.Email}}</p>
+        {{else}}
+          <p class="card-text">safeerep07@gmail.com</p>
+        {{/if}}
+        <hr />
+      </div>
+    </div>
+
+    <main class="col-md-8 border-start">
+      <form action="/add-address" method="post">
+        <div class="d-flex justify-content-end">
+          <button
+            type="submit"
+            class="btn btn-secondary text-white"
+          >UPDATE</button>
+        </div>
+        <hr />
+        <br />
+        <div class="bg-light p-3">
+          <h4>Address line:</h4>
+          <br />
+          <div class="row">
+            <div class="d-flex justify-content-between">
+              <div class="form-group col-md-6">
+                <label for="housename">House name:</label>
+                <input
+                  type="text"
+                  name="HouseName"
+                  class="form-control bg-white"
+                  id="Housename"
+                  placeholder="Enter your house name"
+                  required
+                />
+              </div>
+
+              <div class="form-group col-md-5">
+                <label for="">District:</label>
+                <input
+                  type="text"
+                  name="District"
+                  class="form-control bg-white"
+                  id="District"
+                  placeholder="Enter District name"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="d-flex justify-content-between">
+
+              <div class="form-group col-md-6">
+                <label for="Pincode">Pincode:</label>
+                <input
+                  type="text"
+                  name="Pincode"
+                  class="form-control bg-white"
+                  id="pincode"
+                  placeholder="Pincode"
+                  required
+                />
+              </div><br />
+
+              <div class="form-group col-md-5">
+                <label for="specification2">State:</label>
+                <input
+                  type="text"
+                  name="State"
+                  class="form-control bg-white"
+                  id="state"
+                  placeholder="Enter your state name"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+</div>

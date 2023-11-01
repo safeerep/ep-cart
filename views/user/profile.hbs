@@ -1,0 +1,204 @@
+
+  <div class="container mt-5 p-5">
+    <div class="row " style="min-height: 100vh;">
+      <div class="card col-md-3 border-0">
+        <div class="d-flex justify-content-center m-2">
+          <img
+            src="/images/epcartprofile.jpg"
+            class="card-img-top rounded-circle"
+            alt="Profile Picture"
+            style="width: 150px; height: 150px;"
+          />
+        </div>
+        
+        <div class="card-body text-center">
+          {{#if userData}}
+          <h5 class="card-title">{{userData.Name}}</h5>
+          {{else}}
+          <h5 class="card-title">Type your name and update</h5>
+          {{/if}}
+          {{#if userData}}
+          <p class="card-text">{{userData.Email}}</p>
+          {{/if}}
+        
+        <hr />
+        <div
+          class="card-text col-md-12  justify-content-center border h-30 my-2"
+        >
+          <dt class="h4 p-2 fw-bold">Wallet balance</dt>
+          {{#if userData}}
+          <p class="h4"><strong class="text-success">Rs: {{userData.WalletAmount}}</strong></p>
+          {{/if}}
+        </div>
+        
+        <a href="/orders"
+          class="card-text btn btn-block text-dark col-md-12 d-flex justify-content-center border my-2"
+        >
+          My orders
+        </a>
+        <a href="/coupons-and-offers"
+          class="card-text btn btn-block text-dark col-md-12 d-flex justify-content-center border my-2"
+        >
+          Coupons & offers
+        </a>
+        <a  href="/show-addresses"
+          class="card-text btn btn-block text-dark col-md-12 d-flex justify-content-center border my-2"
+        >
+          Saved addresses
+        </a>
+        <a href="/add-address"
+          class="card-text btn btn-block text-dark col-md-12 d-flex justify-content-center border my-2"
+        >
+          Add address
+        </a>
+        <a href="/profile/change-password"
+          class="card-text btn btn-block text-dark col-md-12 d-flex justify-content-center border my-2"
+        >
+          Change password
+        </a>
+        </div>
+
+      </div>
+
+      <main class="col-md-8 border-start">
+        <a class="btn text-dark d-flex-column  border-0">
+          {{#if refferalOffer.OfferforReferrer}}
+          <span class="d-flex justify-content-start fw-bold text-success"> 
+            Refer epcart to your friends and earn Rs: {{refferalOffer.OfferforReferrer}} in each.
+          </span>
+          {{/if}}
+          <div class="d-flex justify-content-between">
+            <div>
+            <h6 class="d-flex ">Your referral link : </h6>
+            <h6 class="text-primary" id="referral-link">localhost:3001/signup/{{userData._id}} </h6>
+            </div><div class="p-4">
+            <button id="copyButton" class="fa fa-copy fa-xl  border-0"></button>
+            </div>
+          </div>
+          <span id="copySuccessMessage" class="d-none text-success"> Text copied to clipboard! </span>
+        </a>
+          <hr />
+          
+          <form action="/edit-profile" method="post">
+          <div class="form-group">
+            <label for="Username">Username:</label>
+            <input
+              type="text"
+              name="Name"
+              class="form-control bg-light"
+              id="Username"
+              {{#if userData}}
+              value = "{{userData.Name}}"
+              {{else}}
+              placeholder="Enter your name"
+              {{/if}}
+              required
+            />
+          </div><br />
+          <div class="form-group">
+            <label for="Phone">Phone:</label>
+            <input
+              type="text"
+              name="Phone"
+              class="form-control bg-light"
+              id="Phone"
+              {{#if userData}}
+              value = "{{userData.Phone}}"
+              {{else}}
+              placeholder="Enter your phone and update"
+              {{/if}}
+              required
+            />
+          </div><br />
+          <div class="form-group">
+            <label for="Email">Email:</label>
+            <input
+              type="email"
+              name="Email"
+              class="form-control bg-light"
+              id="Email"
+              {{#if userData}}
+              value="{{userData.Email}}"
+              {{/if}}
+              readonly
+            />
+          </div>
+          <div class="d-flex justify-content-end mt-3">
+              <button
+                type="submit"
+                class="btn btn-secondary text-white"
+              >UPDATE</button>
+            </div><br />
+        </form>
+
+            
+            <div class="bg-light p-2 border">
+              <h3 class="mb-3">SHIPPING ADDRESS:</h3>
+            {{#if userData.Address}}
+            <div class="row">
+              <div class="d-flex justify-content-between">
+                <div class="form-group col-md-6">
+                  <label for="housename">House name:</label>
+                  <input
+                    type="text"
+                    name="HouseName"
+                    class="form-control bg-light"
+                    id="Housename"
+                    value="{{userData.Address.[0].HouseName}}"
+                    readonly
+                  />
+                </div>
+                <div class="form-group col-md-5">
+                  <label for="District">District:</label>
+                  <input
+                    type="text"
+                    name="District"
+                    class="form-control bg-light"
+                    id="District"
+                    value="{{userData.Address.[0].District}}"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="d-flex justify-content-between">
+                <div class="form-group col-md-6">
+                  <label for="Pincode">Pincode:</label>
+                  <input
+                    type="text"
+                    name="Pincode"
+                    class="form-control bg-light"
+                    id="pincode"
+                    value="{{userData.Address.[0].Pincode}}"
+                    readonly
+                  />
+                </div>
+                <div class="form-group col-md-5">
+                  <label for="state">State:</label>
+                  <input
+                    type="text"
+                    name="State"
+                    class="form-control bg-light"
+                    id="state"
+                    value="{{userData.Address.[0].State}}"
+                    readonly
+                  />
+                </div>
+              </div>
+              {{/if}}
+                <div class="d-flex justify-content-start mt-2">
+                  {{#if userData.Address}}
+                  <a href="/edit-address/{{userData.Address.[0]._id}}" class="btn btn-secondary text-white ">change</a>
+                  {{else}}
+                  <a href="/add-address" class="btn btn-secondary text-white ">Add an address</a>
+                  {{/if}}
+                </div>
+            </div>
+            </div>
+            
+      </main>
+    </div>
+  </div>
+

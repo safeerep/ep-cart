@@ -1,0 +1,330 @@
+<body class="mt-5">
+    <div class="container-fluid">
+        <div class="row  border-start">
+            <main class="px-md-4">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-md-8">
+                        <h1 class="mt-5">Add Product</h1>
+                        <br>
+                        <form action="/admin/add-product" method="post" enctype="multipart/form-data" class="bg-white">
+                            {{!-- product name session --}}
+                            <div class="form-group">
+                                <label for="productName">Product Name:</label>
+                                <input
+                                    type="text"
+                                    name="ProductName"
+                                    class="form-control bg-light"
+                                    id="productName"
+                                    placeholder="Enter product name"
+                                    required
+                                />
+                            </div><br>
+
+                            {{!-- description writing --}}
+                            <div class="form-group">
+                                <label for="productDescription">Product Description:</label>
+                                <textarea
+                                    class="form-control bg-light"
+                                    name="Description"
+                                    id="productDescription"
+                                    rows="4"
+                                    placeholder="Enter product description"
+                                    required
+                                ></textarea>
+                            </div>
+                            <br />
+
+                            {{!-- images uploading --}}
+                            <div class="border p-3 mb-3 bg-light "> 
+                                <h3>Media</h3>
+                                <div class="form-group text-center">
+                                <label for="image1">Image 1:</label>
+                                <input
+                                  type="file"
+                                  name="image1"
+                                  class="form-control-file"
+                                  id="image1"
+                                  accept="image/*"
+                                />
+                                <img src="" alt="Image 1" class="img-fluid" style="max-height: 200px;"id="previewImage1">
+                              </div>
+                              <div class="form-group text-center">
+                                <label for="image2">Image 2:</label>
+                                <input
+                                  type="file"
+                                  name="image2"
+                                  class="form-control-file"
+                                  id="image2"
+                                  accept="image/*"
+                                />
+                                <img src="" alt="Image 2" class="img-fluid" style="max-height: 200px;"id="previewImage2">
+                              </div>
+                              <div class="form-group text-center">
+                                <label for="image3">Image 3:</label>
+                                <input
+                                  type="file"
+                                  name="image3"
+                                  class="form-control-file"
+                                  id="image3"
+                                  accept="image/*"
+                                />
+                                <img src="" alt="Image 3" class="img-fluid" style="max-height: 200px;"id="previewImage3">
+                              </div>
+                                
+                            </div>
+
+                            {{!-- pricing --}}
+                            <div class="border p-3 mb-3">
+                                <h2>Pricing</h2>
+                                <div class="form-group">
+                                    <label for="basePrice">Base Price:</label>
+                                    <input
+                                        type="number"
+                                        name="BasePrice"
+                                        class="form-control bg-light"
+                                        id="basePrice"
+                                        placeholder="Enter base price"
+                                        required
+                                    />
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <label for="SellingPrice">SellingPrice:</label>
+                                    <input
+                                        type="number"
+                                        name="SellingPrice"
+                                        class="form-control bg-light"
+                                        id="SellingPrice"
+                                        placeholder="Enter Selling price amount"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <br>
+
+                            {{!-- <div class="border p-3 mb-3">
+                                <h2>Specifications</h2>
+                                <div id="specifications-container">
+
+                                </div>
+                                <br>
+                                <button type="button" id="addSpecification" class="btn btn-primary">Add Specification</button>
+                            </div> --}}
+
+                            <div class="border p-3 mb-3">
+                                <h2>Specifications</h2>
+                                <div id="specifications-container">
+                                    <div class="form-group">
+                                        <label for="specification1">Specification 1:</label>
+                                        <input
+                                            type="text"
+                                            name="Specification1"
+                                            class="form-control bg-light"
+                                            id="specification1"
+                                            placeholder="Enter specification 1"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="specification2">Specification 2:</label>
+                                        <input
+                                            type="text"
+                                            name="Specification2"
+                                            class="form-control bg-light"
+                                            id="specification2"
+                                            placeholder="Enter specification 2"
+                                            {{!-- required --}}
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="specification3">Specification 3:</label>
+                                        <input
+                                            type="text"
+                                            name="Specification3"
+                                            class="form-control bg-light"
+                                            id="specification3"
+                                            placeholder="Enter specification 3"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="specification4">Specification 4:</label>
+                                        <input
+                                            type="text"
+                                            name="Specification4"
+                                            class="form-control bg-light"
+                                            id="specification4"
+                                            placeholder="Enter specification 4"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{!-- variations --}}
+                            <div class="border p-3 mb-3">
+                                <h2>Variations</h2>
+                                <br>
+                                <div class="d-flex justify-content-center">
+                                    <div class="form-check mx-2">
+                                    <input
+                                        type="checkbox"
+                                        class="form-check-input"
+                                        name="Size"
+                                        value="5"
+                                    />
+                                    <label class="form-check-label" for="size5">5</label>
+                                    <input
+                                        type="number"
+                                        class="form-control bg-light"
+                                        name="SizeQuantity5"
+                                        placeholder="Quantity"
+                                    />
+                                </div>
+                                <div class="form-check mx-2">
+                                    <input
+                                        type="checkbox"
+                                        class="form-check-input "
+                                        name="Size"
+                                        value="6"
+                                    />
+                                    <label class="form-check-label" for="size6">6</label>
+                                    <input
+                                        type="number"
+                                        class="form-control bg-light"
+                                        name="SizeQuantity6"
+                                        placeholder="Quantity"
+                                    />
+                                </div>
+            
+                                <div class="form-check mx-2">
+                                    <input
+                                        type="checkbox"
+                                        class="form-check-input "
+                                        name="Size"
+                                        value="7"
+                                    />
+                                    <label class="form-check-label" for="size7">7</label>
+                                    <input
+                                        type="number"
+                                        class="form-control bg-light"
+                                        name="SizeQuantity7"
+                                        placeholder="Quantity"
+                                    />
+                                </div>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                <div class="form-check mx-2">
+                                    <input
+                                        type="checkbox"
+                                        class="form-check-input "
+                                        name="Size"
+                                        value="8"
+                                    />
+                                    <label class="form-check-label" for="size8">8</label>
+                                    <input
+                                        type="number"
+                                        class="form-control bg-light"
+                                        name="SizeQuantity8"
+                                        placeholder="Quantity"
+                                    />
+                                </div>
+                                <div class="form-check mx-2">
+                                    <input
+                                        type="checkbox"
+                                        class="form-check-input "
+                                        name="Size"
+                                        value="9"
+                                    />
+                                    <label class="form-check-label" for="size9">9</label>
+                                    <input
+                                        type="number"
+                                        class="form-control bg-light"
+                                        name="SizeQuantity9"
+                                        placeholder="Quantity"
+                                    />
+                                </div>
+            
+                                <div class="form-check mx-2">
+                                    <input
+                                        type="checkbox"
+                                        class="form-check-input"
+                                        name="Size"
+                                        value="10"
+                                    />
+                                    <label class="form-check-label" for="size10">10</label>
+                                    <input
+                                        type="number"
+                                        class="form-control bg-light"
+                                        name="SizeQuantity10"
+                                        placeholder="Quantity"
+                                    />
+                                </div>
+                                </div>
+
+                                <!-- color variation -->
+                                <div class="form-group">
+                                    <label for="colorVariation">Color Variation:</label>
+                                    <input
+                                        type="text"
+                                        name="Colour"
+                                        class="form-control bg-light"
+                                        id="colorVariation"
+                                        placeholder="Type color variation"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                    </div>
+
+                    {{!-- right side --}}
+                    <div class="col-md-4 my-5">
+                        <div class="bg-white p-3">
+                            <div class="form-group">
+                                <label for="category">Category:</label>
+                                <select
+                                    name="Category"
+                                    class="form-control bg-light"
+                                    id="category"
+                                    required
+                                >
+                                {{#each categories}}
+                                    <option value="{{CategoryName}}">{{CategoryName}}</option>
+                                {{/each}}   
+                                </select>
+                            </div><br>
+
+
+                            <div class="form-group">
+                                <label for="brandName">Brand Name:</label>
+                                <input
+                                    type="text"
+                                    name="BrandName"
+                                    class="form-control bg-light"
+                                    id="brandName"
+                                    placeholder="Enter brand name"
+                                    required
+                                />
+                            </div><br>
+                            <div class="form-group">
+                                <label for="tags">Tags:</label>
+                                <input
+                                    type="text"
+                                    name="Tags"
+                                    class="form-control bg-light"
+                                    id="tags"
+                                    placeholder="Enter tags"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary ms-3">Add Product</button>
+                    </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+
+

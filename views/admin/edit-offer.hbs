@@ -1,0 +1,61 @@
+<body class="mt-5">
+  <div class="row">
+    <main class="px-md-4">
+      <div class="row d-flex justify-content-between">
+        <div class="col-md-7">
+          <form id="addOfferForm" action="/admin/edit-offer/{{offerDetails._id}}" method="post">
+            <div class="d-flex justify-content-between pt-5">
+              <div>
+                <h2>Edit Offer</h2>
+              </div>
+              <div class="text-danger mt-5 fw-bold">
+                {{#if message}}
+                  {{message.error}}
+                {{/if}}</div>
+              <div>
+                <button class="btn btn-success mt-5" type="submit">Update</button>
+              </div>
+            </div>
+            <br />
+            <div class="form-group">
+              <label for="category">Category:</label>
+              <select
+                name="CategoryName"
+                class="form-control bg-light"
+                id="category"
+                required
+              >
+                <option value="{{currentCategory}}">{{currentCategory}}</option>
+                {{!-- {{#each categories}}
+                  <option value="{{this.CategoryName}}">{{this.CategoryName}}</option>
+                {{/each}} --}}
+              </select>
+            </div><br />
+            <div class="form-group">
+              <label for="ExpireDate">Expire Date:</label>
+              <input
+                type="date"
+                id="dateField"
+                name="ExpireDate"
+                class="form-control bg-light"
+                value="{{offerDetails.ExpireDate}}"
+                required
+              />
+              <span id="dateError" style="color: red;"></span>
+            </div><br />
+            <div class="form-group">
+              <label for="Discount">Discount:</label>
+              <input
+                type="number"
+                name="Discount"
+                class="form-control bg-light"
+                value="{{offerDetails.Discount}}"
+                required
+              />
+            </div><br />
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>

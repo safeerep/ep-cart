@@ -1,0 +1,68 @@
+<body class="mt-5">
+  <div class="container-fluid">
+    <div class="row vh-100">  
+      <div class="d-flex justify-content-around mt-4">
+        <div class="card col-md-3 p-3">
+          <i class="fa-solid fa-cart-shopping fa-lg text-success"></i><br>
+          <h6>Total Number of Orders</h6>
+          <h4>{{numberOfOrders}}</h4>
+        </div>
+        <div class="card col-md-3 p-3">
+          <i class="fa-solid fa-table fa-lg text-success"></i><br>
+          <h6>Total products sold</h6>
+          <h4>{{totalNumberOfSales}}</h4>
+        </div>
+        <div class="card col-md-3 p-3">
+          <i class="fa-solid fa-users fa-lg text-success"></i><br>
+          <h6>Active Customers </h6>
+          <h4>{{numberOfUsers}}</h4>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center my-5">
+        <div class="col-md-3 d-flex justify-content-around border rounded">
+          <a id="filtervalue" class="btn btn-white border-radius filter-option" data-filter="day">By Day</a>
+          <a id="filtervalue" class="btn btn-white border-radius filter-option" data-filter="month">By Month</a>
+          <a id="filtervalue" class="btn btn-white border-radius filter-option" data-filter="year">By Year</a>
+        </div>
+      </div>
+      <canvas id="myChart" class="w-100 h-75"></canvas>
+      {{!-- starting best selling products --}}
+      <div class="border-start w-100 mt-5 p-5 bg-light">
+        <h3 class="mb-3">Best Selling {{topTenProducts.length}} Products</h3>
+        <div class="table-responsive">
+        <table class=" w-100">
+            <thead>
+              <tr class="h5">
+                <th class="border text-center-in-table">Product</th>
+                <th class="border text-center-in-table">Product Id</th>
+                <th class="border text-center-in-table">Product Name</th>
+                <th class="border text-center-in-table">Brand Name</th>
+                <th class="border text-center-in-table">Price</th>
+                <th class="border text-center-in-table">Number of items sold</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each topTenProducts}}
+              <tr>
+                <td class="border">
+                    <figure class="itemside d-flex align-items-center">
+                      <div class="aside border">
+                        <img class="img-sm" src="/uploads/{{this.productDetails.images.[0]}}" alt="">
+                      </div>
+                    </figure>
+                </td>
+                <td class="border text-center-in-table">{{this.productDetails._id}}</td>
+                <td class="border text-center-in-table">{{this.productDetails.ProductName}}</td>
+                <td class="border text-center-in-table">{{this.productDetails.BrandName}}</td>
+                <td class="border text-center-in-table">₹ {{this.productDetails.SellingPrice}}</td>
+                <td class="border text-center-in-table">{{this.totalCount}}</td>
+              </tr>
+              {{/each}}
+            </tbody>
+        </table>
+        </div>
+      </div>
+      {{!-- ending best selling products --}}
+    </div>
+  </div>
+</body>

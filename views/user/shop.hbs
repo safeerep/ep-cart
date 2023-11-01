@@ -1,0 +1,112 @@
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-2 d-none d-lg-block mt-3 p-5">
+      <nav id="sidebar">
+        <div class="position-fixed">
+          <div class="list-group" style="border-radius: 0;">
+            <h4 class="ms-3">Filters</h4>
+            {{#if currentCategory}}
+            <a href="/category/{{currentCategory._id}}" class="list-group-item my-2 border-0">
+              <dt>{{currentCategory.CategoryName}}</dt>
+            </a>
+            {{/if}}
+            {{#each categories}}
+            <a href="/category/{{this._id}}" class="list-group-item my-2 border-0">
+              <dt>{{CategoryName}}</dt>
+            </a>
+            {{/each}}
+          </div>
+        </div>
+      </nav>
+    </div>
+    {{#unless products}}
+    <div class="vh-100 text-center col-12 col-lg-10 border-start d-flex justify-content-center align-items-center">
+      <dt class="text-danger">Sorry for the inconvenience! Right now, No Products available in this category</dt>
+    </div>
+    {{/unless}}
+    <div class="col-12 col-lg-10 border-start">
+      <div class="row m-5 g-5">
+        {{#each products}}
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card">
+              <a href="/product/details-view/{{this._id}}">
+                <img
+                  src="/uploads/{{this.images.[0]}}"
+                  alt=""
+                  class="card-img-top"
+                />
+              </a>
+              <div class="card-body border-top text-end">
+                <dt class="card-text">
+                  ₹{{this.SellingPrice}}
+                  <br />
+                </dt>
+              </div>
+              <div class="card-body">
+                <dt class="card-text">{{this.BrandName}}
+                  <br />
+                  {{this.ProductName}}</dt>
+                <p class="card-text">{{this.Specification1}}
+                  <br />{{this.Specification2}}</p>
+
+                <div class="text-center">
+                    <p id="addedToWishlistMessage_{{this._id}}" 
+                    class="text-success fw-bold"
+                    data-product-id="{{this._id}}" 
+                    style="display: none;">
+                    added to wishlist
+                    </p>
+                </div>  
+                <div class="d-flex justify-content-around">
+                  <a
+                    id="addToWishlist_{{this._id}}" 
+                    class="btn btn-white border btn-block"
+                    style="width: 30%;"
+                    data-product-id="{{this._id}}"
+                  >
+                    <i class="fa-regular fa-heart"></i>
+                  </a>
+                  <a
+                    href="/product/details-view/{{this._id}}"
+                    class="btn btn-danger btn-block"
+                    style="width: 60%;"
+                  >
+                    view details
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+        
+        {{#if products.length}}
+          <div class="d-flex justify-content-between align-items-center mt-3 me-2">
+            <p>
+              Showing {{startIndex}}-{{endIndex}} results from {{totalCount}}
+            </p>
+            <ul class="pagination">
+              {{#if hasPreviousPage}}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{previousPage}}">Prev</a>
+                </li>
+              {{/if}}
+      
+              {{#if currentPage}}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{currentPage}}">{{currentPage}}</a>
+                </li>
+              {{/if}}
+      
+              {{#if hasNextPage}}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{nextPage}}">Next</a>
+                </li>
+              {{/if}}
+            </ul>
+          </div>
+        {{/if}}
+    </div>
+  </div>
+</div>

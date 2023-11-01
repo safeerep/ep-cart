@@ -1,0 +1,211 @@
+<!-- Modal -->
+<div class="modal fade" id="modalforCancelOrReturn" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        {{#if returnOption}}  
+        <h1 class="modal-title fs-6" id="ModalLabel">Reason of return</h1>
+        {{else}}
+        <h1 class="modal-title fs-6" id="ModalLabel">Cancel Reason</h1>
+        {{/if}}
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{#if returnOption}}  
+        <form action="/return-order/{{orderDetails._id}}" method="post">
+        {{else}}
+        <form action="/cancel-order/{{orderDetails._id}}" method="post">
+        {{/if}}
+            <div class="mb-3">
+    <label for="writeReason" class="form-label">Enter Reason</label>
+    <input required placeholder="Enter reason Here" type="text" name="Reason" class="form-control" aria-describedby="emailHelp">
+  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="container mt-3 pt-5">
+    <!-- Title -->
+    <div class="d-flex justify-content-between align-items-center py-3">
+      <h2 class="h5 ms-4">
+        Order #{{orderDetails._id}}</h2>
+    </div>
+
+    <!-- Main content -->
+    <div class="row m-3" style="min-height: 100vh;">
+      <div class="col-lg-6">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="mb-3 d-flex justify-content-between">
+              <div>
+                {{#if returnOption}}
+                <span class="me-3"><b>Delivered on: </b>{{orderDetails.DeliveredOn}} </span> <br>
+                {{/if}}
+                {{#unless returnOption}}
+                <span class="me-3"><b>Ordered on: </b>{{orderDetails.Date}} </span> <br>
+                {{/unless}}
+                {{#if cancelOption}}
+                <span class="me-3"><b>Expected delivery within: </b>{{orderDetails.ExpectedDeliveryOn}} </span>
+                {{/if}}
+                
+              </div>
+              
+              <div>
+                
+                {{#if cancelled}}
+                <span
+                  class="badge rounded-pill bg-danger"
+                >{{orderDetails.Status}}</span>
+                {{else}}
+                <span
+                  class="badge rounded-pill bg-info"
+                >{{orderDetails.Status}}</span>
+                {{/if}}
+              </div>
+              
+            </div>
+
+            {{!-- starting progress bar --}}
+            {{#if stage1}}
+            <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-success" style="width: 25%"></div>
+            </div>
+            {{/if}}
+            {{#if stage2}}
+            <div class="progress" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-success" style="width: 50%"></div>
+            </div>
+            {{/if}}
+            {{#if stage3}}
+            <div class="progress" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-success" style="width: 75%"></div>
+            </div>
+            {{/if}}
+            {{#if stage4}}
+            <div class="progress" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-success" style="width: 100%"></div>
+            </div>
+            {{/if}}
+            {{#if cancelled}}
+            <div class="progress" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-danger" style="width: 100%"></div>
+            </div>
+            {{/if}}
+            {{!-- ending progress bar --}}
+
+            <table class="table table-borderless">
+              <tbody>
+                {{#each products}}
+                  <tr>
+                    <td>
+                      <div class="d-flex mb-2">
+                        <a href="/product/details-view/{{ProductId._id}}">
+                        <div class="flex-shrink-0">
+                          <img
+                            src="/uploads/{{ProductId.images.[0]}}"
+                            alt=""
+                            width="35"
+                            class="img-fluid"
+                          />
+                        </div>
+                        <div class="flex-lg-grow-1 ms-3">
+                          <h6 class="mb-0"><a
+                              href="#"
+                              class="text-reset text-decoration-none"
+                            >{{ProductId.ProductName}}</a></h6>
+                          <span >Size: {{Size}}</span>
+                        </div>
+                        </a>
+                      </div>
+                    </td>
+                    <td class="text-end"><b>Qty:{{Quantity}}</b></td>
+                    <td class="text-end"><b>Rs.{{ProductId.SellingPrice}}</b></td>
+                    {{#if ../reviewOption}}
+                    <td class="text-end"><b><a href="/product/details-view/{{ProductId._id}}#ratings-and-reviews">Rate this product</a></b></td>
+                    {{/if}}
+                  </tr>
+                {{/each}}
+              </tbody>
+              
+              <tfoot>
+                <hr>
+                <tr>
+                  <td colspan="2"><b>Subtotal</b></td>
+                  <td class="text-end"><b>Rs.{{orderDetails.TotalPrice}}</b></td>
+                </tr>
+                <tr>
+                  {{#if orderDetails.Discount}}
+                    <td colspan="2"><b>Discount </b></td>
+                    <td
+                      class="text-success text-end"
+                    ><b>-Rs.{{orderDetails.Discount}}</b></td>
+                  {{/if}}
+                </tr>
+                <tr class="fw-bold">
+                  <td colspan="2"><b>TOTAL</b></td>
+                  <td class="text-end"><b>Rs.{{orderDetails.PayableAmount}}</b></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+        <!-- Payment -->
+        <div class="col-lg-6">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+
+              <div class="col-lg-6 p-5">
+                <h5> <strong>Address</strong></h5>
+                <address>
+                  <strong>{{userDetails.Name}}</strong><br />
+                  {{userDetails.Address.[0].HouseName}}<br />
+                  {{userDetails.Address.[0].District}}<br />
+                  {{userDetails.Address.[0].Pincode}}<br />
+                  {{userDetails.Address.[0].State}}<br />
+                  <dt title="Phone">Contact:</dt>
+                  {{userDetails.Phone}}
+                  <br />
+                  {{userDetails.Email}}
+                </address>
+              </div>
+
+              <div class="col-lg-6 p-5">
+                <h5><strong>Payment Method</strong></h5>
+                <dt>{{orderDetails.PaymentMethod}}
+                  <br/>
+                  Total: Rs.{{orderDetails.PayableAmount}}
+                  <span
+                    class="badge bg-success rounded-pill"
+                  >{{orderDetails.paymentStatus}}</span></dt> <br>
+                  {{#if cancelOption}}
+                  <button class="btn btn-danger text-white btn-sm " data-bs-toggle="modal" data-bs-target="#modalforCancelOrReturn" > Cancel Order</button>
+                  {{/if}}
+                  {{#if returnOption}}  
+                  <button class="btn btn-danger text-white btn-sm " data-bs-toggle="modal" data-bs-target="#modalforCancelOrReturn" > Return Order</button>
+                  {{/if}}
+                  
+                  <a onclick="forDownloadInvoice('{{orderDetails._id}}')" id="download-invoice" class=" mt-2 btn btn-white border-success">download invoice</a>
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+ 
+
+
+
+
+
+

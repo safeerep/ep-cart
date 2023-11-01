@@ -1,0 +1,94 @@
+<body class="mt-5">
+  <div class="container-fluid">
+    <div class="row" >
+      <main class="col-md-12 ms-sm-auto col-lg-12 px-md-4 bg-light">
+                <h1 class="mt-3">Customers</h1>
+                <div class="d-flex justify-content-between m-3">
+                    <form action="/admin/users-list" method="get">
+                    <div class="input-group me-5 " style="width: 15rem;">
+                            <input type="text" name="Email" class="form-control" placeholder="Search Email..">
+                    </div>
+                    </form>
+                    <div class="dropdown" >
+                      <button class="btn bg-light border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-sliders"></i>
+                        <span class="m-2">Filter</span>
+                          
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/admin/active-customers">Active Customers</a></li>
+                        <li><a class="dropdown-item" href="/admin/blocked-customers">Blocked Customers</a></li>
+                      </ul>
+                    </div>
+                </div>
+                <div class="table-responsive">
+          <table id="table" class="table border overflow-scroll">
+            <thead>
+              <tr class="h5">
+                <th class="border text-center-in-table">Customer Name</th>
+                <th class="border text-center-in-table">Customer ID</th>
+                <th class="border text-center-in-table">Phone</th>
+                {{!-- <th>Orders</th> --}}
+                <th class="border text-center-in-table">Status</th>
+                <th class="border text-center-in-table">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each users}}
+              <tr >
+                <td class="border text-center-in-table">{{this.Name}}</td>
+                <td class="border text-center-in-table">{{this._id}}</td>
+                <td class="border text-center-in-table">{{this.Phone}}</td>
+                <td class="border text-center-in-table">{{this.Status}}</td>
+                <td class="border text-center-in-table py-3">
+                  <a href="/admin/block-user/{{this._id}}" onclick="return confirm('Hey admin, \n Are you sure to change the status of this user?')" ><i class="fas fa-ban"></i></a>
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+          {{#if users.length}}
+          <div class="d-flex justify-content-between align-items-center mt-3 me-2">
+            <p>
+              Showing {{startIndex}}-{{endIndex}} results from {{totalCount}}
+            </p>
+            <ul class="pagination">
+              {{#if hasPreviousPage}}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{previousPage}}">Prev</a>
+                </li>
+              {{/if}}
+      
+              {{#if currentPage}}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{currentPage}}">{{currentPage}}</a>
+                </li>
+              {{/if}}
+      
+              {{#if hasNextPage}}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{nextPage}}">Next</a>
+                </li>
+              {{/if}}
+            </ul>
+          </div>
+          {{else}}
+            <p>No results found.</p>
+          {{/if}}
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+
+<style>
+  #table {
+    overflow-x: scroll;
+  }
+</style>
+
+
+
+
+

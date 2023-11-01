@@ -1,0 +1,88 @@
+<body class="mt-5">
+  <div class="row">
+    <main class="px-md-4">
+      <div class="row d-flex justify-content-between">
+        <div class="col-md-7">
+          <form id="addCouponForm" action="/admin/edit-coupon/{{couponData._id}}" method="post">
+          <div class="d-flex justify-content-between pt-5">
+            <div>
+              <h2>Edit Coupon</h2>
+            </div>
+            <div>
+              <button class="btn btn-success mt-5" type="submit">Edit coupon</button>
+            </div>
+          </div>
+          <br />
+            <div class="form-group">
+              <label for="CouponName">Coupon Name:</label>
+              <input
+                type="text"
+                name="CouponName"
+                class="form-control bg-light"
+                value="{{couponData.CouponName}}"
+                required
+              />
+            </div><br />
+            <div class="form-group">
+              <label for="CouponCode">Coupon Code:</label>
+              <input
+                type="text"
+                name="CouponCode"
+                class="form-control bg-light"
+                value="{{couponData.CouponCode}}"
+                required
+              />
+            </div><br />
+            <div class="form-group">
+              <label for="ExpireDate">Expire Date: </label>
+              <input
+                type="date"
+                name="ExpireDate"
+                id="expireDateInput"
+                class="form-control bg-light"
+                value="{{couponData.ExpireDate}}"
+                required
+              />
+            </div><br />
+            <div class="form-group">
+              <label for="Discount">Discount:</label>
+              <input
+                type="number"
+                name="Discount"
+                class="form-control bg-light"
+                value="{{couponData.Discount}}"
+                required
+              />
+            </div><br />
+            <div class="form-group">
+              <label for="MinOrderAmount">Min Order Amount:</label>
+              <input
+                type="number"
+                name="MinOrderAmount"
+                class="form-control bg-light"
+                value="{{couponData.MinOrderAmount}}"
+                required
+              />
+            </div><br />
+            <div class="form-group">
+              <label for="UsageLimit">Usage Limit:</label>
+              <select name="UsageLimit" class="form-control bg-light" required>
+                {{#if single}}
+                <option value="single">single</option>
+                <option value="multi">multi</option>
+                {{else}}
+                <option value="multi">multi</option>
+                <option value="single">single</option>
+                {{/if}}
+              </select>
+            </div><br />
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+
+
+
+

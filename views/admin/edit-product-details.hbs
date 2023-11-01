@@ -1,0 +1,259 @@
+<body class="mt-5">
+    <div class="container-fluid">
+        <div class="row  border-start">
+            <main class="px-md-4">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-md-8">
+                        <h1 class="mt-5">Edit Product</h1>
+                        <br>
+                        {{#if productDetails}}
+                        <form action="/admin/edit-product-details/{{productDetails._id}}" method="post" enctype="multipart/form-data" class="bg-white">
+                            <div class="form-group">
+                                <label for="productName">Change Product Name:</label>
+                                <input
+                                    type="text"
+                                    name="ProductName"
+                                    class="form-control bg-light"
+                                    id="productName"
+                                    value="{{productDetails.ProductName}}"
+                                    required
+                                />
+                            </div><br>
+                            <div class="form-group">
+                                <label for="productDescription">Product Description:</label>
+                                <textarea
+                                class="form-control bg-light"
+                                name="Description"
+                                id="productDescription"
+                                rows="4"
+                                required
+                                >{{productDetails.Description}}</textarea>
+                            </div>
+                            <br />
+
+                            {{!-- images uploading --}}
+                            {{/if}}
+                            <div class="border p-3 mb-3 bg-light "> 
+                                <h3>Media</h3>
+                                <div class="form-group text-center">
+                                    <label for="image1">Image 1:</label>
+                                    <input
+                                        type="file"
+                                        name="image1"
+                                        value="{{productDetails.images.[0]}}"
+                                        class="form-control-file"
+                                        id="image1"
+                                        accept="image/*"
+                                    />
+                                    <img src="/uploads/{{productDetails.images.[0]}}" alt="Image 1" class="img-fluid" style="max-height: 200px;"id="previewImage1">
+                                </div>
+                                <div class="form-group text-center">
+                                    <label for="image2">Image 2:</label>
+                                    <input
+                                        type="file"
+                                        name="image2"
+                                        value="{{productDetails.images.[1]}}"
+                                        class="form-control-file"
+                                        id="image2"
+                                        accept="image/*"
+                                    />
+                                    <img src="/uploads/{{productDetails.images.[1]}}" alt="Image 2" class="img-fluid" style="max-height: 200px;"id="previewImage2">
+                                </div>
+                                <div class="form-group text-center">
+                                    <label for="image3">Image 3:</label>
+                                    <input
+                                        type="file"
+                                        name="image3"
+                                        value="{{productDetails.images.[2]}}"
+                                        class="form-control-file"
+                                        id="image3"
+                                        accept="image/*"
+                                    />
+                                    <img src="/uploads/{{productDetails.images.[2]}}" alt="Image 3" class="img-fluid" style="max-height: 200px;"id="previewImage3">
+                                </div>
+                                                         
+                            </div>
+                            <div class="border p-3 mb-3">
+                                <h2>Specifications</h2>
+                                <div id="specifications-container">
+                                    <div class="form-group">
+                                        <label for="specification1">Specification 1:</label>
+                                        <input
+                                            type="text"
+                                            name="Specification1"
+                                            class="form-control bg-light"
+                                            id="specification1"
+                                            placeholder="Enter specification 1"
+                                            value="{{productDetails.Specification1}}"
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="specification2">Specification 2:</label>
+                                        <input
+                                            type="text"
+                                            name="Specification2"
+                                            class="form-control bg-light"
+                                            id="specification2"
+                                            placeholder="Enter specification 2"
+                                            value="{{productDetails.Specification2}}"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="specification3">Specification 3:</label>
+                                        <input
+                                            type="text"
+                                            name="Specification3"
+                                            class="form-control bg-light"
+                                            id="specification3"
+                                            placeholder="Enter specification 3"
+                                            value="{{productDetails.Specification3}}"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="specification4">Specification 4:</label>
+                                        <input
+                                            type="text"
+                                            name="Specification4"
+                                            class="form-control bg-light"
+                                            id="specification4"
+                                            placeholder="Enter specification 4"
+                                            value="{{productDetails.Specification4}}"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{#if productDetails}}
+                            {{!-- pricing --}}
+                            <div class="border p-3 mb-3">
+                                <h2>Pricing</h2>
+                                <div class="form-group">
+                                    <label for="basePrice">Change Base Price:</label>
+                                    <input
+                                        type="number"
+                                        name="BasePrice"
+                                        class="form-control bg-light"
+                                        id="basePrice"
+                                        value="{{productDetails.BasePrice}}"
+                                        required
+                                    />
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <label for="SellingPrice">Selling Price:</label>
+                                    <input
+                                        type="number"
+                                        name="SellingPrice"
+                                        class="form-control bg-light"
+                                        id="SellingPrice"
+                                        value="{{productDetails.SellingPrice}}"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            {{!-- variations --}}
+                            <div class="border p-3 mb-3">
+                                <h2>Variations</h2>
+                                <br>
+                                <div class="d-flex justify-content-center">
+                                {{#each sizesAvailable}}
+                                <div class="form-check mx-2">
+                                    <input
+                                        type="checkbox"
+                                        class="form-check-input"
+                                        name="Size"
+                                        {{#if this.Quantity}}
+                                        checked
+                                        {{/if}}
+                                        value="{{this.Size}}"
+                                    />
+                                    <label class="form-check-label" for="size{{this.Size}}">{{this.Size}}</label>
+                                    <input
+                                        type="number"
+                                        class="form-control bg-light"
+                                        name="SizeQuantity{{this.Size}}"
+                                        value="{{this.Quantity}}"
+                                        placeholder="Quantity"
+                                    />
+                                </div>
+                                {{/each}}
+                                
+                                </div>
+
+                                <!-- color variation -->
+                                <div class="form-group">
+                                    <label for="colorVariation">Color Variation:</label>
+                                    <input
+                                        type="text"
+                                        name="Colour"
+                                        class="form-control bg-light"
+                                        id="colorVariation"
+                                        value="{{productDetails.Colour}}"
+                                        placeholder="Type color variation"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                    </div>
+                    {{/if}}
+                    {{!-- right side --}}
+                    <div class="col-md-4 my-5">
+                        <div class="bg-white p-3">
+                            <div class="form-group">
+                                <br>
+                                <label for="category">Category:</label>
+                                <select
+                                    name="Category"
+                                    class="form-control bg-light"
+                                    id="category"
+                                    required
+                                >
+                                {{#if currentCategory}}
+                                    <option value="{{currentCategory.CategoryName}}">{{currentCategory.CategoryName}}</option>
+                                {{/if}}
+                                {{#each categories}}
+                                    <option value="{{CategoryName}}">{{CategoryName}}</option>
+                                {{/each}}   
+                                </select>
+                            </div><br>
+                            {{#if productDetails}}
+                            <div class="form-group">
+                                <label for="brandName">Brand Name:</label>
+                                <input
+                                    type="text"
+                                    name="BrandName"
+                                    class="form-control bg-light"
+                                    id="brandName"
+                                    value="{{productDetails.BrandName}}"
+                                    required
+                                />
+                            </div><br>
+                            {{/if}}
+                            {{#each productDetails.Tags}}
+                            <div class="form-group">
+                                <label for="tags">Tags:</label>
+                                <input
+                                    type="text"
+                                    name="Tags"
+                                    class="form-control bg-light"
+                                    id="tags"
+                                    value="{{this}}"
+                                    required
+                                />
+                            </div>
+                            {{/each}}
+                        </div>
+                        <button type="submit" class="btn btn-primary ms-3">Edit Product</button>
+                    </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+
+
+
+

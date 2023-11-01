@@ -1,0 +1,57 @@
+<body class="mt-5">
+  <div class="row">
+    <main class="px-md-4">
+      <div class="row d-flex justify-content-between">
+        <div class="col-md-7">
+        {{#if refferalOffer}}
+          <form id="addOfferForm" action="/admin/edit-refferal-offer/{{refferalOffer._id}}" method="post">
+        {{else}}
+          <form id="addOfferForm" action="/admin/add-refferal-offer" method="post">
+        {{/if}}
+            <div class="d-flex justify-content-between pt-5">
+              <div>
+                <h2>Add Offer</h2>
+              </div>
+              <div class="text-danger mt-5 fw-bold">
+                {{#if message}}
+                  {{message.error}}
+                {{/if}}</div>
+              <div>
+                <button class="btn btn-success mt-5" type="submit">Add offer</button>
+              </div>
+            </div>
+            <br />
+            <div class="form-group">
+              <label for="Discount">Offer for Referrer</label>
+              <input
+                type="number"
+                name="OfferforReferrer"
+                class="form-control bg-light"
+                {{#if refferalOffer}}
+                value="{{refferalOffer.OfferforReferrer}}"
+                {{else}}
+                placeholder="Enter Offer for Referrer"
+                {{/if}}
+                required
+              />
+            </div><br />
+            <div class="form-group">
+              <label for="Discount">Offer for Referred</label>
+              <input
+                type="number"
+                name="OfferforReferred"
+                class="form-control bg-light"
+                {{#if refferalOffer}}
+                value="{{refferalOffer.OfferforReferred}}"
+                {{else}}
+                placeholder="Enter Offer for Referrer"
+                {{/if}}
+                required
+              />
+            </div><br />
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>

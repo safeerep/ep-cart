@@ -1,0 +1,228 @@
+<div class="container-fluid mt-3 p-5" style="min-height: 100vh;">
+  {{#if noCart}}
+  <div class="row m-3  justify-content-center">
+    <aside class="col-lg-6">
+      <div class="card">
+        <div class="m-5">
+          <h4>Your Cart is Empty</h4>
+          <a href="/shop" class="btn btn-primary" > shop now</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+  {{/if}}
+{{!-- for showing when some products not available --}}
+<div class="modal" tabindex="-1" id="some-products-not-available">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="h5 text-danger">Sorry, Some products are not available right now</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{#unless noCart}}
+  <div class="row m-3 justify-content-center">
+    <aside class="col-lg-6">
+  <div>
+    <h4 class="p-3">Your Cart</h4>
+    <div class="card-body">
+      {{#if message.lowStock}}
+      <div class="alert alert-danger text-center fw-bold">
+        {{message.lowStock}}
+      </div>
+      {{/if}}
+      {{#each productsInCart}}
+      <div class="card p-2 mb-3 d-flex justify-content-between">
+        <div class="row g-0">
+          <div class="col-md-4 p-1">
+            <a href="/product/details-view/{{this.ProductId}}" class="text-dark" style="text-decoration: none;">
+              <div class="card-body">
+                <img src="/uploads/{{this.Images.[0]}}" class="img-sm" />
+              </div>
+            </a>
+          </div>
+          <div class="col-md-8">
+            {{!-- <div class="card-body"> --}}
+              <div class="col-md-8">
+
+              <a href="/product/details-view/{{this.ProductId}}" class="text-dark" style="text-decoration: none;">
+                <h5 class="card-title">{{this.ProductName}}</h5>
+                <p class="card-text">Size: {{this.Size}}</p>
+                <p class="card-text">Brand: {{this.BrandName}}</p>
+              </a>
+              <div class="price-wrap">
+                <p class="card-text text-stroke" id="BasePrice_{{this.ProductId}}">&#x20B9; {{this.BasePrice}}</p>
+                <p class="card-text" id="Price_{{this.ProductId}}">&#x20B9; {{this.SellingPrice}} / pcs</p>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="input-group countdiv" style="width: 10rem;">
+                <div class="input-group-prepend">
+                  <button class="btn btn-dark decrease-quantity" data-product-size="{{this.Size}}" data-product-id="{{this.ProductId}}">-</button>
+                </div>
+                <input type="text" readonly class="form-control text-center countInput" id="count_{{this.ProductId}}_{{this.Size}}" data-min-value="1" value="{{this.Quantity}}" />
+                <div class="input-group-prepend">
+                  <button class="btn btn-dark increase-quantity" data-product-size="{{this.Size}}" data-product-id="{{this.ProductId}}">+</button>
+                </div>
+              </div>
+              
+                <div class="text-danger text-bold" id="ToShowOutOfStock_{{this.ProductId}}_{{this.Size}}">
+                  
+                </div>
+                <button type="button" class="btn btn-light border buttonToDeleteItemFromCart" data-product-quantity="{{this.Quantity}}" data-product-id="{{this.ProductId}}" data-product-size="{{this.Size}}">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</aside>
+
+    <aside class="col-lg-3">
+      <div class="card mb-3">
+        <div class="card-body">
+          <form id="form-for-coupon">
+            <div class="form-group">
+              <label>Have coupon?</label>
+              <div class="input-group">
+                <input
+                  type="text"
+                  id="coupon-code-text"
+                  class="form-control coupon"
+                  name="CouponCode"
+                  placeholder="Coupon code"
+                />
+                <span class="input-group-append">
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-apply coupon"
+                  >Apply</button>
+                </span>
+              </div>
+            </div>
+          </form>
+          
+          <div class="text-center p-1">
+            <span class="d-none text-danger" id="invalid-coupon-error" >Invalid coupon code!</span>
+            <span class="d-none text-danger" id="order-amount-not-enough" >Order amount is not enough to get this offer</span>
+            <span class="d-none text-danger" id="already-used-error" >Sorry, You have already used this</span>
+            <span class="d-none text-success fw-bold" id="coupon-applied-message" >Successfully applied the coupon</span>
+            <span class="d-none text-danger" id="wrong-message" >Something went wrong!</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          {{#if total}}
+          <dl class=" d-flex justify-content-between h6">
+            <dt>Total price:</dt>
+            <dd class="text-right ml-3"><b>Rs: </b><strong id="totalAmountCell">{{total}}</strong></dd>
+          </dl>
+          {{/if}}
+          {{#if discount}}
+          <dl class=" d-flex justify-content-between h6">
+            <dt>Saved by purchase now:</dt>
+            <dd class="text-right text-success ml-3 h5" id="Saved">{{discount}}</dd>
+          </dl>
+          {{/if}}
+          {{#if cartDiscount}}
+          <div class="d-flex justify-content-between h6" id="cartDiscount">
+            <dt>Discount by coupon:</dt>
+            <dd class="text-right text-success ml-3 h5">{{cartData.Discount}}</dd>
+          </div>
+          {{/if}}
+          <div id="to-show-discount" class="d-flex d-none justify-content-between h6">
+            <dt>Discount by coupon:</dt>
+            <dd id="dicountAmountByCoupon" class="text-right text-success ml-3 h5">{{cartData.Discount}}</dd>
+          </div>
+          {{#if payable}}
+          <dl class=" d-flex justify-content-between h6">
+            <dt>Payable Amount:</dt>
+            <dd class="text-right text-dark b ml-3" ><strong id="Payable">{{payable}}</strong><b> /- </b> </dd>
+          </dl>
+          {{/if}}
+          <hr />
+          <button
+            id="button-to-check-out"
+            class="btn btn-out btn-success btn-square btn-main"
+          > Go to checkout</button>
+          {{!-- <a
+            href="/checkout"
+            class="btn btn-out btn-success btn-square btn-main"
+            data-abc="true"
+          > Go to checkout</a> --}}
+        </div>
+      </div>
+    </aside>
+  </div>
+  {{/unless }}
+</div>
+{{!-- modal to apply another coupon --}}
+<div class="modal" tabindex="-1" id="confirmationModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>You may loose currently applied coupon.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="toContinueWithAnotherCoupon" class="btn btn-primary">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{!-- modal for confirm delete coupon on decreasing quanttity --}}
+<div class="modal" tabindex="-1" id="confirmationForDeleteCouponModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="h4">You will loose currently applied coupon.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="remove-coupon-and-decrease-quantity" class="btn btn-primary">Continue</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{!-- modal for confirm delete coupon on delete cart item --}}
+<div class="modal" tabindex="-1" id="delete-coupon-for-delete-item">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="h4">You will loose currently applied coupon.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="remove-coupon-and-delete-cart-item" class="btn btn-primary">Continue</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

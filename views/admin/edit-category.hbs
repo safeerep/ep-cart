@@ -1,0 +1,66 @@
+<div class="row mt-5">
+  <div class="col-md-8 my-5">
+    <form
+      action="/admin/edit-category/{{categoryDetails._id}}"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <div class="text-danger fw-bold">
+        {{#if message.error}}
+          {{message.error}}
+        {{/if}}
+      </div>
+      <div class="form-group">
+        <label for="CategoryName">Category name:</label>
+        <input
+          type="text"
+          name="CategoryName"
+          class="form-control bg-light"
+          id="CategoryName"
+          value="{{categoryDetails.CategoryName}}"
+          placeholder="Enter new category name"
+          required
+        />
+      </div><br />
+      <h3>Media</h3>
+      <div class="border p-3 mb-3 bg-light">
+        <h3>Media</h3>
+        <div class="form-group text-center">
+          <label for="categoryImage">Drag and drop or click to upload an image:</label>
+          <br /><br /><br /><br />
+          <input
+            type="file"
+            name="Image"
+            class="form-control-file text-center"
+            id="categoryImage"
+            accept="image/*"
+            multiple
+            style="display: none;"
+          />
+        </div>
+        <br />
+        <!-- uploaded images -->
+        <div class="text-center">
+          <img
+            src=""
+            alt="Uploaded Image"
+            id="uploadedImage"
+            class="img-fluid"
+            style="max-height: 200px;"
+          />
+        </div>
+        <div class="d-flex justify-content-center mt-2">
+            
+          <img src="/uploads/{{categoryDetails.Image}}" alt="">
+         
+          <button
+            class="btn btn-danger btn-sm deletes-image"
+            style="display: none;"
+          >Delete</button>
+          </div>
+      </div>
+      <br />
+      <button type="submit" class="btn btn-primary ms-2">Edit Category</button>
+    </form>
+  </div>
+</div>

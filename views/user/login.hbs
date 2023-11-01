@@ -1,0 +1,78 @@
+<div class="row m-5">
+  <div class="container" style="width: 80%;">
+    <div class="card border-0 shadow mt-5">
+      <div class="card-header bg-white border-0">
+        <h2 class="text-center">Sign In</h2>
+      </div>
+      <div class="card-body">
+        <form action="/login" method="post">
+          <div class="d-flex justify-content-center text-danger fw-bold">
+            {{#if message.error}}
+              {{message.error}}
+            {{/if}}
+          </div>
+          <div class="form-group col-md-11 m-5">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              name="Email"
+              class="form-control"
+              style="border: none; border-bottom: 1px solid #352F44; border-radius: 0;"
+              id="email"
+              placeholder="Email"
+              required
+            />
+          </div>
+          <div class="form-group col-md-11 m-5">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              name="Password"
+              class="form-control"
+              style="border: none; border-bottom: 1px solid #352F44; border-radius: 0;"
+              id="password"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <br />
+          <p class="text-center">Don't have an account?<a href="/signup">Sign up</a></p>
+          <div class="text-center">
+            <a href="/forgot-password">forgot password</a>
+          </div>
+          {{! <div class="row d-flex justify-content-center mb-2">
+            <div class="col-md-9">
+              <a
+                href=""
+                class="btn btn-secondary btn-block btn-lg bg-white"
+                style="width: 100%; color:#352F44; border:1px solid #352F44;"
+              >
+                <img src="/images/google-icon.jpeg" alt="safeer" />
+                <span class="m-2">Continue with google</span></a>
+            </div>
+          </div> }}
+          <br />
+          <div class="row d-flex justify-content-center mb-2">
+            <div class="col-md-4">
+              <a
+                href="/"
+                class="btn btn-secondary btn-block btn-lg bg-white"
+                style="width: 100%; color:#352F44"
+              >
+                <span class="m-2">Back to home</span></a>
+            </div>
+            <div class="col-md-6">
+              <button
+                class="btn btn-primary btn-block btn-lg text-white"
+                type="submit"
+                style="width: 100%; background-color:#352F44"
+              >Sign in</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <br />
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,52 @@
+<div class="row m-5">
+  {{!-- style="background-image: url('/images/9-thunder-01-9-asian-magic-white-original-imagsawbyjaqheae.webp');" --}}
+  <div class="container" style="width: 60%;">
+    <div class="card border-0 shadow mt-5">
+      <br>
+      <div class="card-header bg-white border-0">
+        <h2 class="text-center">Sign In</h2>
+      </div>
+      <div class="card-body">
+        <div class="text-center fw-bold text-danger">
+          {{#if message.error}}
+          {{message.error}}
+          {{/if}}
+        </div>
+        <form action="/admin/signin" method="post">
+          <div class="form-group col-md-11 m-5">
+            <label for="email">Username</label>
+            <input
+              type="email"
+              name="Email"
+              class="form-control"
+              style="border: none; border-bottom: 1px solid #352F44; border-radius: 0;"
+              id="email"
+              placeholder="Enter your email"
+             required
+            />
+          </div>
+          <div class="form-group col-md-11 m-5">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              name="Password"
+              class="form-control"
+              style="border: none; border-bottom: 1px solid #352F44; border-radius: 0;"
+              id="password"
+              placeholder="Type password"
+              required
+            />
+          </div>
+          <div class="text-center">
+            <a href="/admin/forgot-password" >forgot password</a>
+          </div>
+          <br>
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-block btn-lg bg-dark text-white" style="width: 50%;">LOGIN</button>
+          </div>
+        </form>
+      </div>
+      <br />
+    </div>
+  </div>
+</div>

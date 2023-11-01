@@ -1,0 +1,56 @@
+<div class="row mt-5">
+  <div class="col-md-8 my-5">
+    <form
+      action="/admin/add-banner"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <div class="form-group">
+        <label for="BannerName">Banner name:</label>
+        <input
+          type="text"
+          name="BannerName"
+          class="form-control bg-light"
+          id="BannerName"
+          placeholder="Enter new Banner name"
+        />
+      </div><br />
+      <h3>Media</h3>
+      <div class="border p-3 mb-3 bg-light">
+        <br>
+        <div class="form-group text-center">
+          <label for="categoryImage">Drag and drop or click to upload an image:</label>
+          <br /><br /><br /><br />
+          <input
+            type="file"
+            name="Image"
+            class="form-control-file text-center"
+            id="categoryImage"
+            accept="image/*"
+            multiple
+            style="display: none;"
+            required
+          />
+        </div>
+        <br />
+        <div class="text-center">
+          <img
+            src=""
+            alt="Uploaded Image"
+            id="uploadedImage"
+            class="img-fluid"
+            style="max-height: 200px;"
+          />
+        </div>
+        <div class="d-flex justify-content-center mt-2">
+          <button
+            class="btn btn-danger btn-sm deletes-image"
+            style="display: none;"
+          >Delete</button>
+          </div>
+      </div>
+      <br />
+      <button type="submit" class="btn btn-primary ms-2">Add Banner</button>
+    </form>
+  </div>
+</div>
