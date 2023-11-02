@@ -752,6 +752,7 @@ module.exports = {
     try {
       const orderId = req.params.id;
       const status = req.query.status;
+      let updateOrderDocument;
       if (status === "Rejected") {
         const orderDetails = await Order.findById(orderId);
         if (orderDetails?.Products) {
@@ -770,9 +771,11 @@ module.exports = {
             );
           }
         }
-        const updateOrderDocument = await Order.findByIdAndUpdate(orderId, {
+        updateOrderDocument = await Order.findByIdAndUpdate(orderId, {
           Status: "Rejected",
           PaymentStatus: "Returned",
+        }, {
+          new: true
         });
         if (orderDetails.PaymentStatus === "Paid") {
           const userId = updateOrderDocument.UserId;
@@ -785,15 +788,19 @@ module.exports = {
         }
       }
       if (status === "Delivered") {
-        const orderData = await Order.findByIdAndUpdate(orderId, {
+        updateOrderDocument = await Order.findByIdAndUpdate(orderId, {
           Status: status,
           DeliveredOn: moment(new Date()).format("lll"),
           PaymentStatus: "Paid",
+        }, {
+          new: true
         });
       } else if (status === "Returned") {
-        const updateOrderDocument = await Order.findByIdAndUpdate(orderId, {
+        updateOrderDocument = await Order.findByIdAndUpdate(orderId, {
           Status: "Returned",
           PaymentStatus: "Returned",
+        }, {
+          new: true
         });
   
         const userId = updateOrderDocument.UserId;
@@ -821,41 +828,16 @@ module.exports = {
           }
         }
       } else {
-        const orderData = await Order.findByIdAndUpdate(orderId, {
+        updateOrderDocument = await Order.findByIdAndUpdate(orderId, {
           Status: status,
+        }, {
+          new: true
         });
       }
-      res.redirect("/admin/orders");      
+      const paymentStatus = updateOrderDocument.PaymentStatus;
+      res.json({orderStatus: status, paymentStatus})
     } catch (error) {
       console.log(error,'error happened');
-    }
-  },
-
-  rejectOrderByAdmin: async (req, res) => {
-    try {
-      const id = req.params.id;
-      const particularOrder = await Order.findByIdAndUpdate(id, {
-        Status: "Rejected",
-      });
-
-      for (let product of particularOrder.Products) {
-        const quantityToIncrease = product.Quantity;
-        const IncreaseQuantity = await Product.findOneAndUpdate(
-          {
-            _id: product.ProductId,
-            "Sizes.Size": product.Size,
-          },
-          {
-            $inc: {
-              "Sizes.$.Quantity": quantityToIncrease,
-            },
-          }
-        );
-      }
-      res.redirect("/admin/orders");
-    } catch (error) {
-      console.log(`An error happened ${error}`);
-      res.redirect("/admin/orders");
     }
   },
 

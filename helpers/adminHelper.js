@@ -29,8 +29,36 @@ module.exports = {
     }
   },
 
-  generateSalesReportPdf: (orders, startDate, endDate, totalSales) => {
-    console.log(orders);
+  cropImageForBanner: (image) => {
+    try {
+      sharp(`./public/uploads/${image}`)
+        .resize({
+          width: 1500,
+          height: 400,
+          fit: "inside",
+          withoutEnlargement: true,
+        })
+        .toFile(`./public/uploads/cropped/${image}`, (err) => {
+          if (err) {
+            console.log(`an error happened ${err}`);
+            throw err;
+          } else {
+            console.log(`cropping image ${image}`);
+          }
+        });
+    } catch (error) {
+      console.log(`an error happened ${error}`);
+    }
+  },
+
+  generateSalesReportPdf: (
+    req,
+    res,
+    orders,
+    startDate,
+    endDate,
+    totalSales
+  ) => {
     return new Promise((resolve, reject) => {
       const templateData = {
         orders,
@@ -44,27 +72,31 @@ module.exports = {
       );
 
       const html = template(templateData);
+
       const pdfOptions = {
         format: "Letter",
         orientation: "portrait",
       };
 
-      const filePath = path.join(__dirname);
-      const basePath = path.resolve(filePath, "..");
-      pdf
-        .create(html, pdfOptions)
-        .toFile(
-          `${basePath}/public/SRpdf/sales-report-${startDate}-${endDate}.pdf`,
-          (err, response) => {
-            if (err) {
-              console.error(err);
-              reject(err);
-            } else {
-              console.log(`PDF created: ${response.filename}`);
-              resolve(response.filename);
-            }
-          }
-        );
+      const filePath = path.join(
+        __dirname,
+        "..",
+        "public",
+        "SRpdf",
+        `sales-report-${startDate}-${endDate}.pdf`
+      );
+
+      console.log("PDF will be saved to:", filePath); // Log the file path
+
+      pdf.create(html, pdfOptions).toFile(filePath, (err, response) => {
+        if (err) {
+          console.error("PDF creation error:", err); // Log any errors
+          reject(err);
+        } else {
+          console.log(`PDF created: ${response.filename}`);
+          resolve(response.filename);
+        }
+      });
     });
   },
 };

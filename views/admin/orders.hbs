@@ -48,7 +48,7 @@
                 <td class="border text-center-in-table">{{this.UserId}}</td>
                 <td class="border text-center-in-table">₹ {{this.PayableAmount}}</td>
                 <td class="border text-center-in-table">{{this.PaymentMethod}}</td>
-                <td class="border text-center-in-table">{{this.PaymentStatus}}</td>
+                <td id="payment-status-cell-{{this._id}}" class="border text-center-in-table">{{this.PaymentStatus}}</td>
                 {{#if ../cancelled}}
                 <td class="border text-center-in-table">{{this.Status}}</td>
                 {{/if}}
@@ -60,7 +60,8 @@
                 {{#unless ../cancelled}}
                 <td class="border text-center-in-table">
                   <div class="dropdown">
-                    <a class="btn btn-light border btn-sm dropdown-toggle" 
+                    <a class="btn btn-light border btn-sm dropdown-toggle"
+                    id="current-status-of-order" 
                     href="/admin/update-order/{{this._id}}" 
                     role="button" 
                     data-bs-toggle="dropdown" 
@@ -70,46 +71,78 @@
 
                     <ul class="dropdown-menu">
                       {{#if ../returnRequest}}
-                      <li><a href="/admin/update-order/{{this._id}}?status=Return request rejected" 
-                      class="dropdown-item" 
-                      onclick="return confirm('Are you sure to Reject this request?')" >
-                      Reject Return request
-                      </a></li>
-                      <li><a href="/admin/update-order/{{this._id}}?status=Return request accepted" 
-                      class="dropdown-item" 
-                      onclick="return confirm('Are you sure to Accept this request?')" >
-                      Accept Return request
-                      </a></li>
-                      <li><a href="/admin/update-order/{{this._id}}?status=Returned" 
-                      class="dropdown-item" 
-                      onclick="return confirm('Are you sure, you got it?')" >
-                      Verify Return
-                      </a></li>
+                      <li>
+                        <button
+                          data-order-id="{{this._id}}"
+                          data-status="Return request rejected"
+                          class="dropdown-item"
+                          onclick="upDateOrder(this)"
+                        >
+                        Reject Return request
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          data-order-id="{{this._id}}"
+                          data-status="Return request accepted"
+                          class="dropdown-item"
+                          onclick="upDateOrder(this)"
+                        >
+                        Accept Return request
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          data-order-id="{{this._id}}"
+                          data-status="Returned"
+                          class="dropdown-item"
+                          onclick="upDateOrder(this)"
+                        >
+                        Verify Return
+                        </button>
+                      </li>
                       {{/if}}
                       {{#if ../pendingOrders}}
-                      <li><a href="/admin/update-order/{{this._id}}?status=Confirmed" 
-                      class="dropdown-item" 
-                      onclick="return confirm('Are you sure to Confirm this order?')" >
-                      Confirmed
-                      </a></li>
-
-                      <li><a href="/admin/update-order/{{this._id}}?status=Shipped" 
-                      class="dropdown-item" 
-                      onclick="return confirm('Are you sure to this order is shipped?')">
-                      Shipped
-                      </a></li>
-
-                      <li><a href="/admin/update-order/{{this._id}}?status=Delivered" 
-                      class="dropdown-item" 
-                      onclick="return confirm('Are you sure this order is delivered?')">
-                      Delivered
-                      </a></li>
-
-                      <li><a href="/admin/cancel-order/{{this._id}}?status=Rejected" 
-                      onclick="return confirm('Are you sure to reject this order?')" 
-                      class="dropdown-item">
-                      Reject
-                      </a></li>
+                      <li>
+                        <button
+                          data-order-id="{{this._id}}"
+                          data-status="Confirmed"
+                          class="dropdown-item"
+                          onclick="upDateOrder(this)"
+                        >
+                        Confirmed
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          data-order-id="{{this._id}}"
+                          data-status="Shipped"
+                          class="dropdown-item"
+                          onclick="upDateOrder(this)"
+                        >
+                        Shipped
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          data-order-id="{{this._id}}"
+                          data-status="Delivered"
+                          class="dropdown-item"
+                          onclick="upDateOrder(this)"
+                        >
+                        Delivered
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          data-order-id="{{this._id}}"
+                          data-status="Rejected"
+                          class="dropdown-item"
+                          onclick="upDateOrder(this)"
+                        >
+                        Reject
+                        </button>
+                      </li>
                       {{/if}}
                     </ul>
                   </div>
@@ -158,12 +191,6 @@
     </div>
   </div>
 </body>
-
-<style>
-  #table {
-    overflow-x: scroll;
-  }
-</style>
 
 
 

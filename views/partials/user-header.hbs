@@ -41,10 +41,11 @@
           </a>
           <a class="nav-link mx-5" href="/cart">
             <i class="fa-solid fa-cart-shopping fa-lg">
-              {{!-- <span class="bg-danger badge badge-light">4</span> --}}
+              {{#if numberOfItems}}
+              <span class="bg-danger badge badge-light">{{numberOfItems}}</span>
+              {{/if}}
             </i>
           </a>
-
           <div class="dropdown mx-5">
             <button
               class="btn bg-light dropdown-toggle"

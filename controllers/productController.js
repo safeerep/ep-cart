@@ -281,7 +281,7 @@ module.exports = {
         const notAvailableProducts = [];
         for (let product of userCart.Products) {
           let checkingProduct = await Product.findOne({ _id: product.ProductId });
-          const available = checkingProduct.Sizes.find(
+          const available = checkingProduct?.Sizes.find(
             (item) => item.Size === product.Size
           );
   

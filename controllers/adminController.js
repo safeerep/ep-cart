@@ -529,12 +529,12 @@ module.exports = {
       }).lean();
 
       const totalSales = 1000;
-      adminHelper.generateSalesReportPdf(orders, startDate, endDate, totalSales)
+      adminHelper.generateSalesReportPdf(req, res, orders, startDate, endDate, totalSales)
       .then((generatedPdfFilename) => {
         console.log('its that',generatedPdfFilename);
         res.redirect(`/admin/download-sales-report/${generatedPdfFilename}`);
-      }).catch(() => {
-        console.log('happened an error in generating pdf');
+      }).catch((err) => {
+        console.log(`happened an error in generating pdf${err}`);
       })
       
     } catch (error) {

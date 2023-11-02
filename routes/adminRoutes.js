@@ -96,7 +96,6 @@ router.get('/return-related', auth.adminTokenAuth, orderController.returnRelated
 router.get('/return-requests', auth.adminTokenAuth, orderController.returnRequests)
 // update-orders
 router.get('/update-order/:id', auth.adminTokenAuth, orderController.updateOrder)
-router.get('/cancel-order/:id', auth.adminTokenAuth, orderController.rejectOrderByAdmin)
 router.get('/view-order/:id', auth.adminTokenAuth, orderController.viewOrderForAdmin)
 
 

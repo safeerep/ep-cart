@@ -1,3 +1,4 @@
+const adminHelper = require("../helpers/adminHelper");
 const Banners = require("../models/bannerSchema");
 
 module.exports = {
@@ -53,6 +54,7 @@ module.exports = {
     try {
       req.body.Image = req.file.filename;
       req.body.Status = true;
+      adminHelper.cropImageForBanner(req.body.Image)
       const newBanner = await Banners.create(req.body);
       res.redirect("/admin/banners");    
     } catch (error) {
