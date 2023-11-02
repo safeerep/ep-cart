@@ -69,7 +69,6 @@ module.exports = {
     try {
       const filter = req.body.filter;
       if (filter === "day") {
-        console.log("filter is day");
         const currentDate = new Date();
         const today = moment(currentDate).format("MMM D, YYYY h:mm A");
         const startDate = moment(currentDate).subtract(6, "days");
@@ -109,7 +108,6 @@ module.exports = {
             },
           },
         ]);
-        console.log(orders);
         res.json({ orders });
       } else if (filter === "month") {
         console.log("filter is month");

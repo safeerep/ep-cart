@@ -27,6 +27,12 @@ router.post('/signup', userController.register)
 router.get('/signup/:id', auth.userExist, userController.signUP)
 router.post('/signup/:id', userController.refferalRegister)
 
+// email verification
+router.get('/email-verification', auth.userExist, userController.verifyEmailPage)
+router.post('/email-verification', auth.userExist, userController.verifyEmail)
+router.get('/refferal-user/email-verification', auth.userExist, userController.verifyEmailPage)
+router.post('/refferal-user/email-verification', auth.userExist, userController.verifyEmailForRefferalUser)
+
 // existing user
 router.get('/login', auth.userExist, userController.loginPage)
 router.post('/login', userController.home)

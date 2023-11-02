@@ -87,7 +87,7 @@ module.exports = {
         res.render("user/signup", {
           personNotVerified: true,
           message: req.flash(),
-          refferalId
+          refferalId,
         });
       }
     } catch (error) {
@@ -98,35 +98,15 @@ module.exports = {
   refferalRegister: async (req, res) => {
     if (req.body.Password === req.body.Confirmation) {
       try {
-        const refferalOffer = await RefferalOffer.findOne({Active: true})
+        const refferalOffer = await RefferalOffer.findOne({ Active: true });
         req.body.Password = bcrypt.hashSync(req.body.Password, 10);
         req.body.Createdon = moment(new Date()).format("lll");
         req.body.WalletAmount = refferalOffer?.OfferforReferred || 0;
-        const userData = await User.create(req.body);
-        if (userData) {
-          const accessToken = jwt.sign(
-            { user: userData._id },
-            process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: "30d" }
-          );
-          res.cookie("userJwt", accessToken, {
-            maxAge: 30 * 24 * 60 * 60 * 1000,
-          });
-          req.session.user = userData;
-          // giving referral offer to refferer person
-          const referrerPerson = req.params.id;
-          const OfferforReferrer = refferalOffer?.OfferforReferrer || 0;
-          const updatingWalletAmount = await User.findByIdAndUpdate(
-            { 
-              _id: referrerPerson
-            }, {
-              $inc: {
-                WalletAmount: OfferforReferrer
-              }
-            }
-          )
-          res.redirect("/home");
-        }
+        req.body.referrerPerson = req.params.id;
+        console.log();
+        req.session.user = req.body;
+        req.flash("success", "OTP Sent Successfully");
+        res.redirect("/refferal-user/email-verification");
       } catch (error) {
         if (error.code === 11000) {
           req.flash("error", "user already exists");
@@ -144,7 +124,7 @@ module.exports = {
     try {
       if (req.url === "/profile/forgot-password") {
         const userId = req.session.user.user;
-        const userData = await User.findOne({_id: userId}).lean()
+        const userData = await User.findOne({ _id: userId }).lean();
         res.render("user/profile-forgot-password", {
           personNotVerified: true,
           message: req.flash(),
@@ -299,7 +279,55 @@ module.exports = {
         req.body.Password = bcrypt.hashSync(req.body.Password, 10);
         req.body.Createdon = moment(new Date()).format("lll");
         req.body.WalletAmount = 0;
-        const userData = await User.create(req.body);
+        req.session.user = req.body;
+        req.flash("success", "OTP Sent Successfully");
+        res.redirect("/email-verification");
+      } catch (error) {
+        if (error.code === 11000) {
+          req.flash("error", "user already exists");
+          req.session.error = "user already exists";
+          res.redirect("/signup");
+        }
+      }
+    } else {
+      req.flash("error", "password is not matching");
+      res.redirect("/signup");
+    }
+  },
+
+  verifyEmailPage: async (req, res) => {
+    try {
+      const digits = "0123456789";
+      let OTP = "";
+      for (let i = 0; i < 4; i++) {
+        OTP += digits[Math.floor(Math.random() * 10)];
+      }
+      const Email = req.session.user.Email;
+      nodeMailer.sendOtp(OTP, Email);
+      req.session.OTP = OTP;
+      if (req.url === "/refferal-user/email-verification") {
+        res.render("user/verify-email", {
+          personNotVerified: true,
+          refferalUser: true,
+          Email,
+          message: req.flash(),
+        });
+      } else {
+        res.render("user/verify-email", {
+          personNotVerified: true,
+          Email,
+          message: req.flash(),
+        });
+      }
+    } catch (error) {
+      console.log(`an error happened ${error}`);
+    }
+  },
+
+  verifyEmail: async (req, res) => {
+    try {
+      if (req.session.OTP === req.body.OTP) {
+        const userData = await User.create(req.session.user);
         if (userData) {
           const accessToken = jwt.sign(
             { user: userData._id },
@@ -312,17 +340,50 @@ module.exports = {
           req.session.user = userData;
           res.redirect("/home");
         }
-      } catch (error) {
-        if (error.code === 11000) {
-          req.flash("error", "user already exists");
-          req.session.error = "user already exists";
-          res.redirect("/signup");
-        }
+      } else {
+        req.flash("error", "OTP invalid");   
+        res.redirect("/email-verification");
       }
-    } else {
-      req.flash("error", "password is not matching");
-      res.redirect("/signup");
-    }
+    } catch (error) {}
+  },
+
+  verifyEmailForRefferalUser: async (req, res) => {
+    try {
+      if (req.session.OTP === req.body.OTP) {
+        console.log('ok matched');
+        const userData = await User.create(req.session.user);
+        if (userData) {
+          const accessToken = jwt.sign(
+            { user: userData._id },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: "30d" }
+          );
+          res.cookie("userJwt", accessToken, {
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+          });
+          // giving referral offer to refferer person
+          const refferalOffer = await RefferalOffer.findOne({ Active: true });
+          const referrerPerson = req.session?.user?.referrerPerson;
+          console.log(`its referror person ${referrerPerson}`);
+          const OfferforReferrer = refferalOffer?.OfferforReferrer || 0;
+          const updatingWalletAmount = await User.findByIdAndUpdate(
+            {
+              _id: referrerPerson,
+            },
+            {
+              $inc: {
+                WalletAmount: OfferforReferrer,
+              },
+            }
+          );
+          req.session.user = userData;
+          res.redirect("/home");
+        }
+      } else {
+        req.flash("error", "OTP invalid");
+        res.redirect("/refferal-user/email-verification");
+      }
+    } catch (error) {}
   },
 
   loginPage: async (req, res) => {
@@ -339,12 +400,14 @@ module.exports = {
   profile: async (req, res) => {
     try {
       const userData = await User.findById(req.session.user.user).lean();
-      const refferalOffer = await RefferalOffer.findOne({Active: true}).lean()
+      const refferalOffer = await RefferalOffer.findOne({
+        Active: true,
+      }).lean();
       res.render("user/profile", {
         user: true,
         userData,
         message: req.flash(),
-        refferalOffer
+        refferalOffer,
       });
     } catch (error) {
       console.log(error, "error happened");
@@ -479,8 +542,12 @@ module.exports = {
   toUpdatePassword: async (req, res) => {
     try {
       const userId = req.session.user.user;
-      const userData = await User.findOne({_id: userId}).lean()
-      res.render("user/change-password", { user: true, message: req.flash(), userData });
+      const userData = await User.findOne({ _id: userId }).lean();
+      res.render("user/change-password", {
+        user: true,
+        message: req.flash(),
+        userData,
+      });
     } catch (error) {
       console.log(error, "error happened");
     }

@@ -5,6 +5,7 @@ const Cart = require("../models/cartSchema");
 const Review = require("../models/reviewSchema");
 const mongoose = require("mongoose");
 const moment = require("moment");
+const adminHelper = require("../helpers/adminHelper");
 
 module.exports = {
   shop: async (req, res) => {
@@ -396,6 +397,7 @@ module.exports = {
           images.push(req.files[fieldName][0].filename);
         }
       }
+      adminHelper.cropImages(images)
       const category = await Category.findOne({
         CategoryName: req.body.Category,
       });
@@ -502,6 +504,7 @@ module.exports = {
         }
       }
   
+      adminHelper.cropImages(images)
       req.body.images = images;
       const category = await Category.findOne({
         CategoryName: req.body.Category,

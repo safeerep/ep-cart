@@ -1,3 +1,4 @@
+const adminHelper = require("../helpers/adminHelper");
 const Category = require("../models/categorySchema");
 const mongoose = require("mongoose");
 
@@ -67,6 +68,7 @@ module.exports = {
   addCategory: async (req, res) => {
     try {
       req.body.Image = req.file.filename;
+      adminHelper.cropImages([req.body.Image])
       const newCategory = await Category.create(req.body);
       res.redirect("/admin/product-categories");
     } catch (error) {
@@ -98,6 +100,9 @@ module.exports = {
       const id = req.params.id;
       if (req.file) {
         req.body.Image = req.file.filename;
+      }
+      if (req.body.Image) {
+        adminHelper.cropImages([req.body.Image])
       }
       const updatedCategory = await Category.findByIdAndUpdate(id, {
         ...req.body,
