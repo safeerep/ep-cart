@@ -8,11 +8,12 @@ const orderController = require('../controllers/orderController')
 const reviewController = require('../controllers/reviewController')
 const paymentController = require('../controllers/paymentController')
 const auth = require('../middlewares/userAuth')
+const cartInfo = require('../middlewares/userCartCount')
 const couponController = require('../controllers/couponController')
 
 // landingpage
 router.get('/', auth.userExist, userController.landingPage)
-router.get('/home', auth.userTokenAuth, userController.homeRender)
+router.get('/home', auth.userTokenAuth, cartInfo.cartCount, userController.homeRender)
 // /search-product
 router.get('/search-product', userController.searchResult)
 
@@ -35,30 +36,30 @@ router.post('/refferal-user/email-verification', auth.userExist, userController.
 
 // existing user
 router.get('/login', auth.userExist, userController.loginPage)
-router.post('/login', userController.home)
+router.post('/login', cartInfo.cartCount, userController.home)
 
 // profile
-router.get('/profile', auth.userTokenAuth, userController.profile)
-router.post('/profile', auth.userTokenAuth, userController.profile)
-router.post('/edit-profile', auth.userTokenAuth, userController.editProfile)
+router.get('/profile', auth.userTokenAuth, cartInfo.cartCount, userController.profile)
+router.post('/profile', auth.userTokenAuth, cartInfo.cartCount, userController.profile)
+router.post('/edit-profile', auth.userTokenAuth, cartInfo.cartCount, userController.editProfile)
 // addresses
-router.get('/show-addresses', auth.userTokenAuth, userController.savedAddresses)
+router.get('/show-addresses', auth.userTokenAuth, cartInfo.cartCount, userController.savedAddresses)
 // add-address
-router.get('/add-address', auth.userTokenAuth, userController.address)
-router.post('/add-address', auth.userTokenAuth, userController.addAddress)
+router.get('/add-address', auth.userTokenAuth, cartInfo.cartCount, userController.address)
+router.post('/add-address', auth.userTokenAuth, cartInfo.cartCount, userController.addAddress)
 // edit-address
-router.get('/edit-address/:id', auth.userTokenAuth, userController.editAddressPage)
-router.post('/edit-address/:id', auth.userTokenAuth, userController.editAddress)
+router.get('/edit-address/:id', auth.userTokenAuth, cartInfo.cartCount, userController.editAddressPage)
+router.post('/edit-address/:id', auth.userTokenAuth, cartInfo.cartCount, userController.editAddress)
 // remove-address
-router.get('/remove-address/:id', auth.userTokenAuth, userController.removeAddress)
+router.get('/remove-address/:id', auth.userTokenAuth, cartInfo.cartCount, userController.removeAddress)
 // change-password
-router.get('/profile/change-password', auth.userTokenAuth, userController.toUpdatePassword)
-router.post('/profile/change-password', auth.userTokenAuth, userController.updatePassword)
-router.get('/profile/forgot-password', auth.userTokenAuth, userController.forgotPassword)
-router.post('/profile/forgot-password', auth.userTokenAuth, userController.sendOTP)
-router.post('/profile/verify-otp', auth.userTokenAuth, userController.verifyOTP)
-router.get('/profile/password-change', auth.userTokenAuth, userController.changePassword)
-router.post('/profile/password-change', auth.userTokenAuth, userController.verifyPassword)
+router.get('/profile/change-password', auth.userTokenAuth, cartInfo.cartCount, userController.toUpdatePassword)
+router.post('/profile/change-password', auth.userTokenAuth, cartInfo.cartCount, userController.updatePassword)
+router.get('/profile/forgot-password', auth.userTokenAuth, cartInfo.cartCount, userController.forgotPassword)
+router.post('/profile/forgot-password', auth.userTokenAuth, cartInfo.cartCount, userController.sendOTP)
+router.post('/profile/verify-otp', auth.userTokenAuth, cartInfo.cartCount, userController.verifyOTP)
+router.get('/profile/password-change', auth.userTokenAuth, cartInfo.cartCount, userController.changePassword)
+router.post('/profile/password-change', auth.userTokenAuth, cartInfo.cartCount, userController.verifyPassword)
 
 // forgot password
 router.get('/forgot-password', userController.forgotPassword)
@@ -68,69 +69,69 @@ router.get('/change-password', userController.changePassword)
 router.post('/verify-password', userController.verifyPassword)
 
 // shop
-router.get('/shop', productController.shop)
+router.get('/shop',cartInfo.cartCount, productController.shop)
 // shop categories
-router.get('/category/:id', productController.shopCategory)
+router.get('/category/:id',cartInfo.cartCount, productController.shopCategory)
 // product detail view
-router.get('/product/details-view/:id', productController.productView)
+router.get('/product/details-view/:id',cartInfo.cartCount, productController.productView)
 
 // write comment
-router.post('/post-comment', auth.userTokenAuth, reviewController.postReview)
-router.post('/rate-product', auth.userTokenAuth, reviewController.rateProduct)
+router.post('/post-comment', auth.userTokenAuth, cartInfo.cartCount, reviewController.postReview)
+router.post('/rate-product', auth.userTokenAuth, cartInfo.cartCount, reviewController.rateProduct)
 
 // cart
-router.get('/cart', auth.userTokenAuth, cartController.cart)
-router.post('/cart/:id', auth.userTokenAuth, cartController.addToCart)
-router.post('/check-before-delete-cart', auth.userTokenAuth, cartController.checkDeleteCartItem)
-router.post('/delete-cart-item', auth.userTokenAuth, cartController.deleteCartItem)
-router.post('/update-quantity', auth.userTokenAuth, cartController.updateQuantity)
+router.get('/cart', auth.userTokenAuth, cartInfo.cartCount, cartController.cart)
+router.post('/cart/:id', auth.userTokenAuth, cartInfo.cartCount, cartController.addToCart)
+router.post('/check-before-delete-cart', auth.userTokenAuth, cartInfo.cartCount, cartController.checkDeleteCartItem)
+router.post('/delete-cart-item', auth.userTokenAuth, cartInfo.cartCount, cartController.deleteCartItem)
+router.post('/update-quantity', auth.userTokenAuth, cartInfo.cartCount, cartController.updateQuantity)
 
 // check products availability
-router.post('/check-products-availability', auth.userTokenAuth, productController.availabilityCheck)
+router.post('/check-products-availability', auth.userTokenAuth, cartInfo.cartCount, productController.availabilityCheck)
 
 
 // checkout
-router.get('/checkout', auth.userTokenAuth, orderController.checkOutPage)
+router.get('/checkout', auth.userTokenAuth, cartInfo.cartCount, orderController.checkOutPage)
 // users address
-router.get('/add-address/for-shop', auth.userTokenAuth, userController.address)
-router.post('/add-address/for-shop', auth.userTokenAuth, userController.addAddress)
-router.post('/checkout', auth.userTokenAuth, orderController.placeOrder)
+router.get('/add-address/for-shop', auth.userTokenAuth, cartInfo.cartCount, userController.address)
+router.post('/add-address/for-shop', auth.userTokenAuth, cartInfo.cartCount, userController.addAddress)
+router.post('/checkout', auth.userTokenAuth, cartInfo.cartCount, orderController.placeOrder)
 
 // verify payment
-router.post('/verify-payment', auth.userTokenAuth, paymentController.verifyPayment)
+router.post('/verify-payment', auth.userTokenAuth, cartInfo.cartCount, paymentController.verifyPayment)
 // payment done / order placed
-router.get('/order-placed', auth.userTokenAuth, orderController.orderSuccessful)
+router.get('/order-placed', auth.userTokenAuth, cartInfo.cartCount, orderController.orderSuccessful)
 // my - orders
-router.get('/orders', auth.userTokenAuth, orderController.orders)
+router.get('/orders', auth.userTokenAuth, cartInfo.cartCount, orderController.orders)
 // track-order
-router.get('/track-order/:id', auth.userTokenAuth, orderController.trackOrder)
+router.get('/track-order/:id', auth.userTokenAuth, cartInfo.cartCount, orderController.trackOrder)
 // cancel-order
-router.post('/cancel-order/:id', auth.userTokenAuth, orderController.cancelOrder)
+router.post('/cancel-order/:id', auth.userTokenAuth, cartInfo.cartCount, orderController.cancelOrder)
 // return-order
-router.post('/return-order/:id', auth.userTokenAuth, orderController.returnOrder)
+router.post('/return-order/:id', auth.userTokenAuth, cartInfo.cartCount, orderController.returnOrder)
 // download invoice
-router.post('/create-invoice', auth.userTokenAuth, orderController.createInvoice)
-router.get('/download-invoice/:orderId', auth.userTokenAuth, orderController.downloadInvoice)
+router.post('/create-invoice', auth.userTokenAuth, cartInfo.cartCount, orderController.createInvoice)
+router.get('/download-invoice/:orderId', auth.userTokenAuth, cartInfo.cartCount, orderController.downloadInvoice)
 
 // wishlist
-router.get('/wishlist', auth.userTokenAuth, wishlistController.wishlist)
-router.post('/add-to-wishlist', auth.userTokenAuth, wishlistController.addToWishlist)
-router.get('/wishlist/delete-item/:id', auth.userTokenAuth, wishlistController.removeItem)
-router.get('/wishlist/available-size/:id', auth.userTokenAuth, wishlistController.sizesToAdd)
+router.get('/wishlist', auth.userTokenAuth, cartInfo.cartCount, wishlistController.wishlist)
+router.post('/add-to-wishlist', auth.userTokenAuth, cartInfo.cartCount, wishlistController.addToWishlist)
+router.get('/wishlist/delete-item/:id', auth.userTokenAuth, cartInfo.cartCount, wishlistController.removeItem)
+router.get('/wishlist/available-size/:id', auth.userTokenAuth, cartInfo.cartCount, wishlistController.sizesToAdd)
 
 // coupon
-router.get('/coupons-and-offers', auth.userTokenAuth, couponController.availableOffers)
-router.post('/apply-coupon', auth.userTokenAuth, couponController.applyCoupon)
-router.post('/apply-another-coupon', auth.userTokenAuth, couponController.applyAnotherCoupon)
+router.get('/coupons-and-offers', auth.userTokenAuth, cartInfo.cartCount, couponController.availableOffers)
+router.post('/apply-coupon', auth.userTokenAuth, cartInfo.cartCount, couponController.applyCoupon)
+router.post('/apply-another-coupon', auth.userTokenAuth, cartInfo.cartCount, couponController.applyAnotherCoupon)
 
 
 // check coupon validity
-router.post('/to-check-coupon-validity', auth.userTokenAuth, couponController.checkCouponValidity)
-router.post('/delete-coupon-from-cart', auth.userTokenAuth, couponController.deleteCouponFromCart)
+router.post('/to-check-coupon-validity', auth.userTokenAuth, cartInfo.cartCount, couponController.checkCouponValidity)
+router.post('/delete-coupon-from-cart', auth.userTokenAuth, cartInfo.cartCount, couponController.deleteCouponFromCart)
 
 
 
-
+router.get('/sortby/:condition', auth.userTokenAuth, cartInfo.cartCount, productController.shop)
 
 
 

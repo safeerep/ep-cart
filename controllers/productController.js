@@ -16,7 +16,7 @@ module.exports = {
       const nextPage = currentPage + 1;
       const perPage = 3;
       const skip = (currentPage - 1) * perPage;
-  
+
       const totalCount = await Product.countDocuments({
         Display: "Active",
         ProductName: {
@@ -36,32 +36,174 @@ module.exports = {
         hasPreviousPage = true;
       }
       const categories = await Category.find().lean();
-      const products = await Product.find({
-        Display: "Active",
-        ProductName: {
-          $regex: Search,
-          $options: "i",
-        },
-      })
-        .skip(skip)
-        .limit(perPage)
-        .lean();
-  
-      res.render("user/shop", {
-        user: true,
-        products,
-        categories,
-        currentPage,
-        totalCount,
-        startIndex,
-        endIndex,
-        hasPreviousPage,
-        previousPage,
-        hasNextPage,
-        nextPage,
-      });      
+
+      // starting
+      let products;
+      console.log(req.url);
+      if (req.url === "/shop") {
+        products = await Product.find({
+          Display: "Active",
+          ProductName: {
+            $regex: Search,
+            $options: "i",
+          },
+        })
+          .skip(skip)
+          .limit(perPage)
+          .lean();
+
+          res.render("user/shop", {
+            user: true,
+            products,
+            categories,
+            currentPage,
+            totalCount,
+            startIndex,
+            endIndex,
+            hasPreviousPage,
+            previousPage,
+            hasNextPage,
+            nextPage,
+          });
+
+      } else {
+        if (req.url === "/sortby/a") {
+          products = await Product.find({
+            Display: "Active",
+            ProductName: {
+              $regex: Search,
+              $options: "i",
+            },
+          })
+            .sort({ ProductName: 1 })
+            .skip(skip)
+            .limit(perPage)
+            .lean();
+
+            res.render("user/shop", {
+              user: true,
+              products,
+              categories,
+              currentPage,
+              totalCount,
+              startIndex,
+              endIndex,
+              hasPreviousPage,
+              previousPage,
+              hasNextPage,
+              nextPage,
+            });
+        } else if (req.url === "/sortby/z") {
+          console.log('in z');
+          products = await Product.find({
+            Display: "Active",
+            ProductName: {
+              $regex: Search,
+              $options: "i",
+            },
+          })
+            .sort({ ProductName: -1 })
+            .skip(skip)
+            .limit(perPage)
+            .lean();
+
+            res.render("user/shop", {
+              user: true,
+              products,
+              categories,
+              currentPage,
+              totalCount,
+              startIndex,
+              endIndex,
+              hasPreviousPage,
+              previousPage,
+              hasNextPage,
+              nextPage,
+            });
+        } else if (req.url === "/sortby/l") {
+          console.log('in l');
+          products = await Product.find({
+            Display: "Active",
+            ProductName: {
+              $regex: Search,
+              $options: "i",
+            },
+          })
+            .sort({ SellingPrice: 1 })
+            .skip(skip)
+            .limit(perPage)
+            .lean();
+
+            res.render("user/shop", {
+              user: true,
+              products,
+              categories,
+              currentPage,
+              totalCount,
+              startIndex,
+              endIndex,
+              hasPreviousPage,
+              previousPage,
+              hasNextPage,
+              nextPage,
+            });
+        } else if (req.url === "/sortby/h") {
+          console.log('in h');
+          products = await Product.find({
+            Display: "Active",
+            ProductName: {
+              $regex: Search,
+              $options: "i",
+            },
+          })
+            .sort({ SellingPrice: -1 })
+            .skip(skip)
+            .limit(perPage)
+            .lean();
+
+            res.render("user/shop", {
+              user: true,
+              products,
+              categories,
+              currentPage,
+              totalCount,
+              startIndex,
+              endIndex,
+              hasPreviousPage,
+              previousPage,
+              hasNextPage,
+              nextPage,
+            });
+        }
+      }
+      // ending
+
+      // const products = await Product.find({
+      //   Display: "Active",
+      //   ProductName: {
+      //     $regex: Search,
+      //     $options: "i",
+      //   },
+      // })
+      //   .skip(skip)
+      //   .limit(perPage)
+      //   .lean();
+
+      // res.render("user/shop", {
+      //   user: true,
+      //   products,
+      //   categories,
+      //   currentPage,
+      //   totalCount,
+      //   startIndex,
+      //   endIndex,
+      //   hasPreviousPage,
+      //   previousPage,
+      //   hasNextPage,
+      //   nextPage,
+      // });
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -89,9 +231,13 @@ module.exports = {
       if (currentPage > 1) {
         hasPreviousPage = true;
       }
-  
-      const currentCategory = await Category.findOne({ _id: categoryId }).lean();
-      const categories = await Category.find({ _id: { $ne: categoryId } }).lean();
+
+      const currentCategory = await Category.findOne({
+        _id: categoryId,
+      }).lean();
+      const categories = await Category.find({
+        _id: { $ne: categoryId },
+      }).lean();
       const products = await Product.find({
         Display: "Active",
         Category: catId,
@@ -99,7 +245,7 @@ module.exports = {
         .skip(skip)
         .limit(perPage)
         .lean();
-  
+
       res.render("user/shop", {
         user: true,
         products,
@@ -114,9 +260,8 @@ module.exports = {
         hasNextPage,
         nextPage,
       });
-      
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -135,15 +280,15 @@ module.exports = {
         });
 
         let offerPrice = false;
-        if(certainProduct.SellingPrice < certainProduct.BasePrice) {
-          offerPrice = true
+        if (certainProduct.SellingPrice < certainProduct.BasePrice) {
+          offerPrice = true;
         }
-  
+
         let accessToWriteReview = false;
         if (userHasBoughtProduct) {
           accessToWriteReview = true;
         }
-  
+
         const sizesAvailable = [];
         for (let item of certainProduct.Sizes) {
           if (item.Quantity > 0) {
@@ -152,12 +297,12 @@ module.exports = {
             continue;
           }
         }
-  
+
         let availability = true;
         if (!sizesAvailable.length) {
           availability = false;
         }
-  
+
         const comments = await Review.find({
           ProductId: id,
           Comment: {
@@ -192,14 +337,14 @@ module.exports = {
         const users = userInfo.map((item) =>
           item.usersData.Name ? item.usersData.Name : "user"
         );
-  
+
         const reviews = comments.map((comment, index) => {
           return {
             user: users[index],
             review: comment.Comment,
           };
         });
-  
+
         const ratings = await Review.aggregate([
           {
             $match: {
@@ -238,7 +383,7 @@ module.exports = {
           UserId: userId,
           ProductId: id,
         });
-  
+
         const currentUserRating = currentUserReview?.Rating || 0;
         for (let i = 1; i < 6; i++) {
           if (averageRating >= i) {
@@ -252,7 +397,7 @@ module.exports = {
             currentUserStars.push(false);
           }
         }
-  
+
         res.render("user/product-view", {
           user: true,
           certainProduct,
@@ -264,9 +409,9 @@ module.exports = {
           stars,
           currentUserStars,
         });
-      }      
+      }
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -277,14 +422,16 @@ module.exports = {
         res.redirect("/home");
       } else {
         const userCart = await Cart.findOne({ UserId: userId });
-  
+
         const notAvailableProducts = [];
         for (let product of userCart.Products) {
-          let checkingProduct = await Product.findOne({ _id: product.ProductId });
+          let checkingProduct = await Product.findOne({
+            _id: product.ProductId,
+          });
           const available = checkingProduct?.Sizes.find(
             (item) => item.Size === product.Size
           );
-  
+
           const availableQuantity = available?.Quantity || 0;
           if (availableQuantity < product.Quantity) {
             const certainItem = {
@@ -294,16 +441,20 @@ module.exports = {
             notAvailableProducts.push(certainItem);
           }
         }
-  
+
         if (notAvailableProducts.length) {
           res.json({ someProductsNotAvailable: true, notAvailableProducts });
         } else {
           res.json({ everythingIsOk: true });
         }
-      }      
+      }
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
+  },
+
+  categorySort: async (req, res) => {
+    console.log("oooooooooooooo");
   },
 
   // admin
@@ -327,7 +478,7 @@ module.exports = {
       if (currentPage > 1) {
         hasPreviousPage = true;
       }
-  
+
       const productData = await Product.find({
         ProductName: {
           $regex: Search,
@@ -338,7 +489,7 @@ module.exports = {
         .skip(skip)
         .limit(perPage)
         .lean();
-  
+
       const stock = [];
       for (let pro of productData) {
         let stockIn = 0;
@@ -353,14 +504,14 @@ module.exports = {
           stock.push(false);
         }
       }
-  
+
       const productDetails = productData.map((product, index) => {
         return {
           ...product,
           stock: stock[index],
         };
       });
-  
+
       res.render("admin/products", {
         verifiedAdmin: true,
         productDetails,
@@ -373,18 +524,18 @@ module.exports = {
         previousPage,
         hasNextPage,
         nextPage,
-      });      
+      });
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
   addProductPage: async (req, res) => {
     try {
       const categories = await Category.find().lean();
-      res.render("admin/add-product", { verifiedAdmin: true, categories });      
+      res.render("admin/add-product", { verifiedAdmin: true, categories });
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -397,7 +548,7 @@ module.exports = {
           images.push(req.files[fieldName][0].filename);
         }
       }
-      adminHelper.cropImages(images)
+      adminHelper.cropImages(images);
       const category = await Category.findOne({
         CategoryName: req.body.Category,
       });
@@ -457,7 +608,7 @@ module.exports = {
       const productDetails = await Product.findById(id).lean();
       const sizesToCheck = [5, 6, 7, 8, 9, 10];
       const Sizes = productDetails.Sizes;
-  
+
       const sizesAvailable = sizesToCheck.map((sizeToCheck) => {
         const matchingSize = Sizes.find(
           (sizeObj) => sizeObj.Size === sizeToCheck
@@ -468,23 +619,23 @@ module.exports = {
           return { Size: sizeToCheck, Quantity: 0 };
         }
       });
-  
+
       const currentCategory = await Category.findOne({
         _id: productDetails.Category,
       }).lean();
       const categories = await Category.find({
         _id: { $ne: productDetails.Category },
       }).lean();
-  
+
       res.render("admin/edit-product-details", {
         verifiedAdmin: true,
         productDetails,
         currentCategory,
         categories,
         sizesAvailable,
-      });      
+      });
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -496,21 +647,21 @@ module.exports = {
       if (existingProduct) {
         images.push(...existingProduct.images);
       }
-  
+
       for (let i = 0; i < 3; i++) {
         const fieldName = `image${i + 1}`;
         if (req.files[fieldName] && req.files[fieldName][0]) {
           images[i] = req.files[fieldName][0].filename;
         }
       }
-  
-      adminHelper.cropImages(images)
+
+      adminHelper.cropImages(images);
       req.body.images = images;
       const category = await Category.findOne({
         CategoryName: req.body.Category,
       });
       req.body.Category = category._id;
-  
+
       req.body.BasePrice = Math.abs(req.body.BasePrice);
       req.body.SellingPrice = Math.abs(req.body.SellingPrice);
       const variations = [];
@@ -524,16 +675,16 @@ module.exports = {
         };
         variations.push(variation);
       }
-  
+
       req.body.Sizes = variations;
       req.body.UpdatedOn = moment(new Date()).format("lll");
       const updates = req.body;
       const updatedProductDetails = await Product.findByIdAndUpdate(id, {
         ...updates,
       });
-      res.redirect("/admin/products");     
+      res.redirect("/admin/products");
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 
@@ -579,9 +730,9 @@ module.exports = {
       res.render("admin/product-reviews", {
         verifiedAdmin: true,
         reviews,
-      });      
+      });
     } catch (error) {
-      console.log(error,'error happened');
+      console.log(error, "error happened");
     }
   },
 };

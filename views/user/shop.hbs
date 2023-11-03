@@ -26,6 +26,23 @@
     </div>
     {{/unless}}
     <div class="col-12 col-lg-10 border-start">
+      {{!-- starting --}}
+      <div class="m-5 pe-5 pt-5 d-flex justify-content-end">
+        <div class="dropdown" >
+          <button class="btn bg-light border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-sliders"></i>
+            <span class="m-2">Sort by</span>
+                          
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item category-filter" data-sort-by="a" >Sort by a-z</a></li>
+            <li><a class="dropdown-item category-filter" data-sort-by="z" >Sort by z-a</a></li>
+            <li><a class="dropdown-item category-filter" data-sort-by="l" >price low-high</a></li>
+            <li><a class="dropdown-item category-filter" data-sort-by="h" >price high-low</a></li>
+          </ul>
+        </div>
+      </div>
+      {{!-- ending --}}
       <div class="row m-5 g-5">
         {{#each products}}
           <div class="col-lg-4 col-md-6 col-sm-12">
@@ -110,3 +127,19 @@
     </div>
   </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+  $(".category-filter").on('click', function () {
+    const condition = $(this).data('sort-by')
+    const currentURL = window.location.href;
+    const urlpieces = currentURL.split('/')
+    const currentlyAt = urlpieces[urlpieces.length-1]
+    if (currentlyAt === 'shop') {
+      console.log('now in shop')
+      window.location.href = `/sortby/${condition}`
+    } else {
+
+    }
+  })
+</script>
+

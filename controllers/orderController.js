@@ -441,7 +441,7 @@ module.exports = {
     try {
       const orderId = req.params.orderId;
       const filepath = path.join(__dirname, `../public/pdf/${orderId}.pdf`);
-      res.download(filepath, "invoice.pdf");     
+      res.download(filepath, "invoice.pdf");   
     } catch (error) {
       console.log(error,'error happened');
     }

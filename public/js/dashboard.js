@@ -1,5 +1,4 @@
 async function getDataandLabel(filter) {
-  console.log(filter);
   const response = await fetch("/admin/dashboard/get-data/", {
     method: "POST",
     headers: {

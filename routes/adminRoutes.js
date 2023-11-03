@@ -177,7 +177,6 @@ router.get('/edit-refferal-offer/:id', auth.adminTokenAuth, offerController.edit
 router.post('/edit-refferal-offer/:id', auth.adminTokenAuth, offerController.editRefferalOffer)
 
 router.get('/download/sales-report', auth.adminTokenAuth, adminController.generateSalesReport)
-router.get('/download-sales-report/:filename',auth.adminTokenAuth, adminController.downloadSalesReport)
 
 
 module.exports = router;

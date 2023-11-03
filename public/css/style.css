@@ -25,18 +25,18 @@
 }
 
 .admin-side:hover{
-  background-color: #2196F3;
-  color: white;
+  background-color: #B9B4C7;
+  color: #FAF0E6;
 }
 
 .admin-side:focus{
-  background-color: #2196F3;
-  color: white;
+  background-color: #B9B4C7;
+  color: #FAF0E6;
 }
 
 .admin-side.active{
-  background-color: #2196F3;
-  color: white;
+  background-color: #B9B4C7;
+  color: #FAF0E6;
 }
 
 /* size selection buttons */

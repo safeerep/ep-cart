@@ -1,6 +1,5 @@
 // Function to update the preview image when a file is selected
 function updatePreviewImage(inputId, imageId) {
-  console.log("hellloo");
   const fileInput = document.getElementById(inputId);
   const previewImage = document.getElementById(imageId);
 
@@ -8,7 +7,7 @@ function updatePreviewImage(inputId, imageId) {
     const file = fileInput.files[0];
     if (file) {
       const reader = new FileReader();
-
+      
       reader.onload = function (e) {
         console.log("hyy");
         previewImage.src = e.target.result;
@@ -19,9 +18,10 @@ function updatePreviewImage(inputId, imageId) {
       previewImage.src = ""; // Clear the image when no file is selected
     }
   });
+  
 }
+  updatePreviewImage("image1", "previewImage1");
+  updatePreviewImage("image2", "previewImage2");
+  updatePreviewImage("image3", "previewImage3");
 
 // Call the function for each file input
-updatePreviewImage("image1", "previewImage1");
-updatePreviewImage("image2", "previewImage2");
-updatePreviewImage("image3", "previewImage3");

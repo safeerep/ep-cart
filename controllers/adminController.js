@@ -2,7 +2,7 @@ const Admin = require("../models/adminSchema");
 const User = require("../models/userSchema");
 const Order = require("../models/orderSchema");
 const adminHelper = require("../helpers/adminHelper");
-const path = require('path')
+const path = require("path");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
@@ -515,11 +515,11 @@ module.exports = {
 
   generateSalesReport: async (req, res) => {
     try {
-      const lastMonthFirstDate = moment().subtract(1, 'month').startOf('month');
-      const lastMonthLastDate = moment().subtract(1, 'month').endOf('month');
+      const lastMonthFirstDate = moment().subtract(1, "month").startOf("month");
+      const lastMonthLastDate = moment().subtract(1, "month").endOf("month");
 
-      const startDate = lastMonthFirstDate.format('MMM D, YYYY h:mm A');
-      const endDate = lastMonthLastDate.format('MMM D, YYYY h:mm A');
+      const startDate = lastMonthFirstDate.format("MMM D, YYYY h:mm A");
+      const endDate = lastMonthLastDate.format("MMM D, YYYY h:mm A");
 
       const orders = await Order.find({
         Date: {
@@ -528,35 +528,45 @@ module.exports = {
         },
       }).lean();
 
-      const totalSales = 1000;
-      adminHelper.generateSalesReportPdf(req, res, orders, startDate, endDate, totalSales)
-      .then((generatedPdfFilename) => {
-        console.log('its that',generatedPdfFilename);
-        res.redirect(`/admin/download-sales-report/${generatedPdfFilename}`);
-      }).catch((err) => {
-        console.log(`happened an error in generating pdf${err}`);
-      })
-      
+      const totalSales = await Order.aggregate([
+        {
+          $match: {
+            Date: {
+              $gte: startDate,
+              $lte: endDate,
+            },
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            totalAmount: {
+              $sum: "$PayableAmount",
+            },
+          },
+        },
+      ]);
+      // console.log(totalSales[0].totalAmount);
+      const totalAmount = totalSales[0].totalAmount;
+      adminHelper
+        .generateSalesReportPdf(req, res, orders, totalAmount)
+        .then((generatedPdfFilename) => {
+          res.download(generatedPdfFilename, 'sales-report.pdf', (err) => {
+            if (err) {
+              console.error('Download error:', err);
+              res.status(404).send('File not found');
+            } else {
+              console.log('File sent successfully.');
+            }
+          });
+        })
+        .catch((err) => {
+          console.error(`an error occurred in generating the PDF: ${err}`);
+          res.status(500).send("Internal Server Error");
+        });
     } catch (error) {
       console.error(`An error happened: ${error}`);
-      res.status(500).send('Error generating sales report');
-    }
-  },
-
-
-  downloadSalesReport: async (req, res) => {
-    try {
-      const filename = req.params.filename;
-      console.log("it's filename",filename);
-      res.download(filename, 'sales-report.pdf', (err) => {
-        if (err) {
-          console.error('File not found');
-          res.status(404).send('File not found');
-        }
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error downloading sales report');
+      res.status(500).send("Error generating sales report");
     }
   },
 };

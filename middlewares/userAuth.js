@@ -11,11 +11,6 @@ module.exports = {
                     res.redirect("/signup")
                 }
                 req.session.user = user;
-                const userId = req.session.user?.user;
-                if (userId) {
-                    const userCart = await Cart.findOne({UserId: userId})
-                    res.locals.numberOfItems = userCart?.Products?.length
-                }
                 next()
             })
         }
