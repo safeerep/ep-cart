@@ -69,10 +69,11 @@
           {{/if}}
           <div class="d-flex justify-content-between">
             <div>
-            <h6 class="d-flex ">Your referral link : </h6>
-            <h6 class="text-primary" id="referral-link">localhost:3001/signup/{{userData._id}} </h6>
-            </div><div class="p-4">
-            <button id="copyButton" class="fa fa-copy fa-xl  border-0"></button>
+              <h6 class="d-flex ">Your referral link : </h6>
+              <h6 class="text-primary" style="cursor: text;" id="referral-link">localhost:3001/signup/{{userData._id}} </h6>
+            </div>
+            <div class="p-4">
+              <button id="copyButton" class="fa fa-copy fa-xl  border-0"></button>
             </div>
           </div>
           <span id="copySuccessMessage" class="d-none fw-bold text-success"> Text copied to clipboard! </span>

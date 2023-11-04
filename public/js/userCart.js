@@ -58,7 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (quantity === 1) {
         return;
       }
-      // starting
       $.ajax({
         url: "/to-check-coupon-validity",
         method: "post",
@@ -74,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         },
       });
-      //ending
     });
   });
 
@@ -202,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
       success: (response) => {
         if (response.couponWillLoose) {
           $("#delete-coupon-for-delete-item").modal("show");
-          // console.log("coupon Will Loose")
+          // coupon Will Loose
         } else if (response.conditionSatisfied) {
           $.ajax({
             url: "/delete-cart-item",
@@ -216,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
               window.location.href = "/cart";
             },
           });
-          //console.log("coupon Will not Loose")
+          //coupon Will not Loose
         }
       },
       error: (err) => {

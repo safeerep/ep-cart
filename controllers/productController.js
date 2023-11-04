@@ -11,6 +11,7 @@ module.exports = {
   shop: async (req, res) => {
     try {
       const Search = req.query.Search || "";
+      const sort = req.query.sort || "";
       const currentPage = parseInt(req.query.page) || 1;
       const previousPage = currentPage - 1;
       const nextPage = currentPage + 1;
@@ -36,180 +37,55 @@ module.exports = {
         hasPreviousPage = true;
       }
       const categories = await Category.find().lean();
-
-      // starting
-      let products;
-      console.log(req.url);
-      if (req.url === "/shop") {
-        products = await Product.find({
-          Display: "Active",
-          ProductName: {
-            $regex: Search,
-            $options: "i",
-          },
-        })
-          .skip(skip)
-          .limit(perPage)
-          .lean();
-
-          res.render("user/shop", {
-            user: true,
-            products,
-            categories,
-            currentPage,
-            totalCount,
-            startIndex,
-            endIndex,
-            hasPreviousPage,
-            previousPage,
-            hasNextPage,
-            nextPage,
-          });
-
+      
+      let condition;
+      if (sort === "a") {
+        condition = { ProductName: 1 };
+      } else if (sort === "z") {
+        condition = { ProductName: -1 };
+      } else if (sort === "l") {
+        condition = { SellingPrice: 1 };
+      } else if (sort === "h") {
+        condition = { SellingPrice: -1 };
       } else {
-        if (req.url === "/sortby/a") {
-          products = await Product.find({
-            Display: "Active",
-            ProductName: {
-              $regex: Search,
-              $options: "i",
-            },
-          })
-            .sort({ ProductName: 1 })
-            .skip(skip)
-            .limit(perPage)
-            .lean();
-
-            res.render("user/shop", {
-              user: true,
-              products,
-              categories,
-              currentPage,
-              totalCount,
-              startIndex,
-              endIndex,
-              hasPreviousPage,
-              previousPage,
-              hasNextPage,
-              nextPage,
-            });
-        } else if (req.url === "/sortby/z") {
-          console.log('in z');
-          products = await Product.find({
-            Display: "Active",
-            ProductName: {
-              $regex: Search,
-              $options: "i",
-            },
-          })
-            .sort({ ProductName: -1 })
-            .skip(skip)
-            .limit(perPage)
-            .lean();
-
-            res.render("user/shop", {
-              user: true,
-              products,
-              categories,
-              currentPage,
-              totalCount,
-              startIndex,
-              endIndex,
-              hasPreviousPage,
-              previousPage,
-              hasNextPage,
-              nextPage,
-            });
-        } else if (req.url === "/sortby/l") {
-          console.log('in l');
-          products = await Product.find({
-            Display: "Active",
-            ProductName: {
-              $regex: Search,
-              $options: "i",
-            },
-          })
-            .sort({ SellingPrice: 1 })
-            .skip(skip)
-            .limit(perPage)
-            .lean();
-
-            res.render("user/shop", {
-              user: true,
-              products,
-              categories,
-              currentPage,
-              totalCount,
-              startIndex,
-              endIndex,
-              hasPreviousPage,
-              previousPage,
-              hasNextPage,
-              nextPage,
-            });
-        } else if (req.url === "/sortby/h") {
-          console.log('in h');
-          products = await Product.find({
-            Display: "Active",
-            ProductName: {
-              $regex: Search,
-              $options: "i",
-            },
-          })
-            .sort({ SellingPrice: -1 })
-            .skip(skip)
-            .limit(perPage)
-            .lean();
-
-            res.render("user/shop", {
-              user: true,
-              products,
-              categories,
-              currentPage,
-              totalCount,
-              startIndex,
-              endIndex,
-              hasPreviousPage,
-              previousPage,
-              hasNextPage,
-              nextPage,
-            });
-        }
+        condition = { _id: 1 };
       }
-      // ending
 
-      // const products = await Product.find({
-      //   Display: "Active",
-      //   ProductName: {
-      //     $regex: Search,
-      //     $options: "i",
-      //   },
-      // })
-      //   .skip(skip)
-      //   .limit(perPage)
-      //   .lean();
+      const products = await Product.find({
+        Display: "Active",
+        ProductName: {
+          $regex: Search,
+          $options: "i",
+        },
+      })
+        .sort(condition)
+        .skip(skip)
+        .limit(perPage)
+        .lean();
 
-      // res.render("user/shop", {
-      //   user: true,
-      //   products,
-      //   categories,
-      //   currentPage,
-      //   totalCount,
-      //   startIndex,
-      //   endIndex,
-      //   hasPreviousPage,
-      //   previousPage,
-      //   hasNextPage,
-      //   nextPage,
-      // });
+      res.render("user/shop", {
+        user: true,
+        products,
+        categories,
+        currentPage,
+        totalCount,
+        startIndex,
+        endIndex,
+        hasPreviousPage,
+        previousPage,
+        hasNextPage,
+        nextPage,
+      });
     } catch (error) {
       console.log(error, "error happened");
+      res.redirect('/shop')
     }
   },
 
   shopCategory: async (req, res) => {
     try {
-      const categoryId = req.params.id;
+      const categoryId = req.query.Category;
+      const sort = req.query.sort;
       const catId = new mongoose.Types.ObjectId(categoryId);
       const currentPage = parseInt(req.query.page) || 1;
       const previousPage = currentPage - 1;
@@ -238,10 +114,23 @@ module.exports = {
       const categories = await Category.find({
         _id: { $ne: categoryId },
       }).lean();
+      let condition;
+      if (sort === "a") {
+        condition = { ProductName: 1 };
+      } else if (sort === "z") {
+        condition = { ProductName: -1 };
+      } else if (sort === "l") {
+        condition = { SellingPrice: 1 };
+      } else if (sort === "h") {
+        condition = { SellingPrice: -1 };
+      } else {
+        condition = { _id: 1 };
+      }
       const products = await Product.find({
         Display: "Active",
         Category: catId,
       })
+        .sort(condition)
         .skip(skip)
         .limit(perPage)
         .lean();
@@ -451,10 +340,6 @@ module.exports = {
     } catch (error) {
       console.log(error, "error happened");
     }
-  },
-
-  categorySort: async (req, res) => {
-    console.log("oooooooooooooo");
   },
 
   // admin

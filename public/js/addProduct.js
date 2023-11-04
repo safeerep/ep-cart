@@ -1,4 +1,4 @@
-// Function to update the preview image when a file is selected
+// function to update the preview image when a file is selected
 function updatePreviewImage(inputId, imageId) {
   const fileInput = document.getElementById(inputId);
   const previewImage = document.getElementById(imageId);
@@ -15,7 +15,7 @@ function updatePreviewImage(inputId, imageId) {
 
       reader.readAsDataURL(file);
     } else {
-      previewImage.src = ""; // Clear the image when no file is selected
+      previewImage.src = ""; 
     }
   });
   
@@ -24,4 +24,4 @@ function updatePreviewImage(inputId, imageId) {
   updatePreviewImage("image2", "previewImage2");
   updatePreviewImage("image3", "previewImage3");
 
-// Call the function for each file input
+// calling the function for each file input

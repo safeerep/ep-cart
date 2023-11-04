@@ -64,7 +64,6 @@ module.exports = {
     const totalAmountForAllProducts = cartDetails[0]
       ? cartDetails[0].totalAmount
       : 0;
-    // console.log(totalAmountForAllProducts);
     return totalAmountForAllProducts;
   },
 
@@ -132,15 +131,12 @@ module.exports = {
   },
 
   createPdf: async (orderDetails) => {
-    // console.log(orderDetails.ShippingAddress.HouseName,orderDetails.ShippingAddress.District,);
     const data = {
       customize: {
-        // "template": fs.readFileSync('invoice.hbs', 'base64') // Must be base64 encoded HTML
+        // "template": 
       },
       images: {
-        // The logo on top of your invoice
         "logo": "https://public.easyinvoice.cloud/img/watermark-draft.jpg",
-        // The invoice background
         "background": "https://public.easyinvoice.cloud/img/watermark-draft.jpg"
       },
       sender: {
@@ -178,10 +174,8 @@ module.exports = {
         const result = await easyinvoice.createInvoice(data);
         const filePath = path.join(__dirname, '..', 'public', 'pdf', `${orderDetails._id}.pdf`);
         await writeFileAsync(filePath, result.pdf, 'base64');
-        console.log("Promise try");
         resolve(filePath);
       } catch (error) {
-        console.log("Promise catch");
         reject(error); 
       }
     });

@@ -40,10 +40,9 @@ $("#reviewComment").submit((e) => {
       const commentsContainer = document.getElementById("commentsContainer");
       commentsContainer.innerHTML = "";
 
-      console.log(response.users);
       response.reviews.forEach((review, index) => {
-        const user = response.users[index]; // Get the user data corresponding to the current review
-        const element = addNewComment(review.Comment, user); // Use the user data in your code
+        const user = response.users[index]; 
+        const element = addNewComment(review.Comment, user); 
         commentsContainer.prepend(element);
       });
     },

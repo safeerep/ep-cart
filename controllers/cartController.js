@@ -160,8 +160,8 @@ module.exports = {
       }
       res.redirect("/cart");
     } catch (error) {
-      res.redirect("/cart");
       console.log(`${error}`);
+      res.redirect("/cart");
     }
   },
 

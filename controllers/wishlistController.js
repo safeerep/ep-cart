@@ -76,7 +76,6 @@ module.exports = {
           );
         }
       } else {
-        console.log(`user wishlist not found`);
         const wishlist = new Wishlist({
           UserId: userId,
           ProductsId: [productId],

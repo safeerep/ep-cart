@@ -71,7 +71,8 @@ router.post('/verify-password', userController.verifyPassword)
 // shop
 router.get('/shop',cartInfo.cartCount, productController.shop)
 // shop categories
-router.get('/category/:id',cartInfo.cartCount, productController.shopCategory)
+// router.get('/category/:id',cartInfo.cartCount, productController.shopCategory)
+router.get('/shop-in',cartInfo.cartCount, productController.shopCategory)
 // product detail view
 router.get('/product/details-view/:id',cartInfo.cartCount, productController.productView)
 
@@ -131,7 +132,6 @@ router.post('/delete-coupon-from-cart', auth.userTokenAuth, cartInfo.cartCount, 
 
 
 
-router.get('/sortby/:condition', auth.userTokenAuth, cartInfo.cartCount, productController.shop)
 
 
 

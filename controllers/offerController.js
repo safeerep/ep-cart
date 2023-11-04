@@ -216,7 +216,6 @@ module.exports = {
 
   editOffer: async (req, res) => {
     try {
-      console.log(req.body);
       req.body.Active = true;
       const oldOffer = await Offers.findOneAndUpdate(
         {

@@ -11,7 +11,6 @@ module.exports = {
                     res.redirect("/admin/signin")
                 } else {
                     req.session.admin = admin;
-                    // console.log(req.session.admin.admin);
                     next()
                 }
             })

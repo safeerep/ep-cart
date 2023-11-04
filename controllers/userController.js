@@ -96,26 +96,33 @@ module.exports = {
   },
 
   refferalRegister: async (req, res) => {
-    if (req.body.Password === req.body.Confirmation) {
-      try {
-        const refferalOffer = await RefferalOffer.findOne({ Active: true });
-        req.body.Password = bcrypt.hashSync(req.body.Password, 10);
-        req.body.Createdon = moment(new Date()).format("lll");
-        req.body.WalletAmount = refferalOffer?.OfferforReferred || 0;
-        req.body.referrerPerson = req.params.id;
-        console.log();
-        req.session.user = req.body;
-        req.flash("success", "OTP Sent Successfully");
-        res.redirect("/refferal-user/email-verification");
-      } catch (error) {
-        if (error.code === 11000) {
-          req.flash("error", "user already exists");
-          req.session.error = "user already exists";
+    try {
+      const existingUser = await User.findOne({ Email: req.body.Email });
+      if (existingUser) {
+        req.flash("error", "user already exists");
+        res.redirect("/signup");
+      } else {
+        if (req.body.Password.length >= 4) {
+          if (req.body.Password === req.body.Confirmation) {
+            const refferalOffer = await RefferalOffer.findOne({ Active: true });
+            req.body.Password = bcrypt.hashSync(req.body.Password, 10);
+            req.body.Createdon = moment(new Date()).format("lll");
+            req.body.WalletAmount = refferalOffer?.OfferforReferred || 0;
+            req.body.referrerPerson = req.params.id;
+            console.log();
+            req.session.user = req.body;
+            req.flash("success", "OTP Sent Successfully");
+            res.redirect("/refferal-user/email-verification");
+          } else {
+            req.flash("error", "password is not matching");
+            res.redirect("/signup");
+          }
+        } else {
+          req.flash("error", "password lenght should be atleast 4");
           res.redirect("/signup");
         }
       }
-    } else {
-      req.flash("error", "password is not matching");
+    } catch (error) {
       res.redirect("/signup");
     }
   },
@@ -274,23 +281,30 @@ module.exports = {
   },
 
   register: async (req, res) => {
-    if (req.body.Password === req.body.Confirmation) {
-      try {
-        req.body.Password = bcrypt.hashSync(req.body.Password, 10);
-        req.body.Createdon = moment(new Date()).format("lll");
-        req.body.WalletAmount = 0;
-        req.session.user = req.body;
-        req.flash("success", "OTP Sent Successfully");
-        res.redirect("/email-verification");
-      } catch (error) {
-        if (error.code === 11000) {
-          req.flash("error", "user already exists");
-          req.session.error = "user already exists";
+    try {
+      const existingUser = await User.findOne({ Email: req.body.Email });
+      if (existingUser) {
+        req.flash("error", "user already exists");
+        res.redirect("/signup");
+      } else {
+        if (req.body.Password.length >= 4) {
+          if (req.body.Password === req.body.Confirmation) {
+            req.body.Password = bcrypt.hashSync(req.body.Password, 10);
+            req.body.Createdon = moment(new Date()).format("lll");
+            req.body.WalletAmount = 0;
+            req.session.user = req.body;
+            req.flash("success", "OTP Sent Successfully");
+            res.redirect("/email-verification");
+          } else {
+            req.flash("error", "password is not matching");
+            res.redirect("/signup");
+          }
+        } else {
+          req.flash("error", "password lenght should be atleast 4");
           res.redirect("/signup");
         }
       }
-    } else {
-      req.flash("error", "password is not matching");
+    } catch (error) {
       res.redirect("/signup");
     }
   },
@@ -341,7 +355,7 @@ module.exports = {
           res.redirect("/home");
         }
       } else {
-        req.flash("error", "OTP invalid");   
+        req.flash("error", "OTP invalid");
         res.redirect("/email-verification");
       }
     } catch (error) {}
@@ -350,7 +364,7 @@ module.exports = {
   verifyEmailForRefferalUser: async (req, res) => {
     try {
       if (req.session.OTP === req.body.OTP) {
-        console.log('ok matched');
+        console.log("ok matched");
         const userData = await User.create(req.session.user);
         if (userData) {
           const accessToken = jwt.sign(
@@ -364,7 +378,6 @@ module.exports = {
           // giving referral offer to refferer person
           const refferalOffer = await RefferalOffer.findOne({ Active: true });
           const referrerPerson = req.session?.user?.referrerPerson;
-          console.log(`its referror person ${referrerPerson}`);
           const OfferforReferrer = refferalOffer?.OfferforReferrer || 0;
           const updatingWalletAmount = await User.findByIdAndUpdate(
             {
@@ -471,8 +484,8 @@ module.exports = {
         res.redirect("/profile");
       }
     } catch (error) {
-      res.redirect("/profile");
       console.log("happened one error", error);
+      res.redirect("/profile");
     }
   },
 
@@ -598,7 +611,6 @@ module.exports = {
               maxAge: 30 * 24 * 60 * 60 * 1000,
             });
             req.session.user = user;
-            // console.log(`it's from home function ${req.session.user}`);
             res.redirect("/home");
           } else {
             throw "username or password is incorrect";

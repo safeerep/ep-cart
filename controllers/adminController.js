@@ -71,7 +71,7 @@ module.exports = {
       if (filter === "day") {
         const currentDate = new Date();
         const today = moment(currentDate).format("MMM D, YYYY h:mm A");
-        const startDate = moment(currentDate).subtract(6, "days");
+        const startDate = moment(currentDate).subtract(5, "days");
         const sevendaybefore = startDate.format("MMM D, YYYY h:mm A");
         const orders = await Order.aggregate([
           {
@@ -110,7 +110,6 @@ module.exports = {
         ]);
         res.json({ orders });
       } else if (filter === "month") {
-        console.log("filter is month");
         const orders = await Order.aggregate([
           {
             $addFields: {
@@ -140,7 +139,6 @@ module.exports = {
         ]);
         res.json({ orders });
       } else {
-        console.log("filter is year");
         const orders = await Order.aggregate([
           {
             $addFields: {

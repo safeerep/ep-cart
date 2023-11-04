@@ -16,6 +16,7 @@ const UsersSchema = new mongoose.Schema({
   Password: {
     type: String,
     required: true,
+    minlength: 4,
   },
   Status: {
     type: String,

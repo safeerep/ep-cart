@@ -177,7 +177,6 @@ module.exports = {
             } else {
               const anyCouponExist = await Cart.findOne({ UserId: userId });
               if (anyCouponExist?.Discount > 0) {
-                console.log(`yes ${anyCouponExist.Discount}`);
                 res.json({ oneCouponExist: true });
               }
               else {
@@ -340,7 +339,6 @@ module.exports = {
 
       res.json({success: true})
     } catch (error) {
-      console.log(`it's in catch`);
       res.json({failed: true})
     }
   },

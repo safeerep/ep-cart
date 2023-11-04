@@ -1,4 +1,3 @@
-const hbs = require("hbs");
 const sharp = require("sharp");
 const pdf = require("pdf-creator-node");
 const fs = require("fs");

@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken')
-const Cart = require('../models/cartSchema')
 require('dotenv').config()
 
 module.exports = {
