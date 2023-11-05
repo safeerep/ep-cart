@@ -26,7 +26,8 @@
     {{/unless}}
     <div class="col-12 col-lg-10 border-start">
       
-      <div class="m-5 pe-5 pt-5 d-flex justify-content-end">
+      {{#if products}}
+      <div class="mt-5 pe-5 pt-5 d-flex justify-content-end">
         <div class="dropdown" >
           <button class="btn bg-light border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-sliders"></i>
@@ -40,6 +41,7 @@
           </ul>
         </div>
       </div>
+      {{/if}}
       
       <div class="row m-5 g-5">
         {{#each products}}

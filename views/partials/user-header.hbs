@@ -21,7 +21,7 @@
       <br />
       <form action="/shop" class="d-flex" role="search" method="get">
         <input
-          class="form-control ms-5"
+          class="form-control"
           type="search"
           name="Search"
           placeholder="Search"
@@ -34,19 +34,19 @@
         >Search</button>
       </form>
 
-        <div class="d-flex align-items-center">
-          <a class="nav-link mx-5" href="/shop">SHOP</a>
-          <a class="nav-link mx-5" href="/wishlist">
+        <div class="ps-5 d-flex align-items-center gap-5 ">
+          <a class="nav-link " href="/shop">SHOP</a>
+          <a class="nav-link " href="/wishlist">
             <i class="fa-regular fa-heart fa-lg"></i>
           </a>
-          <a class="nav-link mx-5" href="/cart">
+          <a class="nav-link " href="/cart">
             <i class="fa-solid fa-cart-shopping fa-lg">
               {{#if numberOfItems}}
-              <span class="bg-danger badge badge-light">{{numberOfItems}}</span>
+              <span class="bg-danger badge">{{numberOfItems}}</span>
               {{/if}}
             </i>
           </a>
-          <div class="dropdown mx-5">
+          <div class="dropdown gap-5 me-5">
             <button
               class="btn bg-light dropdown-toggle"
               type="button"
