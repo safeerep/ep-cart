@@ -56,7 +56,7 @@
         >
           Change password
         </a>
-        </div>
+      </div>
 
       </div>
 
@@ -80,7 +80,7 @@
         </a>
           <hr />
           
-          <form action="/edit-profile" method="post">
+        <form action="/edit-profile" method="post">
           <div class="form-group">
             <label for="Username">Username:</label>
             <input
@@ -129,16 +129,16 @@
                 type="submit"
                 class="btn btn-secondary text-white"
               >UPDATE</button>
-            </div><br />
+          </div><br />
         </form>
 
             
-            <div class="bg-light p-2 border">
+            <div class="bg-light p-2 m-2 border row d-flex ">
               <h3 class="mb-3">SHIPPING ADDRESS:</h3>
-            {{#if userData.Address}}
-            <div class="row">
-              <div class="d-flex justify-content-between">
-                <div class="form-group col-md-6">
+              {{#if userData.Address}}
+              {{!-- <div class="row">  --}}
+              {{!-- <div class="d-flex justify-content-between"> --}}
+                <div class="form-group col-md-6 ">
                   <label for="housename">House name:</label>
                   <input
                     type="text"
@@ -160,11 +160,10 @@
                     readonly
                   />
                 </div>
-              </div>
-            </div>
+              {{!-- </div> --}}
 
-            <div class="row">
-              <div class="d-flex justify-content-between">
+            {{!-- <div class="row"> --}}
+              {{!-- <div class="d-flex justify-content-between"> --}}
                 <div class="form-group col-md-6">
                   <label for="Pincode">Pincode:</label>
                   <input
@@ -187,7 +186,8 @@
                     readonly
                   />
                 </div>
-              </div>
+            </div>
+              {{!-- </div> --}}
               {{/if}}
                 <div class="d-flex justify-content-start mt-2">
                   {{#if userData.Address}}
@@ -196,8 +196,8 @@
                   <a href="/add-address" class="btn btn-secondary text-white ">Add an address</a>
                   {{/if}}
                 </div>
-            </div>
-            </div>
+            {{!-- </div>
+            </div> --}}
             
       </main>
     </div>
