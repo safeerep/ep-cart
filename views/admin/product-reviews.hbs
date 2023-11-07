@@ -1,29 +1,35 @@
-<div class="container d-flex justify-content-center p-5 mt-5">
-  <div class="col-sm-12 mt-4">
-    {{#unless reviews}}
-    <div class="h-75 text-danger text-center align-items-center icons">
-      <h3>No reviews on this product.</h3>
+{{#unless reviews}}
+  <body class="mt-5">
+    <div style="width: 100%;">
+      <div class="row">
+        <main class="col-md-12 col-lg-12 px-md-4">
+          <div class="d-flex justify-content-center align-items-center">
+            <h2 class="text-danger p-5">No reviews on this product</h2>
+          </div>
+        </main>
+      </div>
     </div>
-    {{/unless}}
-    {{#if reviews}}
-    <div class="text-center icons mb-5">
-      <h3>Reviews</h3>
-    </div>
-    <div id="commentsContainer" class="row">
-      {{#each reviews}}
-        <div class="col-sm-12 col-md-6 mb-3">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex justify-content-between">
+  </body>
+{{/unless}}
+
+{{#if reviews}}
+  <div class="text-center icons mb-5 mt-5">
+    <h3 class="pt-3">Reviews</h3>
+  </div>
+  <div id="commentsContainer" class="row">
+    {{#each reviews}}
+      <div class="col-sm-12 col-md-6 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
               <p class="card-text"><strong>{{user}}</strong></p>
-                <a href="/admin/delete-review/{{id}}" onclick="return confirm('Hey admin, \n Are you sure to delete this comment?')" ><i class="fas fa-trash"></i></a>
-              </div>
-              <p class="card-text">{{review}}</p>
+              <a href="/admin/delete-review/{{id}}" onclick="return confirm('Hey admin, \n Are you sure to delete this comment?')"><i class="fas fa-trash"></i></a>
             </div>
+            <p class="card-text">{{review}}</p>
           </div>
         </div>
-      {{/each}}
-    </div>
-    {{/if}}
+      </div>
+    {{/each}}
   </div>
+{{/if}}
 </div>
