@@ -60,24 +60,26 @@
 
       </div>
 
-      <main class="col-md-8 border-start">
-        <a class="btn text-dark d-flex-column  border-0">
+      <main class="col-md-8 col-12 border-start">
+        {{!-- <a class="btn text-dark d-flex-column  border-0"> --}}
           {{#if refferalOffer.OfferforReferrer}}
           <span class="d-flex justify-content-start fw-bold text-success"> 
             Refer epcart to your friends and earn Rs: {{refferalOffer.OfferforReferrer}} in each.
           </span>
           {{/if}}
-          <div class="d-flex justify-content-between">
-            <div>
-              <h6 class="d-flex ">Your referral link : </h6>
-              <h6 class="text-primary" style="cursor: text;" id="referral-link">localhost:3001/signup/{{userData._id}} </h6>
-            </div>
-            <div class="p-4">
-              <button id="copyButton" class="fa fa-copy fa-xl  border-0"></button>
-            </div>
-          </div>
+          {{!-- <div class="d-flex justify-content-center"> --}}
+            {{!-- <div> --}}
+              <span class="d-flex justify-content-start fw-bold" >Your referral link : </span>
+              <h6 class="text-primary ms-auto" style="cursor: text;" id="referral-link">localhost:3001/signup/{{userData._id}} 
+                <button id="copyButton" class="fa fa-copy fa-xl  border-0"></button>
+              </h6>
+            {{!-- </div> --}}
+            {{!-- <div> --}}
+              
+            {{!-- </div> --}}
+          {{!-- </div> --}}
           <span id="copySuccessMessage" class="d-none fw-bold text-success"> Text copied to clipboard! </span>
-        </a>
+        {{!-- </a> --}}
           <hr />
           
         <form action="/edit-profile" method="post">

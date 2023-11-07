@@ -1,13 +1,13 @@
-<div class="row m-5 p-5 justify-content-center" style="min-height: 100vh;">
-    <div class="col-12 col-md-7">
+<div class="mt-5 pt-5 d-flex justify-content-center" style="min-height: 100vh;">
+  <div class="col-10 col-md-7">
 {{#if userData}}
   {{#each userData.Address}}
-  <div class="card shadow border-0 p-3 m-2 ">
-    <dt class="ms-4 inline">{{../userData.Name}}</dt>
-    <span class="ms-4">{{HouseName}}, {{District}},</span>
-    <span class="ms-4">{{Pincode}}, {{State}}</span>
-    <span class="ms-4">{{../userData.Email}}</span>
-    <div class="d-flex justify-content-end gap-1">
+  <div class="card shadow border-0 p-3 ">
+    <dt >{{../userData.Name}}</dt>
+    <span >{{HouseName}}, {{District}},</span>
+    <span >{{Pincode}}, {{State}}</span>
+    <span >{{../userData.Email}}</span>
+    <div class="d-flex justify-content-end gap-3">
         <a href="/edit-address/{{_id}}" class="btn btn-secondary border-dark">Edit</a>
         <a href="/remove-address/{{_id}}" onclick="return confirm('Are you sure to delete this address?')" class="btn btn-danger border-dark">Remove</a>
     </div>

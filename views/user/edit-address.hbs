@@ -1,6 +1,6 @@
 <body>
   <div class="container mt-5 p-5">
-    <div class="row  m-3 vh-100">
+    <div class="row vh-100">
       <div class="card col-md-3 border-0">
         <div class="d-flex justify-content-center m-2">
           <img
@@ -37,8 +37,7 @@
           <div class="bg-light p-3">
             <h4>Address line:</h4> <br>
           <div class="row">
-            <div class="d-flex justify-content-between">
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-6 col-12">
                 <label for="housename">House name:</label>
                 <input
                   type="text"
@@ -50,7 +49,7 @@
                 />
               </div>
 
-              <div class="form-group col-md-5">
+              <div class="form-group col-md-5 col-12">
                 <label for="">District:</label>
                 <input
                   type="text"
@@ -62,12 +61,7 @@
                   required
                 />
               </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="d-flex justify-content-between">
-
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-6 col-12">
                 <label for="Pincode">Pincode:</label>
                 <input
                   type="text"
@@ -79,7 +73,7 @@
                 />
               </div><br />
 
-              <div class="form-group col-md-5">
+              <div class="form-group col-md-5 col-12">
                 <label for="specification2">State:</label>
                 <input
                   type="text"
@@ -90,8 +84,6 @@
                   placeholder="Enter your state name"
                 />
               </div>
-            </div>
-          </div>
           </div>
         </form>
         {{/if}}
