@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let productId = null;
   let size = null;
+  let isThrottled = false;
 
   async function updateQuantity(productId, size, change) {
     try {
@@ -37,6 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
           total.textContent = data.total;
           payable.textContent = data.payable;
           discount.textContent = data.discount;
+          setTimeout(() => {
+            isThrottled = false;
+          },1000)
         }
       } else {
         console.error("error in updating quantity:", response.statusText);
@@ -66,7 +70,10 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         success: (response) => {
           if (response.conditionSatisfied) {
-            updateQuantity(productId, size, -1);
+            if (isThrottled === false) {
+              isThrottled = true;
+              updateQuantity(productId, size, -1);
+            } 
           } else {
             // couponWillLoose
             $("#confirmationForDeleteCouponModal").modal("show");
@@ -102,7 +109,10 @@ document.addEventListener("DOMContentLoaded", () => {
     button.addEventListener("click", () => {
       const productId = button.getAttribute("data-product-id");
       const size = button.getAttribute("data-product-size");
-      updateQuantity(productId, size, 1);
+      if (isThrottled = false) {
+        isThrottled = true;
+        updateQuantity(productId, size, 1);
+      }
     });
   });
 });

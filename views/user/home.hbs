@@ -70,9 +70,9 @@
     <h3 class="text-center">Featured products ></h3>
     <br />
     <div class="container">
-      <div class="row g-5">
+      <div class="row d-flex justify-content-center">
         {{#each productDetails}}
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="card border">
               <a href="/product/details-view/{{this._id}}">
                 <img
@@ -91,8 +91,6 @@
                 <dt class="card-text">{{this.BrandName}}
                   <br />
                   {{this.ProductName}}</dt>
-                <p class="card-text">{{this.Specification1}}
-                  <br />{{this.Specification2}}</p>
                 <div class="text-center">
                   <p
                     id="addedToWishlistMessage_{{this._id}}"

@@ -1,6 +1,6 @@
 <body class="mt-5">
   <div class="container-fluid">
-    <div class="row vh-100">  
+    <div class="row bg-light vh-100">  
         
       <div class="d-flex justify-content-around mt-4">
         <div class="card col-md-3 p-3">
@@ -29,9 +29,9 @@
           <a id="filtervalue" class="btn btn-white border-radius filter-option" data-filter="year">By Year</a>
         </div>
       </div>
-      <canvas id="myChart" class="w-100 h-75"></canvas>
+      <canvas id="myChart" class="w-100 h-75 bg-light border-start"></canvas>
       {{!-- starting best selling products --}}
-      <div class="border-start w-100 mt-5 p-5 bg-light">
+      <div class="border-start w-100 p-5 bg-light">
         <h3 class="mb-3">Best Selling {{topTenProducts.length}} Products</h3>
         <div class="table-responsive">
         <table class=" w-100">

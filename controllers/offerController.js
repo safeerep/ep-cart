@@ -100,7 +100,7 @@ module.exports = {
         if (currentDate >= deleteDate) {
           removeOffer();
         } else {
-          setTimeout(checkTimeAndRemoveOffer, 1000);
+          setInterval(checkTimeAndRemoveOffer, 1000);
         }
       }
 
@@ -261,7 +261,7 @@ module.exports = {
         if (currentDate >= deleteDate) {
           removeOffer();
         } else {
-          setTimeout(checkTimeAndRemoveOffer, 1000);
+          setInterval(checkTimeAndRemoveOffer, 1000);
         }
       }
 
