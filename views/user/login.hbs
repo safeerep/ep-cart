@@ -11,7 +11,8 @@
               {{message.error}}
             {{/if}}
           </div>
-          <div class="form-group col-md-11 m-5">
+          <div class="row d-flex justify-content-around">
+          <div class="form-group col-md-11 px-3">
             <label for="email">Email</label>
             <input
               type="email"
@@ -23,7 +24,7 @@
               required
             />
           </div>
-          <div class="form-group col-md-11 m-5">
+          <div class="form-group col-md-11 px-3">
             <label for="password">Password</label>
             <input
               type="password"
@@ -35,28 +36,25 @@
               required
             />
           </div>
+          </div>
           <br />
           <p class="text-center">Don't have an account?<a href="/signup">Sign up</a></p>
           <div class="text-center">
             <a href="/forgot-password">forgot password</a>
           </div>
           <br />
-          <div class="row d-flex justify-content-center mb-2">
-            <div class="col-md-4">
+          <div class="row d-flex justify-content-around mb-2">
               <a
                 href="/"
-                class="btn btn-secondary btn-block btn-lg bg-white"
-                style="width: 100%; color:#352F44"
+                class="col-4 btn btn-secondary btn-block btn bg-white"
+                
               >
                 <span class="m-2">Back to home</span></a>
-            </div>
-            <div class="col-md-6">
               <button
-                class="btn btn-primary btn-block btn-lg text-white"
+                class="col-6 btn btn-secondary btn-block btn text-white"
                 type="submit"
-                style="width: 100%; background-color:#352F44"
+                
               >Sign in</button>
-            </div>
           </div>
         </form>
       </div>

@@ -9,9 +9,8 @@
         {{#each banners}}
           <div class="carousel-item active">
             <img
-              style="height:500px;"
-              src="/uploads/cropped/{{Image}}"
-              class="d-block w-100"
+              src="/uploads/cropped/{{this.Image}}"
+              class="d-block w-100 img-fluid"
               alt="..."
             />
           </div>
@@ -70,7 +69,7 @@
     <h3 class="text-center">Featured products ></h3>
     <br />
     <div class="container">
-      <div class="row d-flex justify-content-center">
+      <div class="row">
         {{#each productDetails}}
           <div class="col-md-3">
             <div class="card border">

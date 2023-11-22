@@ -19,7 +19,7 @@ module.exports = {
       const skip = (currentPage - 1) * perPage;
 
       const totalCount = await Product.countDocuments({
-        Display: "Active",
+        Display: true,
         ProductName: {
           $regex: Search,
           $options: "i",
@@ -37,7 +37,7 @@ module.exports = {
         hasPreviousPage = true;
       }
       const categories = await Category.find().lean();
-      
+
       let condition;
       if (sort === "a") {
         condition = { ProductName: 1 };
@@ -52,15 +52,15 @@ module.exports = {
       }
 
       const products = await Product.find({
-        Display: "Active",
+        Display: true,
         ProductName: {
           $regex: Search,
           $options: "i",
         },
       })
-        .sort(condition)
         .skip(skip)
         .limit(perPage)
+        .sort(condition)
         .lean();
 
       res.render("user/shop", {
@@ -78,7 +78,7 @@ module.exports = {
       });
     } catch (error) {
       console.log(error, "error happened");
-      res.redirect('/shop')
+      res.redirect("/shop");
     }
   },
 
@@ -93,7 +93,7 @@ module.exports = {
       const perPage = 10;
       const skip = (currentPage - 1) * perPage;
       const totalCount = await Product.countDocuments({
-        Display: "Active",
+        Display: true,
         Category: catId,
       }).lean();
       const startIndex = (currentPage - 1) * perPage + 1;
@@ -127,12 +127,12 @@ module.exports = {
         condition = { _id: 1 };
       }
       const products = await Product.find({
-        Display: "Active",
+        Display: true,
         Category: catId,
       })
-        .sort(condition)
         .skip(skip)
         .limit(perPage)
+        .sort(condition)
         .lean();
 
       res.render("user/shop", {
@@ -159,7 +159,120 @@ module.exports = {
       const id = req.params.id;
       const userId = req.session?.user?.user;
       if (!userId) {
-        res.redirect("/home");
+        const certainProduct = await Product.findById(id).lean();
+        let offerPrice = false;
+        if (certainProduct.SellingPrice < certainProduct.BasePrice) {
+          offerPrice = true;
+        }
+        let accessToWriteReview = false;
+
+        const sizesAvailable = [];
+        for (let item of certainProduct.Sizes) {
+          if (item.Quantity > 0) {
+            sizesAvailable.push(item.Size);
+          } else {
+            continue;
+          }
+        }
+
+        let availability = true;
+        if (!sizesAvailable.length) {
+          availability = false;
+        }
+
+        const comments = await Review.find({
+          ProductId: id,
+          Comment: {
+            $ne: null,
+          },
+        })
+          .sort({ _id: -1 })
+          .lean();
+        const userInfo = await Review.aggregate([
+          {
+            $match: {
+              ProductId: new mongoose.Types.ObjectId(id),
+            },
+          },
+          {
+            $lookup: {
+              from: "users",
+              localField: "UserId",
+              foreignField: "_id",
+              as: "usersData",
+            },
+          },
+          {
+            $unwind: "$usersData",
+          },
+          {
+            $project: {
+              "usersData.Name": 1,
+            },
+          },
+        ]);
+        const users = userInfo.map((item) =>
+          item.usersData.Name ? item.usersData.Name : "user"
+        );
+
+        const reviews = comments.map((comment, index) => {
+          return {
+            user: users[index],
+            review: comment.Comment,
+          };
+        });
+
+        const ratings = await Review.aggregate([
+          {
+            $match: {
+              ProductId: new mongoose.Types.ObjectId(id),
+              Rating: { $exists: true },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalRatings: { $sum: "$Rating" },
+              count: { $sum: 1 },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              totalRatings: 1,
+              count: 1,
+              totalRatingPercentage: { $multiply: ["$count", 5] },
+            },
+          },
+          {
+            $project: {
+              averageRating: {
+                $divide: ["$totalRatings", "$totalRatingPercentage"],
+              },
+            },
+          },
+        ]);
+        const averageRating =
+          Math.ceil((ratings[0]?.averageRating * 10) / 2) || 0;
+        let stars = [];
+        for (let i = 1; i < 6; i++) {
+          if (averageRating >= i) {
+            stars.push(true);
+          } else if (averageRating < i) {
+            stars.push(false);
+          }
+        }
+        res.render("user/product-view", {
+          notVerifiedUser: true,
+          certainProduct,
+          offerPrice,
+          sizesAvailable,
+          availability,
+          accessToWriteReview,
+          reviews,
+          stars,
+          currentUserStars: null,
+        });
       } else {
         const certainProduct = await Product.findById(id).lean();
         const userHasBoughtProduct = await Order.findOne({
@@ -458,7 +571,7 @@ module.exports = {
       req.body.Sizes = variations;
       req.body.Status = "In stock";
       req.body.images = images;
-      req.body.Display = "Active";
+      req.body.Display = true;
       req.body.Category = category._id;
       req.body.UpdatedOn = moment(new Date()).format("lll");
       const uploaded = await Product.create(req.body);
@@ -472,13 +585,13 @@ module.exports = {
     try {
       const id = req.params.id;
       let foundProduct = await Product.findById(id).lean();
-      if (foundProduct.Display === "Active") {
+      if (foundProduct.Display) {
         await Product.findByIdAndUpdate(id, {
-          Display: "Blocked",
+          Display: false,
         });
       } else {
         await Product.findByIdAndUpdate(id, {
-          Display: "Active",
+          Display: true,
         });
       }
       res.redirect("/admin/products");

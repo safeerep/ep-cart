@@ -38,10 +38,20 @@
                 <td class="border text-center-in-table">{{this.Name}}</td>
                 <td class="border text-center-in-table">{{this._id}}</td>
                 <td class="border text-center-in-table">{{this.Phone}}</td>
-                <td class="border text-center-in-table">{{this.Status}}</td>
+                {{#if this.Status}}
+                <td class="border text-center-in-table">Active</td>
+                {{else}}
+                <td class="border text-center-in-table">Blocked</td>
+                {{/if}}
+                {{#if this.Status}}
                 <td class="border text-center-in-table py-3">
-                  <a href="/admin/block-user/{{this._id}}" onclick="return confirm('Hey admin, \n Are you sure to change the status of this user?')" ><i class="fas fa-ban"></i></a>
+                  <a href="/admin/block-user/{{this._id}}" onclick="return confirm('Hey admin, \n Are you sure to block this user?')" ><i class="fas fa-unlock"></i></a>
                 </td>
+                {{else}}
+                <td class="border text-center-in-table py-3">
+                  <a href="/admin/block-user/{{this._id}}" onclick="return confirm('Hey admin, \n Are you sure to unblock this user?')" ><i class="fas fa-lock"></i></a>
+                </td>
+                {{/if}}
               </tr>
               {{/each}}
             </tbody>

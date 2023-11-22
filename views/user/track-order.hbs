@@ -32,13 +32,13 @@
 
   <div class="container mt-3 pt-5">
     
-    <div class="d-flex justify-content-between align-items-center py-3">
-      <h2 class="h5 ms-4">
-        Order #ORD{{orderDetails._id}}</h2>
+    <div class="d-flex justify-content-between align-items-center pt-4">
+      <h6>
+        <strong> #ORD{{orderDetails._id}}</strong></h6>
     </div>
 
     
-    <div class="row m-3" style="min-height: 100vh;">
+    <div class="row mt-3" style="min-height: 100vh;">
       <div class="col-lg-6">
         <div class="card mb-4">
           <div class="card-body">
@@ -158,11 +158,11 @@
       </div>
         {{!-- payment --}}
         <div class="col-lg-6">
-        <div class="card mb-4">
+        <div class="card">
           <div class="card-body">
             <div class="row">
 
-              <div class="col-lg-6 p-5">
+              <div class="col-lg-6 pt-3">
                 <h5> <strong>Address</strong></h5>
                 <address>
                   <strong>{{userDetails.Name}}</strong><br />
@@ -177,7 +177,7 @@
                 </address>
               </div>
 
-              <div class="col-lg-6 p-5">
+              <div class="col-lg-6 pt-3">
                 <h5><strong>Payment Method</strong></h5>
                 <dt>{{orderDetails.PaymentMethod}}
                   <br/>

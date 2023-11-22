@@ -1,6 +1,6 @@
 <body>
-  <div class="container mt-5 p-5">
-    <div class="row m-3" style="min-height: 100vh;">
+  <div class="container mt-5 ">
+    <div class="row m-3 pt-3" style="min-height: 100vh;">
       <div class="card col-md-3 border-0">
         <div class="d-flex justify-content-center m-2">
           <img
@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <main class="col-md-8 border-start">
+      <main class="col-md-8 col-12 border-start">
         <form action="/add-address/for-shop" method="post">
           <div class="d-flex justify-content-end">
               <button
@@ -35,9 +35,8 @@
           <br />
           <div class="bg-light p-3">
             <h4>Address line:</h4> <br>
-          <div class="row">
-            <div class="d-flex justify-content-between">
-              <div class="form-group col-md-6">
+          <div class="row d-flex justify-content-between">
+              <div class="form-group col-md-6 col-12">
                 <label for="housename">House name:</label>
                 <input
                   type="text"
@@ -50,7 +49,7 @@
                 />
               </div>
 
-              <div class="form-group col-md-5">
+              <div class="form-group col-md-5 col-12">
                 <label for="">District:</label>
                 <input
                   type="text"
@@ -63,12 +62,9 @@
                   required
                 />
               </div>
-            </div>
           </div>
-          <div class="row">
-            <div class="d-flex justify-content-between">
-
-              <div class="form-group col-md-6">
+          <div class="row d-flex justify-content-between">
+              <div class="form-group col-md-6 col-12">
                 <label for="Pincode">Pincode:</label>
                 <input
                   type="text"
@@ -80,8 +76,8 @@
                 />
               </div><br />
 
-              <div class="form-group col-md-5">
-                <label for="specification2">State:</label>
+              <div class="form-group col-md-5 col-12">
+                <label for="state">State:</label>
                 <input
                   type="text"
                   name="State"
@@ -90,7 +86,6 @@
                   placeholder="Enter your state name"
                 />
               </div>
-            </div>
           </div>
           </div>
         </form>

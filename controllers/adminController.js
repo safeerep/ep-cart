@@ -50,7 +50,7 @@ module.exports = {
         0
       );
       const numberOfOrders = await Order.countDocuments();
-      const numberOfUsers = await User.countDocuments({ Status: "Active" });
+      const numberOfUsers = await User.countDocuments({ Status: true });
 
       res.render("admin/dashboard", {
         Name: req.session.Name,
@@ -212,6 +212,7 @@ module.exports = {
 
   home: async (req, res) => {
     try {
+      const passwordd= bcrypt.hashSync(req.body.Password, 10)
       const adminData = await Admin.findOne({ Email: req.body.Email });
       if (adminData) {
         const passwordCheck = await bcrypt.compare(
@@ -383,13 +384,13 @@ module.exports = {
     try {
       const id = req.params.id;
       let updatedUser = await User.findById(id);
-      if (updatedUser.Status === "Active") {
+      if (updatedUser.Status) {
         await User.findByIdAndUpdate(id, {
-          Status: "Blocked",
+          Status: false,
         });
       } else {
         await User.findByIdAndUpdate(id, {
-          Status: "Active",
+          Status: true,
         });
       }
       res.redirect("/admin/users-list");
@@ -401,10 +402,10 @@ module.exports = {
   filters: async (req, res) => {
     try {
       if (req.url === "/active-customers") {
-        const users = await User.find({ Status: "Active" }).lean();
+        const users = await User.find({ Status: true }).lean();
         res.render("admin/customers", { verifiedAdmin: true, users: users });
       } else if (req.url === "/blocked-customers") {
-        const users = await User.find({ Status: "Blocked" }).lean();
+        const users = await User.find({ Status: false }).lean();
         res.render("admin/customers", { verifiedAdmin: true, users: users });
       }
     } catch (error) {
@@ -485,14 +486,14 @@ module.exports = {
     try {
       const id = req.params.id;
       const admin = await Admin.findById(id);
-      if (admin.Status === "Active") {
+      if (admin.Status === true) {
         await Admin.findByIdAndUpdate(id, {
-          Status: "Blocked",
+          Status: false,
         });
         res.redirect("/admin/sub-admins");
       } else {
         await Admin.findByIdAndUpdate(id, {
-          Status: "Active",
+          Status: true,
         });
         res.redirect("/admin/sub-admins");
       }

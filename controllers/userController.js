@@ -12,7 +12,7 @@ require("dotenv").config();
 module.exports = {
   landingPage: async (req, res) => {
     try {
-      const productDetails = await Product.find({ Display: "Active" }).lean();
+      const productDetails = await Product.find({ Display: true }).lean();
       const categories = await Category.find().lean();
       const banners = await Banners.find({ Status: true })
         .sort({ _id: -1 })
@@ -33,7 +33,7 @@ module.exports = {
     try {
       const Search = req.query.Search || "";
       const productDetails = await Product.find({
-        Display: "Active",
+        Display: true,
         ProductName: {
           $regex: Search,
           $options: "i",
@@ -600,7 +600,8 @@ module.exports = {
           req.body.Password,
           user.Password
         );
-        if (user.Status === "Active") {
+        // console.log(passwordCheck)
+        if (user.Status) {
           if (passwordCheck) {
             const accessToken = jwt.sign(
               { user: user._id },

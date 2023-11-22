@@ -42,7 +42,11 @@
                 </td>
                 <td class=" border text-center-in-table">{{this.ProductName}}</td>
                 <td class=" border text-center-in-table">{{this._id}}</td>
-                <td class=" border text-center-in-table">{{this.Display}}</td>
+                {{#if this.Display}}
+                <td class=" border text-center-in-table">Active</td>
+                {{else}}
+                <td class=" border text-center-in-table">Blocked</td>
+                {{/if}}
                 <td class=" border text-center-in-table">₹ {{this.SellingPrice}}</td>
                 {{!-- starting --}}
                 <td class="border text-center-in-table">
@@ -59,9 +63,15 @@
                 <td class="border text-center-in-table">
                   <a class="text-success" href="/admin/product-reviews/{{this._id}}" ><i class="fas fa-eye"></i></a>
                 </td>
+                {{#if this.Display}}
                 <td class="border text-center-in-table">
-                  <a class="text-danger" href="/admin/ban-product/{{this._id}}" onclick="return confirm('Hey Admin, \n Are you sure ?')" ><i class="fas fa-ban"></i></a>
+                  <a class="text-danger" href="/admin/ban-product/{{this._id}}" onclick="return confirm('Hey Admin, \n Are you sure ?')" ><i class="fas fa-unlock"></i></a>
                 </td>
+                {{else}}
+                <td class="border text-center-in-table">
+                  <a class="text-danger" href="/admin/ban-product/{{this._id}}" onclick="return confirm('Hey Admin, \n Are you sure ?')" ><i class="fas fa-lock"></i></a>
+                </td>
+                {{/if}}
               </tr>
               {{/each}}
             </tbody>

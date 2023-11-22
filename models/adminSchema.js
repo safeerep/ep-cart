@@ -21,8 +21,8 @@ const AdminSchema = new mongoose.Schema({
     unique: true
   },
   Status: {
-    type: String,
-    default: 'Active'
+    type: Boolean,
+    default: true
   },
   Createdon: {
     type: String,

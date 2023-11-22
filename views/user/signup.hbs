@@ -1,105 +1,72 @@
 <div class="row m-2 mt-4 d-flex justify-content-center">
-  <div class="col-md-8 col-12" >
+  <div class="col-md-8 col-12">
     <div class="card border-0 shadow mt-5">
       <div class="card-header bg-white border-0">
         <h2 class="text-center">Sign Up</h2>
       </div><br />
       <div class="text-danger d-flex justify-content-center fw-bold">
-          {{#if message.error}}
-          {{message.error}}
-          {{/if}}
-        </div>
+        {{#if message.error}}
+        {{message.error}}
+        {{/if}}
+      </div>
       <div class="card-body">
         {{#if refferalId}}
         <form action="/signup/{{refferalId}}" method="post">
-        {{else}}
-        <form action="/signup" method="post">
-        {{/if}}
-          <div class="form-row d-flex justify-content-around">
-            <div class="form-group col-md-5 mx-1">
-              <label for="username">Username</label>
-              <input
-                name="Name"
-                type="text"
-                class="form-control"
-                style="border: none; border-bottom: 1px solid #352F44; border-radius: 0;"
-                id="username"
-                placeholder="Username"
-              />
+          {{else}}
+          <form action="/signup" method="post">
+            {{/if}}
+            <div class="row d-flex justify-content-around">
+              <div class="form-group col-md-5 col-12 p-1">
+                <label for="username">Username</label>
+                <input name="Name" type="text" class="form-control"
+                  style="border: none; border-bottom: 1px solid #352F44; border-radius: 0;" id="username"
+                  placeholder="Username" />
+              </div>
+              <div class="form-group col-md-5 col-12 p-1">
+                <label for="phone">Phone Number</label>
+                <input name="Phone" type="tel" class="form-control"
+                  style="border: none; border-bottom: 1px solid #352F44; border-radius: 0;" id="phone"
+                  placeholder="Enter your phone number" />
+              </div>
             </div>
-            <div class="form-group col-md-5 mx-1">
-              <label for="phone">Phone Number</label>
-              <input
-                name="Phone"
-                type="tel"
-                class="form-control"
-                style="border: none; border-bottom: 1px solid #352F44; border-radius: 0;"
-                id="phone"
-                placeholder="Phone Number"
-              />
+            <div class="row d-flex justify-content-center">
+              <div class="form-group col-md-11 col-12 p-1">
+                <label for="email">Email</label>
+                <input name="Email" type="email" class="form-control"
+                  style="border: none; border-bottom: 1px solid #352F44; border-radius: 0;" id="email"
+                  placeholder="Enter your email" />
+              </div>
             </div>
-          </div>
-          <div class="form-group col-md-11 m-5">
-            <label for="email">Email</label>
-            <input
-              name="Email"
-              type="email"
-              class="form-control"
-              style="border: none; border-bottom: 1px solid #352F44; border-radius: 0;"
-              id="email"
-              placeholder="Email"
-            />
-          </div>
-          <div class="form-row d-flex justify-content-around">
-            <div class="form-group col-md-5 mx-1">
-              <label for="password">Password</label>
-              <input
-                name="Password"
-                type="password"
-                class="form-control"
-                style="border: none; border-bottom: 1px solid #352F44; border-radius: 0;"
-                id="password"
-                placeholder="Password"
-              />
+            <div class="row d-flex justify-content-around">
+              <div class="form-group col-md-5 col-12 p-1">
+                <label for="password">Password</label>
+                <input name="Password" type="password" class="form-control"
+                  style="border: none; border-bottom: 1px solid #352F44; border-radius: 0;" id="password"
+                  placeholder="Type password" />
+              </div>
+              <div class="form-group col-md-5 col-12 p-1">
+                <label for="confirmPassword">Confirm Password</label>
+                <input name="Confirmation" type="password" class="form-control"
+                  style="border: none; border-bottom: 1px solid #352F44; border-radius: 0;" id="confirmPassword"
+                  placeholder="Confirm your password" />
+              </div>
             </div>
-            <div class="form-group col-md-5 mx-1">
-              <label for="confirmPassword">Confirm Password</label>
-              <input
-                name="Confirmation"
-                type="password"
-                class="form-control"
-                style="border: none; border-bottom: 1px solid #352F44; border-radius: 0;"
-                id="confirmPassword"
-                placeholder="Confirm Password"
-              />
-            </div>
-          </div>
-          <br>
+            <br>
 
-          <br>
-          <div class="text-center">
-            already have an account?<a href="/login" >sign in</a>
-          </div>
-          <br>
-          <div class="row d-flex justify-content-center mb-2">
-            <div class="col-md-4">
-              <a
-                href="/"
-                class="btn btn-secondary btn-block btn-lg bg-white"
-                style="width: 100%; color:#352F44"
-              >
-                <span class="m-2">Back to home</span></a>
+            <br>
+            <div class="text-center">
+              already have an account?<a href="/login">sign in</a>
             </div>
-            
-            <div class="col-md-6">
-              <button
-                class="btn btn-secondary btn-block btn-lg text-white"
-                type="submit"
-                style="width: 100%; background-color:#352F44"
-              >Sign up</button>
+            <br>
+            <div class="row d-flex justify-content-around mb-2">
+              <a href="/" class=" col-md-4 col-4 btn btn-secondary btn-block btn bg-white">
+                <span class="m-2">Back to home</span>
+              </a>
+              <button class=" col-md-6 col-6 btn btn-secondary btn-block btn text-white" type="submit">
+                Sign up
+              </button>
             </div>
-          </div>
-        </form>
+          </form>
       </div>
       <br />
     </div>

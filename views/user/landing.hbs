@@ -72,7 +72,7 @@
   <div class="container">
     <div class="row">
       {{#each productDetails}}
-        <div class="col-md-4 gap-2">
+        <div class="col-md-3 gap-2">
           <div class="card">
             <a href="/product/details-view/{{this._id}}">
               <img
@@ -91,8 +91,6 @@
               <dt class="card-text">{{this.BrandName}}
                 <br />
                 {{this.ProductName}}</dt>
-              <p class="card-text">{{this.Specification1}}
-                <br />{{this.Specification2}}</p>
               <div class="text-center">
                 <p
                   id="addedToWishlistMessage_{{this._id}}"

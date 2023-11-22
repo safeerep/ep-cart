@@ -21,7 +21,8 @@
         {{else}}
         <form action="/email-verification" method="post">
         {{/if}}
-          <div class="form-group col-md-11 m-5">
+        <div class="row d-flex justify-content-around">
+          <div class="form-group col-md-11 px-3">
             <label for="email">Username</label>
             <input
               type="email"
@@ -37,6 +38,8 @@
              readonly
             />
           </div>
+          </div>
+          <div class="row d-flex justify-content-around">
           <div class="form-group col-md-11 mx-5">
             <label for="password">OTP</label>
             <input
@@ -49,9 +52,10 @@
               required
             />
           </div>
+          </div>
           <br>
           <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-block btn-lg bg-dark text-white" style="width: 50%;">Submit</button>
+            <button type="submit" class="col-5 btn btn-secondary btn-block btn text-white">Submit</button>
           </div>
         </form>
       </div>

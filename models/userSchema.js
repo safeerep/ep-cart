@@ -19,8 +19,8 @@ const UsersSchema = new mongoose.Schema({
     minlength: 4,
   },
   Status: {
-    type: String,
-    default: 'Active'
+    type: Boolean,
+    default: true
   },
   Createdon: {
     type: String
