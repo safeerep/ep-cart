@@ -36,6 +36,7 @@ module.exports = {
       if (currentPage > 1) {
         hasPreviousPage = true;
       }
+      
       const categories = await Category.find().lean();
 
       let condition;
