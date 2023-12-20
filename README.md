@@ -14,7 +14,25 @@ Before running this application, make sure you have Node.js and npm (Node Packag
        cd ep-cart
    2. To Install the project dependencies:
        npm install
-   3. To start the Express server, run the following command:
+   3. create a '.env' file with the values of the following
+
+      // running port
+      PORT
+      // session secret
+      SECRET
+      // mongodb url to connect
+      MONGODB_URL
+      // jwt 
+      ACCESS_TOKEN_SECRET 
+      REFRESH_TOKEN_SECRET 
+      // node mailer service
+      MY_EMAIL 
+      EMAIL_PASSWORD 
+      // to integrate razorpay
+      RAZORPAY_KEY_ID 
+      RAZORPAY_KEY_SECRET 
+   
+   4. To start the Express server, run the following command:
        npm start
 
 ## Contact
