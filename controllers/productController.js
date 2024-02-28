@@ -540,14 +540,15 @@ module.exports = {
 
   addProduct: async (req, res) => {
     try {
-      const images = [];
-      for (let i = 1; i < 4; i++) {
-        const fieldName = `image${i}`;
-        if (req.files[fieldName] && req.files[fieldName][0]) {
-          images.push(req.files[fieldName][0].filename);
-        }
-      }
-      adminHelper.cropImages(images);
+      const images = Object.values(req.body.results)
+      // for (let i = 1; i < 4; i++) {
+      //   const fieldName = `image${i}`;
+      //   if (req.files[fieldName] && req.files[fieldName][0]) {
+      //     images.push(req.files[fieldName][0].filename);
+      //   }
+      // }
+      
+      // adminHelper.cropImages(images);
       const category = await Category.findOne({
         CategoryName: req.body.Category,
       });
@@ -646,15 +647,17 @@ module.exports = {
       if (existingProduct) {
         images.push(...existingProduct.images);
       }
-
+      
       for (let i = 0; i < 3; i++) {
         const fieldName = `image${i + 1}`;
-        if (req.files[fieldName] && req.files[fieldName][0]) {
-          images[i] = req.files[fieldName][0].filename;
+        if (req.body?.results[fieldName]) {
+          console.log(`in if `, req.body?.results[fieldName]);
+          images[i] = req.body?.results[fieldName]
+          console.log(images);
         }
       }
 
-      adminHelper.cropImages(images);
+      // adminHelper.cropImages(images);
       req.body.images = images;
       const category = await Category.findOne({
         CategoryName: req.body.Category,

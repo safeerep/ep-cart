@@ -52,9 +52,10 @@ module.exports = {
 
   addBanner: async (req, res) => {
     try {
-      req.body.Image = req.file.filename;
+      console.log(req.body.results);
+      req.body.Image = req.body.results.Image;
       req.body.Status = true;
-      adminHelper.cropImageForBanner(req.body.Image)
+      // adminHelper.cropImageForBanner(req.body.Image)
       const newBanner = await Banners.create(req.body);
       res.redirect("/admin/banners");    
     } catch (error) {

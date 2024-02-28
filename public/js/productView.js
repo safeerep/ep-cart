@@ -80,8 +80,8 @@ function addNewComment(text, userName) {
 
 function changeSrc(id) {
   let mainImage = document.getElementById("mainImage");
-  mainImage.src = `/uploads/${id}`;
-  mainImage.setAttribute("src", `/uploads/${id}`);
+  mainImage.src = `${id}`;
+  mainImage.setAttribute("src", `${id}`);
 
   const options = {
     width: 350,

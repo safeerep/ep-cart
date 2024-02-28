@@ -30,14 +30,14 @@ module.exports = {
 
   cropImageForBanner: (image) => {
     try {
-      sharp(`./public/uploads/${image}`)
+      sharp(`${image}`)
         .resize({
           width: 1500,
           height: 400,
           fit: "inside",
           withoutEnlargement: true,
         })
-        .toFile(`./public/uploads/cropped/${image}`, (err) => {
+        .toFile(`${image}`, (err) => {
           if (err) {
             console.log(`an error happened ${err}`);
             throw err;

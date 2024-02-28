@@ -9,7 +9,7 @@
         {{#each banners}}
           <div class="carousel-item active">
             <img
-              src="/uploads/cropped/{{this.Image}}"
+              src="{{this.Image}}"
               class="d-block w-100 img-fluid"
               alt="..."
             />
@@ -48,7 +48,7 @@
               <a href="/shop-in?Category={{this._id}}">
                 <div class="card container-fluid shadow border-0">
                   <div class="card-body d-flex justify-content-center">
-                    <img class="img-fluid" src="/uploads/cropped/{{Image}}" alt="" />
+                    <img class="img-fluid" src="{{Image}}" alt="" />
                   </div>
                   <div class=" text-center p-2 border-0">
                     <a
@@ -75,7 +75,7 @@
             <div class="card border">
               <a href="/product/details-view/{{this._id}}">
                 <img
-                  src="/uploads/cropped/{{this.images.[0]}}"
+                  src="{{this.images.[0]}}"
                   alt=""
                   class="card-img-top"
                 />

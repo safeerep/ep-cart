@@ -67,8 +67,8 @@ module.exports = {
 
   addCategory: async (req, res) => {
     try {
-      req.body.Image = req.file.filename;
-      adminHelper.cropImages([req.body.Image])
+      req.body.Image = req.body.results.Image;
+      // adminHelper.cropImages([req.body.Image])
       const newCategory = await Category.create(req.body);
       res.redirect("/admin/product-categories");
     } catch (error) {
@@ -99,11 +99,9 @@ module.exports = {
     try {
       const id = req.params.id;
       if (req.file) {
-        req.body.Image = req.file.filename;
+        req.body.Image = req.body.results.Image;
       }
-      if (req.body.Image) {
-        adminHelper.cropImages([req.body.Image])
-      }
+      
       const updatedCategory = await Category.findByIdAndUpdate(id, {
         ...req.body,
       });

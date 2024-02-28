@@ -10,6 +10,7 @@ const offerController = require("../controllers/offerController")
 const orderController = require('../controllers/orderController')
 const productController = require('../controllers/productController')
 const reviewController = require("../controllers/reviewController");
+const uploadToCloudinary = require("../middlewares/uploadToCloudinary");
 
 
 // signin
@@ -46,6 +47,9 @@ router.post(
   "/add-product",
   auth.adminTokenAuth,
   upload.fields([{name: "image1"}, {name: "image2"}, {name: "image3"}]),
+  uploadToCloudinary("image1"),
+  uploadToCloudinary("image2"),
+  uploadToCloudinary("image3"),
   productController.addProduct
 );
 // Actions on product
@@ -61,6 +65,9 @@ router.post(
   "/edit-product-details/:id",
   auth.adminTokenAuth,
   upload.fields([{name: "image1"}, {name: "image2"}, {name: "image3"}]),
+  uploadToCloudinary("image1"),
+  uploadToCloudinary("image2"),
+  uploadToCloudinary("image3"),
   productController.updateProductDetails
 );
 // view product
@@ -72,10 +79,18 @@ router.get('/product-reviews/:id', auth.adminTokenAuth, productController.viewRe
 router.get('/product-categories', auth.adminTokenAuth, categoryController.categories)
 // add-categories
 router.get('/add-category', auth.adminTokenAuth, categoryController.addCategoryPage)
-router.post('/add-category', auth.adminTokenAuth, upload.single("Image"), categoryController.addCategory)
+router.post('/add-category', 
+auth.adminTokenAuth, 
+upload.single("Image"), 
+uploadToCloudinary("Image"),
+categoryController.addCategory)
 // edit-categories
 router.get('/edit-category/:id', auth.adminTokenAuth, categoryController.editCategory)
-router.post('/edit-category/:id', auth.adminTokenAuth, upload.single("Image"),categoryController.updateCategory)
+router.post('/edit-category/:id', 
+auth.adminTokenAuth, 
+upload.single("Image"), 
+uploadToCloudinary("Image"),
+categoryController.updateCategory)
 
 
 
@@ -136,7 +151,10 @@ router.get(
 // banner
 router.get('/banners', auth.adminTokenAuth, bannerController.banners)
 router.get('/add-banner', auth.adminTokenAuth, bannerController.addBannerPage)
-router.post('/add-banner', auth.adminTokenAuth, upload.single("Image"), bannerController.addBanner)
+router.post('/add-banner', auth.adminTokenAuth,
+ upload.single("Image"), 
+ uploadToCloudinary("Image"),
+ bannerController.addBanner)
 router.get('/edit-banner-status', auth.adminTokenAuth, bannerController.editStatus)
 
 
